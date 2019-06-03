@@ -1,0 +1,132 @@
+# debug
+debug : false
+
+# log file
+logging.config : classpath:log4j2-spring.xml
+
+# tomcat
+server:
+   port: 8080
+   tomcat:
+      uri-encoding: UTF-8
+      max-threads: 2000
+   session:
+      timeout: 3600
+   servlet:
+      context-path: /
+      
+# spring mvc
+spring :
+   mvc :
+      view:
+         prefix : classpath:/templates/html/
+         suffix : .html
+
+# Swagger页面是否开启
+swagger.page.on : false
+  
+# 拦截器
+excludeUrlCheck :
+   auth :
+      - /css/**
+      - /img/**
+      - /js/**
+      - /favicon.ico
+      - /static/**
+      - /html/**
+      - /captcha/**
+      - /login/**
+      - /logout/**
+      - /error
+   xss :
+      - /css/**
+      - /img/**
+      - /js/**
+      - /static/**
+      - /html/**
+
+# 图片验证码
+captcha :
+   noise : com.google.code.kaptcha.impl.NoNoise
+   chars : 0123456789
+   length : 4
+   width : 195
+   height : 50
+
+
+# redis [单点、分片、集群，三选一使用]
+redis :
+   timeoutMillis : 2000
+   maxIdle : 4
+   maxTotal : 16
+   minIdle : 1
+   maxWaitMillis : 2000
+   datePattern : yyyy-MM-dd HH:mm:ss SSS
+   single :
+      host : 127.0.0.1
+      port : 6379
+#   sharded :
+#      hosts : 
+#         - 127.0.0.1:6379
+#         - 100.100.10.92:6379
+#   cluster :
+#      maxRedirections : 6
+#      hosts : 
+#         - 100.100.10.90:16179
+#         - 100.100.10.90:16279
+#         - 100.100.10.90:16379
+#         - 100.100.10.93:16479
+#         - 100.100.10.93:16579
+#         - 100.100.10.93:16679
+
+# 数据库
+# Hibernate packageScan mappingResources都可以逗号分隔传多个
+db : 
+   datasource : 
+      driverClassName : com.mysql.cj.jdbc.Driver
+      url : jdbc:mysql://100.100.10.91:3306/webexa?characterEncoding=UTF-8&autoReconnect=true&rewriteBatchedStatements=true
+      username : root
+      password : root
+      maxActive : 32
+      maxIdle : 4
+      minIdle : 1
+      initialSize : 1
+      timeBetweenEvictionRunsMillis : 60000
+      numTestsPerEvictionRun : 100
+      logAbandoned : true
+   hibernate : 
+      dialect : org.hibernate.dialect.MySQLInnoDBDialect
+      hbm2ddl_auto : none
+      show_sql : false
+      format_sql : false
+      jdbc_batchSize : 50
+      enable_lazy_load_no_trans : false
+      current_session_context_class : org.springframework.orm.hibernate5.SpringSessionContext
+      packageScan : cn.emay
+      mappingResources : classpath*:hbm/**/*.hbm.xml       
+         
+# 定时任务 
+scheduler :
+   tasks :
+      -
+         name : 单线程任务
+         className : cn.emay.boot.project.task.NormalTask0
+      -
+         name : Cron任务
+         className : cn.emay.boot.project.task.CronTask0
+         cron : "*/3 * * * * ?"
+      -
+         name : 多线程任务
+         className : cn.emay.boot.project.task.ConcurrentTask0
+         minThread : 1
+         maxThread : 3
+         resizeIntervalSecond : 10
+         start : false 
+      -
+         name : 绑定参数的线程任务
+         className : cn.emay.boot.project.task.ConcurrentBindTask0
+         maxThreadEvery : 3
+         resizeIntervalSecond : 10
+         
+# 文件队列存储路径  
+storeQueueBaseDir : ./

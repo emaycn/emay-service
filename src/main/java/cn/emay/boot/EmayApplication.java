@@ -1,0 +1,25 @@
+package cn.emay.boot;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+/**
+ *
+ * @author Frank
+ */
+@ComponentScan("cn.emay")
+@SpringBootApplication
+@EnableConfigurationProperties
+@EnableAutoConfiguration
+@EnableWebMvc
+public class EmayApplication {
+ 
+	public static void main(String[] args) {
+		SpringApplication.run(EmayApplication.class, args);
+	}
+	
+}
