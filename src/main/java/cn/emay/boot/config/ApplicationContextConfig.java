@@ -3,6 +3,7 @@ package cn.emay.boot.config;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import cn.emay.boot.utils.ApplicationContextUtils;
@@ -14,6 +15,7 @@ import cn.emay.boot.utils.ApplicationContextUtils;
  *
  */
 @Component
+@Order(0)
 public class ApplicationContextConfig implements ApplicationContextAware {
 
 	@Override

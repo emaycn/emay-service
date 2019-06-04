@@ -11,7 +11,6 @@ import cn.emay.boot.utils.FileStoreUtils;
 import cn.emay.json.JsonHelper;
 import cn.emay.redis.RedisClient;
 import cn.emay.store.file.queue.FileQueue;
-import cn.emay.task.annotation.CronTaskInfo;
 import cn.emay.task.core.common.TaskResult;
 import cn.emay.task.core.realize.cron.CronTask;
 
@@ -21,7 +20,6 @@ import cn.emay.task.core.realize.cron.CronTask;
  * @author Frank
  *
  */
-@CronTaskInfo(name = "短信转移到Redis任务", cron = "*/5 * * * * ?")
 public class CacheFiletoRedisTask implements CronTask {
 
 	/**

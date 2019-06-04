@@ -11,39 +11,20 @@ server:
       uri-encoding: UTF-8
       max-threads: 2000
    session:
-      timeout: 3600
+      timeout: 7200
    servlet:
       context-path: /
       
-# spring mvc
-spring :
-   mvc :
-      view:
-         prefix : classpath:/templates/html/
-         suffix : .html
-
-# Swagger页面是否开启
-swagger.page.on : false
-  
-# 拦截器
-excludeUrlCheck :
-   auth :
-      - /css/**
-      - /img/**
-      - /js/**
-      - /favicon.ico
-      - /static/**
-      - /html/**
-      - /captcha/**
-      - /login/**
-      - /logout/**
-      - /error
-   xss :
-      - /css/**
-      - /img/**
-      - /js/**
-      - /static/**
-      - /html/**
+# thymeleaf
+spring:
+   thymeleaf:
+      prefix: classpath:/templates/
+      suffix: .html
+      check-template-location: true
+      cache: false
+      encoding: UTF-8
+      content-type: text/html
+      mode: HTML5
 
 # 图片验证码
 captcha :
@@ -108,25 +89,33 @@ db :
 # 定时任务 
 scheduler :
    tasks :
-      -
-         name : 单线程任务
-         className : cn.emay.boot.project.task.NormalTask0
-      -
-         name : Cron任务
-         className : cn.emay.boot.project.task.CronTask0
-         cron : "*/3 * * * * ?"
-      -
-         name : 多线程任务
-         className : cn.emay.boot.project.task.ConcurrentTask0
-         minThread : 1
-         maxThread : 3
-         resizeIntervalSecond : 10
-         start : false 
-      -
-         name : 绑定参数的线程任务
-         className : cn.emay.boot.project.task.ConcurrentBindTask0
-         maxThreadEvery : 3
-         resizeIntervalSecond : 10
-         
-# 文件队列存储路径  
-storeQueueBaseDir : ./
+#      -
+#         name : 单线程任务
+#         className : cn.emay.boot.project.task.NormalTask0
+#      -
+#         name : 短信转移到Redis任务
+#         className : cn.emay.boot.task.CacheFiletoRedisTask
+#         cron : "*/5 * * * * ?"
+#      -
+#         name : 多线程任务
+#         className : cn.emay.boot.project.task.ConcurrentTask0
+#         minThread : 1
+#         maxThread : 3
+#         resizeIntervalSecond : 10
+#         start : false 
+#      -
+#         name : 绑定参数的线程任务
+#         className : cn.emay.boot.project.task.ConcurrentBindTask0
+#         maxThreadEvery : 3
+#         resizeIntervalSecond : 10
+
+properties :         
+   # 文件队列存储路径  
+   storeQueueBaseDir : ./
+   # Swagger页面是否开启
+   swaggerPageOn : true
+   # 拦截器
+   excludeUrlAuth :
+      - /static/**
+   excludeUrlXss :
+      - /static/**

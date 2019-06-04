@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+     <meta charset="UTF-8">
+      <!-- 公用css加载 -->
+     <script type="text/javascript" src="/mrp/js/loadcss.js"></script>
+     <link rel="stylesheet" type="text/css" href="/mrp/css/system/user.css"> 
+</head>
+<body>
+<div class="content_wrap"> 
+        <!-- content start -->
+        <!-- 查询内容 -->
+        <div class="search_wrap">
+		   <form  id="searchForm" class="form-inline clearfix" role="form">
+		       <div class="form-group item">
+		           <label for="name">用户名:</label> 
+		           <input type="text" class="form-control" id="username" >
+		       </div>
+		       <div class="form-group item">
+		           <label for="name">姓名:</label> 
+		           <input type="text" class="form-control" id="nickname" >
+		       </div>
+		       <div class="form-group item">
+		           <label for="name">手机号:</label> 
+		           <input type="text" class="form-control" id="mobile" >
+		       </div>
+		       <div class="form-group">
+	                <label for="state">状态:</label> 
+	                <select class="form-control" id="state">
+	                    <option value="-1">全部</option>
+	                    <option value="1">停用</option>
+	                    <option value="0">启用</option>
+	                </select>
+	            </div>
+		       <div class="form-group">
+		           <button type="button" class="btn btn-primary" id="searchBtn" onclick="searchFun()">查询</button>
+		           <button type="button" class="btn btn-primary" id="addBtn" onclick="addUser()">新增</button>
+		       </div>
+		   </form>
+         </div>
+        <!--右侧内容list-->
+        <table id="table"></table>
+</div>
+<!-- 公用js加载 -->
+<script type="text/javascript" src="/mrp/js/loadjs.js"></script>
+<!--rightContent end-->
+<script type="text/javascript" src="/mrp/js/system/user.js"></script>
+</body>
+</html>
+
+
+
+

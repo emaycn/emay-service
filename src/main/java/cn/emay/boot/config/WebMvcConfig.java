@@ -14,10 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -32,30 +33,29 @@ import cn.emay.boot.web.interceptor.AuthInterceptor;
  *
  */
 @Configuration
+@ConfigurationProperties
+@Order(0)
 public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Autowired
 	private AuthInterceptor authInterceptor;
-
-	@Value("excludeUrlCheck.auth")
-	private String[] excludeAuthCheck;
-	@Value("excludeUrlCheck.xss")
-	private String[] excludeXssCheck;
-	@Value("swagger.page.on")
-	private boolean swaggerPageOn;
+	@Autowired
+	private PropertiesConfig propertiesConfig;
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		/* 增加权限验证拦截器 */
 		InterceptorRegistration auth = registry.addInterceptor(authInterceptor);
 		auth.addPathPatterns("/**");
-		auth.excludePathPatterns(excludeAuthCheck);
+		auth.excludePathPatterns(propertiesConfig.getExcludeUrlAuth());
 	}
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		/* 所有静态文件通过/static/*访问 */
+		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
 		/* 增加Swagger页面配置 */
-		if (swaggerPageOn) {
+		if (propertiesConfig.isSwaggerPageOn()) {
 			registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
 			registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
 		}
@@ -70,7 +70,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public FilterRegistrationBean<Filter> filterRegistrationBean() {
 		FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<Filter>();
 		XssFilter xss = new XssFilter();
-		xss.setExcludedPageArray(excludeXssCheck);
+		xss.setExcludedPageArray(propertiesConfig.getExcludeUrlXss());
 		registration.setFilter(xss);
 		registration.setOrder(1);
 		registration.setEnabled(true);
