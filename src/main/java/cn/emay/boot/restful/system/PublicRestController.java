@@ -32,6 +32,14 @@ public class PublicRestController {
 	private RedisClient redis;
 	
 	/**
+	 * 登出
+	 */
+	@RequestMapping(value = "/", method = {RequestMethod.GET,RequestMethod.POST})
+	public Result index() {
+		return Result.rightResult("hello");
+	}
+	
+	/**
 	 * 验证码图片
 	 */
 	@RequestMapping(value = "/captcha", method = RequestMethod.GET)

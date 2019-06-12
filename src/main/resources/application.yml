@@ -107,10 +107,16 @@ properties :
    swaggerPageOn : true
    # 拦截器
    excludeUrlAuth :
+      - /
       - /captcha
       - /logout
       - /login
+      - /swagger-ui.html
+      - /webjars/**
    excludeUrlXss :
+      - /
       - /captcha
       - /logout
       - /login
+      - /swagger-ui.html
+      - /webjars/**
