@@ -1,4 +1,4 @@
-package cn.emay.boot.web.restful.inter;
+package cn.emay.boot.restful.inter;
 
 import java.util.ArrayList;
 import java.util.List;

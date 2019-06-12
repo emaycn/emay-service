@@ -1,4 +1,4 @@
-package cn.emay.boot.web;
+package cn.emay.boot.utils;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +18,6 @@ import cn.emay.boot.dto.web.WebToken;
 import cn.emay.boot.pojo.system.Resource;
 import cn.emay.boot.pojo.system.User;
 import cn.emay.boot.service.system.UserService;
-import cn.emay.boot.utils.ApplicationContextUtils;
 import cn.emay.json.support.JsonServletSupport;
 import cn.emay.redis.RedisClient;
 import cn.emay.utils.result.Result;

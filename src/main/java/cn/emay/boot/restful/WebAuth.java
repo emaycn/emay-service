@@ -1,4 +1,4 @@
-package cn.emay.boot.web;
+package cn.emay.boot.restful;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

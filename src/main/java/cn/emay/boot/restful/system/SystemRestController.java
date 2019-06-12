@@ -1,4 +1,4 @@
-package cn.emay.boot.web.restful.system;
+package cn.emay.boot.restful.system;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.emay.boot.pojo.system.Resource;
 import cn.emay.boot.pojo.system.Role;
 import cn.emay.boot.pojo.system.User;
+import cn.emay.boot.restful.WebAuth;
 import cn.emay.boot.service.system.ResourceService;
 import cn.emay.boot.service.system.RoleService;
 import cn.emay.boot.service.system.UserService;
-import cn.emay.boot.web.WebAuth;
-import cn.emay.boot.web.WebUtils;
+import cn.emay.boot.utils.WebUtils;
 import cn.emay.utils.encryption.Md5;
 import cn.emay.utils.result.Result;
 import cn.emay.utils.result.SuperResult;

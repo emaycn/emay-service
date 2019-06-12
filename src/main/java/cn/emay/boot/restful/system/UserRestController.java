@@ -1,4 +1,4 @@
-package cn.emay.boot.web.restful.system;
+package cn.emay.boot.restful.system;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.emay.boot.dto.system.UserDTO;
 import cn.emay.boot.pojo.system.User;
+import cn.emay.boot.restful.WebAuth;
 import cn.emay.boot.service.system.UserService;
-import cn.emay.boot.web.WebAuth;
-import cn.emay.boot.web.WebUtils;
+import cn.emay.boot.utils.WebUtils;
 import cn.emay.utils.db.common.Page;
 import cn.emay.utils.result.Result;
 import cn.emay.utils.result.SuperResult;

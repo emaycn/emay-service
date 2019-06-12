@@ -1,4 +1,4 @@
-package cn.emay.boot.web;
+package cn.emay.boot.restful;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -20,6 +20,7 @@ import cn.emay.boot.dto.web.WebToken;
 import cn.emay.boot.pojo.system.Resource;
 import cn.emay.boot.pojo.system.User;
 import cn.emay.boot.service.system.UserService;
+import cn.emay.boot.utils.WebUtils;
 
 /**
  * 拦截没有权限的请求

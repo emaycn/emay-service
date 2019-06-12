@@ -1,4 +1,4 @@
-package cn.emay.boot.web.restful.system;
+package cn.emay.boot.restful.system;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import cn.emay.boot.pojo.system.User;
 import cn.emay.boot.service.system.ResourceService;
 import cn.emay.boot.service.system.UserService;
 import cn.emay.boot.utils.CaptchaUtils;
-import cn.emay.boot.web.WebUtils;
+import cn.emay.boot.utils.WebUtils;
 import cn.emay.redis.RedisClient;
 import cn.emay.utils.encryption.Md5;
 import cn.emay.utils.result.Result;
