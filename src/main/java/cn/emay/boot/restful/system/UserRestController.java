@@ -13,6 +13,9 @@ import cn.emay.boot.utils.WebUtils;
 import cn.emay.utils.db.common.Page;
 import cn.emay.utils.result.Result;
 import cn.emay.utils.result.SuperResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 /**
  * 角色
@@ -22,6 +25,7 @@ import cn.emay.utils.result.SuperResult;
  */
 @RestController
 @RequestMapping(value = "/user/rest", method = RequestMethod.POST)
+@Api(description = "角色管理")
 public class UserRestController {
 
 	@Autowired
@@ -32,7 +36,8 @@ public class UserRestController {
 	 */
 	@WebAuth({ "USER_VIEW" })
 	@RequestMapping("/page")
-	public SuperResult<Page<UserDTO>> list(int start, int limit, int state, String username) {
+	@ApiOperation("分页查询用户列表")
+	public SuperResult<Page<UserDTO>> list(@ApiParam("起始数据位置") int start, @ApiParam("数据条数") int limit, @ApiParam("用户状态") int state, @ApiParam("用户名") String username) {
 		Page<UserDTO> userpage = userService.findPage(start, limit, username, state);
 		return SuperResult.rightResult(userpage);
 	}
