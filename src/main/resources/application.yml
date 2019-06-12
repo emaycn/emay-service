@@ -102,7 +102,7 @@ properties :
    loginPage : /login.html
    errorPage : /error.html       
    # 文件队列存储路径  
-   storeQueueBaseDir : ./
+   storeQueueBaseDir : ./logs/cache/
    # Swagger页面是否开启
    swaggerPageOn : true
    # 拦截器
