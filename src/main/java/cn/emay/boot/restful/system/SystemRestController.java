@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.emay.boot.pojo.system.Resource;
 import cn.emay.boot.pojo.system.Role;
 import cn.emay.boot.pojo.system.User;
-import cn.emay.boot.restful.WebAuth;
+import cn.emay.boot.restful.common.WebAuth;
 import cn.emay.boot.service.system.ResourceService;
 import cn.emay.boot.service.system.RoleService;
 import cn.emay.boot.service.system.UserService;

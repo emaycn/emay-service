@@ -1,4 +1,4 @@
-package cn.emay.boot.restful;
+package cn.emay.boot.restful.common;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;

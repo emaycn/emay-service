@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.emay.boot.dto.system.UserDTO;
 import cn.emay.boot.pojo.system.User;
-import cn.emay.boot.restful.WebAuth;
+import cn.emay.boot.restful.common.WebAuth;
 import cn.emay.boot.service.system.UserService;
 import cn.emay.boot.utils.WebUtils;
 import cn.emay.utils.db.common.Page;
