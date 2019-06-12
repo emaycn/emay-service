@@ -1,4 +1,4 @@
-package cn.emay.boot.web.utils;
+package cn.emay.boot.web;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,6 +13,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import cn.emay.boot.common.WebConstant;
+import cn.emay.boot.config.PropertiesConfig;
 import cn.emay.boot.dto.web.WebToken;
 import cn.emay.boot.pojo.system.Resource;
 import cn.emay.boot.pojo.system.User;
@@ -140,7 +141,8 @@ public class WebUtils {
 		if (RequestUtils.isAjaxRequest(request)) {
 			JsonServletSupport.outputWithJson(response, Result.badResult("-1", errorMassage, null));
 		} else {
-			response.sendRedirect(RequestUtils.getLocalAddress(request) + "/error?msg=" + errorMassage);
+			PropertiesConfig proper = ApplicationContextUtils.getBean(PropertiesConfig.class);
+			response.sendRedirect(proper.getErrorPage() + "?msg=" + errorMassage);
 		}
 	}
 
@@ -153,7 +155,8 @@ public class WebUtils {
 		if (RequestUtils.isAjaxRequest(request)) {
 			JsonServletSupport.outputWithJson(response, Result.badResult("-222", "您还未登陆，请先登录", null));
 		} else {
-			response.sendRedirect(RequestUtils.getLocalAddress(request) + "/login");
+			PropertiesConfig proper = ApplicationContextUtils.getBean(PropertiesConfig.class);
+			response.sendRedirect(proper.getLoginPage());
 		}
 	}
 

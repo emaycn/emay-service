@@ -40,11 +40,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<!-- thymeleaf -->
+		<!-- thymeleaf
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
+		</dependency> -->
 		<!-- log4j -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

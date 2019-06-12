@@ -14,18 +14,7 @@ server:
       timeout: 7200
    servlet:
       context-path: /
-      
-# thymeleaf
-spring:
-   thymeleaf:
-      prefix: classpath:/templates/
-      suffix: .html
-      check-template-location: true
-      cache: false
-      encoding: UTF-8
-      content-type: text/html
-      mode: HTML5
-
+ 
 # 图片验证码
 captcha :
    noise : com.google.code.kaptcha.impl.NoNoise
@@ -109,13 +98,19 @@ scheduler :
 #         maxThreadEvery : 3
 #         resizeIntervalSecond : 10
 
-properties :         
+properties :  
+   loginPage : /login.html
+   errorPage : /error.html       
    # 文件队列存储路径  
    storeQueueBaseDir : ./
    # Swagger页面是否开启
    swaggerPageOn : true
    # 拦截器
    excludeUrlAuth :
-      - /static/**
+      - /captcha
+      - /logout
+      - /login
    excludeUrlXss :
-      - /static/**
+      - /captcha
+      - /logout
+      - /login

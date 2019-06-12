@@ -16,12 +16,16 @@ import org.springframework.core.annotation.Order;
 public class PropertiesConfig {
 
 	private String storeQueueBaseDir;
-	
+
 	private String[] excludeUrlAuth;
-	
+
 	private String[] excludeUrlXss;
-	
+
 	private boolean swaggerPageOn;
+
+	private String loginPage;
+
+	private String errorPage;
 
 	public String getStoreQueueBaseDir() {
 		return storeQueueBaseDir;
@@ -53,6 +57,22 @@ public class PropertiesConfig {
 
 	public void setSwaggerPageOn(boolean swaggerPageOn) {
 		this.swaggerPageOn = swaggerPageOn;
+	}
+
+	public String getErrorPage() {
+		return errorPage;
+	}
+
+	public void setErrorPage(String errorPage) {
+		this.errorPage = errorPage;
+	}
+
+	public String getLoginPage() {
+		return loginPage;
+	}
+
+	public void setLoginPage(String loginPage) {
+		this.loginPage = loginPage;
 	}
 
 }

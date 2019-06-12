@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.emay.boot.pojo.system.Role;
 import cn.emay.boot.service.system.RoleService;
-import cn.emay.boot.web.auth.WebAuth;
+import cn.emay.boot.web.WebAuth;
 import cn.emay.utils.db.common.Page;
 import cn.emay.utils.result.Result;
 import cn.emay.utils.result.SuperResult;

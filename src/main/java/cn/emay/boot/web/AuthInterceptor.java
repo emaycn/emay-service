@@ -1,4 +1,4 @@
-package cn.emay.boot.web.interceptor;
+package cn.emay.boot.web;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -20,8 +20,6 @@ import cn.emay.boot.dto.web.WebToken;
 import cn.emay.boot.pojo.system.Resource;
 import cn.emay.boot.pojo.system.User;
 import cn.emay.boot.service.system.UserService;
-import cn.emay.boot.web.auth.WebAuth;
-import cn.emay.boot.web.utils.WebUtils;
 
 /**
  * 拦截没有权限的请求

@@ -19,12 +19,13 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import cn.emay.boot.web.interceptor.AuthInterceptor;
+import cn.emay.boot.web.AuthInterceptor;
 
 /**
  * web 配置
@@ -49,11 +50,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		auth.addPathPatterns("/**");
 		auth.excludePathPatterns(propertiesConfig.getExcludeUrlAuth());
 	}
+	
+	@Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
 
+	/**
+	 * 静态资源
+	 */
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		/* 所有静态文件通过/static/*访问 */
-		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
 		/* 增加Swagger页面配置 */
 		if (propertiesConfig.isSwaggerPageOn()) {
 			registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");

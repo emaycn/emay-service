@@ -2,6 +2,8 @@ package cn.emay.boot.web.restful.system;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +16,7 @@ import cn.emay.boot.pojo.system.User;
 import cn.emay.boot.service.system.ResourceService;
 import cn.emay.boot.service.system.UserService;
 import cn.emay.boot.utils.CaptchaUtils;
-import cn.emay.boot.web.utils.WebUtils;
+import cn.emay.boot.web.WebUtils;
 import cn.emay.redis.RedisClient;
 import cn.emay.utils.encryption.Md5;
 import cn.emay.utils.result.Result;
@@ -28,6 +30,16 @@ public class PublicRestController {
 	private ResourceService resourceService;
 	@Autowired
 	private RedisClient redis;
+	
+	/**
+	 * 验证码图片
+	 */
+	@RequestMapping(value = "/captcha", method = RequestMethod.GET)
+	public void captcha() throws Exception {
+		HttpServletResponse response = WebUtils.getCurrentHttpResponse();
+		String tokenId = WebUtils.getSessionId();
+		CaptchaUtils.writeByRedis(redis, response, tokenId, WebConstant.CAPTCHA_TAG_LOGIN, 1800);
+	}
 
 	/**
 	 * 登出
