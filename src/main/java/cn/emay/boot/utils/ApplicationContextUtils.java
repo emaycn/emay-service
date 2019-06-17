@@ -1,5 +1,7 @@
 package cn.emay.boot.utils;
 
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -59,6 +61,39 @@ public class ApplicationContextUtils {
 	 */
 	public static <T> T getBean(String name, Class<T> clazz) {
 		return getApplicationContext().getBean(name, clazz);
+	}
+
+	/**
+	 * 获取Bean管理工厂
+	 * 
+	 * @return
+	 */
+	public static DefaultListableBeanFactory getListableBeanFactory() {
+		return (DefaultListableBeanFactory) getApplicationContext().getAutowireCapableBeanFactory();
+	}
+
+	/**
+	 * 注册bean
+	 * 
+	 * @param beanClass
+	 * @param beanName
+	 */
+	public static void registBean(Class<?> beanClass, String... beanName) {
+		String name = beanClass.getName();
+		if (beanName != null && beanName.length > 0) {
+			name = beanName[0];
+		}
+		BeanDefinitionBuilder beanDefinition = BeanDefinitionBuilder.genericBeanDefinition(beanClass);
+		getListableBeanFactory().registerBeanDefinition(name, beanDefinition.getBeanDefinition());
+	}
+
+	/**
+	 * 注册单例bean
+	 * 
+	 * @param bean
+	 */
+	public static void registSingletonBean(Object bean) {
+		getListableBeanFactory().registerSingleton(bean.getClass().getName(), bean);
 	}
 
 }
