@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,7 +17,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import cn.emay.boot.business.system.pojo.Resource;
 import cn.emay.boot.business.system.pojo.User;
-import cn.emay.boot.business.system.service.UserService;
 import cn.emay.boot.utils.WebUtils;
 
 /**
@@ -31,9 +29,6 @@ import cn.emay.boot.utils.WebUtils;
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
-
-	@Autowired
-	private UserService userService;
 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		try {
@@ -50,6 +45,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			User user = WebUtils.getCurrentUser();
 			// 未登陆，拦截
 			if (user == null) {
+				WebUtils.logout();
+				WebUtils.toNoLogin();
+				return false;
+			}
+			// 被删除或者被锁定，拦截
+			if (user == null || user.getState() == User.STATE_OFF) {
 				WebUtils.logout();
 				WebUtils.toNoLogin();
 				return false;
@@ -79,13 +80,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			// 无资源权限的，拦截
 			if (!isHasAuth) {
 				WebUtils.toError("无权访问");
-				return false;
-			}
-			user = userService.findById(user.getId());
-			// 被删除或者被锁定，拦截
-			if (user == null || user.getState() == User.STATE_OFF) {
-				WebUtils.logout();
-				WebUtils.toNoLogin();
 				return false;
 			}
 			return true;

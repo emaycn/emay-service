@@ -51,8 +51,6 @@ public class WebUtils {
 	 * 登陆
 	 */
 	public static void login(User user, List<Resource> auth) {
-		HttpSession session = getCurrentHttpSession();
-		session.setAttribute(WebConstant.SESSION_USER_KEY, user);
 		String sessionId = getSessionId();
 		WebToken token = new WebToken(sessionId, user.getId(), auth);
 		RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
@@ -63,8 +61,6 @@ public class WebUtils {
 	 * 登出
 	 */
 	public static void logout() {
-		HttpSession session = getCurrentHttpSession();
-		session.removeAttribute(WebConstant.SESSION_USER_KEY);
 		String sessionId = getSessionId();
 		RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
 		redis.del(sessionId);
@@ -72,14 +68,8 @@ public class WebUtils {
 
 	/**
 	 * 获取当前登录用户<br/>
-	 * 非实时更新数据，如果需要实时真是数据，请根据ID自行查询
 	 */
 	public static User getCurrentUser() {
-		HttpSession session = getCurrentHttpSession();
-		User user = (User) session.getAttribute(WebConstant.SESSION_USER_KEY);
-		if (user != null) {
-			return user;
-		}
 		String sessionId = getSessionId();
 		RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
 		WebToken token = redis.get(sessionId, WebToken.class);
@@ -87,12 +77,11 @@ public class WebUtils {
 			return null;
 		}
 		UserService userService = ApplicationContextUtils.getBean(UserService.class);
-		user = userService.findById(token.getUserId());
+		User user = userService.findById(token.getUserId());
 		if (user == null) {
 			redis.del(sessionId);
 			return null;
 		}
-		session.setAttribute(WebConstant.SESSION_USER_KEY, user);
 		return user;
 	}
 
