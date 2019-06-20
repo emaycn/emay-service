@@ -12,12 +12,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import cn.emay.boot.common.WebConstant;
+import cn.emay.boot.base.constant.WebConstant;
+import cn.emay.boot.base.web.WebToken;
+import cn.emay.boot.business.system.pojo.Resource;
+import cn.emay.boot.business.system.pojo.User;
+import cn.emay.boot.business.system.service.UserService;
 import cn.emay.boot.config.PropertiesConfig;
-import cn.emay.boot.dto.web.WebToken;
-import cn.emay.boot.pojo.system.Resource;
-import cn.emay.boot.pojo.system.User;
-import cn.emay.boot.service.system.UserService;
 import cn.emay.json.support.JsonServletSupport;
 import cn.emay.redis.RedisClient;
 import cn.emay.utils.result.Result;

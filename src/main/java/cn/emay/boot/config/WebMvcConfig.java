@@ -25,7 +25,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import cn.emay.boot.restful.common.AuthInterceptor;
+import cn.emay.boot.base.web.AuthInterceptor;
 
 /**
  * web 配置

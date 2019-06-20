@@ -15,8 +15,6 @@ import org.springframework.core.annotation.Order;
 @Order(0)
 public class PropertiesConfig {
 
-	private String storeQueueBaseDir;
-
 	private String[] excludeUrlAuth;
 
 	private String[] excludeUrlXss;
@@ -26,14 +24,6 @@ public class PropertiesConfig {
 	private String loginPage;
 
 	private String errorPage;
-
-	public String getStoreQueueBaseDir() {
-		return storeQueueBaseDir;
-	}
-
-	public void setStoreQueueBaseDir(String storeQueueBaseDir) {
-		this.storeQueueBaseDir = storeQueueBaseDir;
-	}
 
 	public String[] getExcludeUrlAuth() {
 		return excludeUrlAuth;

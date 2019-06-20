@@ -13,7 +13,7 @@ server:
    session:
       timeout: 7200
    servlet:
-      context-path: /
+      context-path: /api
  
 # 图片验证码
 captcha :
