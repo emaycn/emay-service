@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,8 +52,8 @@ public class SystemApi {
 	 * 用户所有资源
 	 */
 	@WebAuth
-	@RequestMapping(value = "/userResource")
-	public SuperResult<List<Resource>> userresource(Long userId) {
+	@RequestMapping(value = "/userResource/{id}")
+	public SuperResult<List<Resource>> userresource(@PathVariable Long userId) {
 		List<Resource> userResource = resourceService.getUserResources(userId);
 		return SuperResult.rightResult(userResource);
 	}

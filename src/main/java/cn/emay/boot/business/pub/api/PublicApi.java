@@ -34,8 +34,8 @@ public class PublicApi {
 	/**
 	 * 验证码图片
 	 */
-	@RequestMapping(value = "/captcha", method = RequestMethod.GET)
-	public void captcha() throws Exception {
+	@RequestMapping(value = "/loginCaptcha", method = RequestMethod.GET)
+	public void loginCaptcha() throws Exception {
 		HttpServletResponse response = WebUtils.getCurrentHttpResponse();
 		String tokenId = WebUtils.getSessionId();
 		CaptchaUtils.writeByRedis(redis, response, tokenId, WebConstant.CAPTCHA_TAG_LOGIN, 1800);

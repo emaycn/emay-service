@@ -19,6 +19,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -50,11 +51,24 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		auth.addPathPatterns("/**");
 		auth.excludePathPatterns(propertiesConfig.getExcludeUrlAuth());
 	}
-	
+
 	@Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
+	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+		configurer.enable();
+	}
+
+	@Override
+	// 重写父类提供的跨域请求处理的接口
+	public void addCorsMappings(CorsRegistry registry) {
+		if (propertiesConfig.isDev()) {
+			registry.addMapping("/**")
+			.allowedOrigins("*")
+			.allowCredentials(true)
+			.allowedMethods("GET", "POST", "PUT", "DELETE")
+			.allowedHeaders("*")
+			.exposedHeaders("cookies");
+		}
+	}
 
 	/**
 	 * 静态资源
@@ -62,7 +76,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		/* 增加Swagger页面配置 */
-		if (propertiesConfig.isSwaggerPageOn()) {
+		if (propertiesConfig.isDev()) {
 			registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
 			registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
 		}

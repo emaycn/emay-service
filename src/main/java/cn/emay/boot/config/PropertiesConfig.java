@@ -19,7 +19,7 @@ public class PropertiesConfig {
 
 	private String[] excludeUrlXss;
 
-	private boolean swaggerPageOn;
+	private boolean dev;
 
 	private String loginPage;
 
@@ -41,14 +41,6 @@ public class PropertiesConfig {
 		this.excludeUrlXss = excludeUrlXss;
 	}
 
-	public boolean isSwaggerPageOn() {
-		return swaggerPageOn;
-	}
-
-	public void setSwaggerPageOn(boolean swaggerPageOn) {
-		this.swaggerPageOn = swaggerPageOn;
-	}
-
 	public String getErrorPage() {
 		return errorPage;
 	}
@@ -63,6 +55,14 @@ public class PropertiesConfig {
 
 	public void setLoginPage(String loginPage) {
 		this.loginPage = loginPage;
+	}
+
+	public boolean isDev() {
+		return dev;
+	}
+
+	public void setDev(boolean dev) {
+		this.dev = dev;
 	}
 
 }
