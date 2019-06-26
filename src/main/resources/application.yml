@@ -18,7 +18,7 @@ server:
 # 图片验证码
 captcha :
    noise : com.google.code.kaptcha.impl.NoNoise
-   chars : 0123456789
+   chars : !!str 0123456789
    length : 4
    width : 195
    height : 50
