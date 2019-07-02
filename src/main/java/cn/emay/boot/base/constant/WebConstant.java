@@ -19,11 +19,6 @@ public class WebConstant {
 	public final static Integer LOGIN_TIMEOUT = 7200; 
 
 	/**
-	 * Session 中的用户标识
-	 */
-	public final static String SESSION_USER_KEY = "systemUser";
-	
-	/**
 	 * 验证码登录标识
 	 */
 	public final static String CAPTCHA_TAG_LOGIN = "LOGIN";
