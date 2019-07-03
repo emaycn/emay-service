@@ -4,6 +4,10 @@ CREATE TABLE system_resource (
   resource_code VARCHAR (255),
   resource_icon VARCHAR (255),
   resource_name VARCHAR (255),
+  resource_url VARCHAR (255),
+  is_out_link INTEGER,
+  resource_type VARCHAR (255),
+  resource_index INTEGER,
   PRIMARY KEY (id)
 ) ;
 

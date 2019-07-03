@@ -75,6 +75,7 @@ public class ResourceTreeBuilder {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 		List<Resource> myRes = new ArrayList<>();
 		myRes.add(new Resource(1L, "1", null, Resource.RESOURCE_TYPE_MOUDLE, 1));
@@ -102,7 +103,6 @@ public class ResourceTreeBuilder {
 		myRes.add(new Resource(20L, "722", 18L, Resource.RESOURCE_TYPE_PAGE, 20));
 		EmaySimpleTreeNode<Long, Resource> tree = ResourceTreeBuilder.build(myRes);
 		System.out.println(JsonHelper.toJsonString(tree));
-
 	}
 
 }

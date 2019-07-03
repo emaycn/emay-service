@@ -76,6 +76,15 @@ public class Resource implements java.io.Serializable {
 		
 	}
 
+	/**
+	 * 测试专用
+	 * @param id
+	 * @param resourceCode
+	 * @param parentResourceId
+	 * @param resourceType
+	 * @param resourceIndex
+	 */
+	@Deprecated
 	public Resource(Long id,String resourceCode,  Long parentResourceId,String resourceType,Integer resourceIndex) {
 		this.id = id;
 		this.resourceCode = resourceCode;
