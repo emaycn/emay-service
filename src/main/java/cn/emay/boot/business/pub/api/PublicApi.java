@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.emay.boot.base.constant.WebConstant;
+import cn.emay.boot.base.web.WebToken;
 import cn.emay.boot.business.system.pojo.Resource;
 import cn.emay.boot.business.system.pojo.User;
 import cn.emay.boot.business.system.service.ResourceService;
@@ -81,8 +82,8 @@ public class PublicApi {
 			return Result.badResult("用户名或密码错误");
 		}
 		List<Resource> userResource = resourceService.getUserResources(user.getId());
-		WebUtils.login(user, userResource);
-		return Result.rightResult();
+		WebToken token = WebUtils.login(user, userResource);
+		return Result.rightResult(token);
 	}
 
 }

@@ -50,11 +50,12 @@ public class WebUtils {
 	/**
 	 * 登陆
 	 */
-	public static void login(User user, List<Resource> auth) {
+	public static WebToken login(User user, List<Resource> resources) {
 		String sessionId = getSessionId();
-		WebToken token = new WebToken(sessionId, user.getId(), auth);
+		WebToken token = new WebToken(sessionId, user, resources);
 		RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
 		redis.set(sessionId, token, WebConstant.LOGIN_TIMEOUT);
+		return token;
 	}
 
 	/**
@@ -70,17 +71,23 @@ public class WebUtils {
 	 * 获取当前登录用户<br/>
 	 */
 	public static User getCurrentUser() {
-		String sessionId = getSessionId();
-		RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
-		WebToken token = redis.get(sessionId, WebToken.class);
+		User user = (User) getCurrentHttpRequest().getAttribute(WebConstant.REQUEST_USER);
+		if (user != null) {
+			return user;
+		}
+		WebToken token = getWebToken();
 		if (token == null) {
 			return null;
 		}
 		UserService userService = ApplicationContextUtils.getBean(UserService.class);
-		User user = userService.findById(token.getUserId());
+		user = userService.findById(token.getUser().getId());
 		if (user == null) {
+			String sessionId = getSessionId();
+			RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
 			redis.del(sessionId);
 			return null;
+		} else {
+			getCurrentHttpRequest().setAttribute(WebConstant.REQUEST_USER, user);
 		}
 		return user;
 	}
@@ -96,9 +103,16 @@ public class WebUtils {
 	 * 获取Token
 	 */
 	public static WebToken getWebToken() {
+		WebToken token = (WebToken) getCurrentHttpRequest().getAttribute(WebConstant.REQUEST_TOKEN);
+		if (token != null) {
+			return token;
+		}
 		String sessionId = getSessionId();
 		RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
-		WebToken token = redis.get(sessionId, WebToken.class);
+		token = redis.get(sessionId, WebToken.class);
+		if (token != null) {
+			getCurrentHttpRequest().setAttribute(WebConstant.REQUEST_TOKEN, token);
+		}
 		return token;
 	}
 

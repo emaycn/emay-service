@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.emay.boot.base.constant.ResourceEnum;
 import cn.emay.boot.base.web.WebAuth;
 import cn.emay.boot.business.system.pojo.Role;
 import cn.emay.boot.business.system.service.RoleService;
@@ -28,7 +29,7 @@ public class RoleApi {
 	/**
 	 * 角色列表
 	 */
-	@WebAuth({ "ROLE_VIEW" })
+	@WebAuth({ ResourceEnum.ROLE_VIEW })
 	@RequestMapping("/page")
 	public SuperResult<Page<Role>> rolelist(int start, int limit) {
 		Page<Role> userpage = roleService.findPage(start, limit);
@@ -40,7 +41,7 @@ public class RoleApi {
 	 * 
 	 * @return
 	 */
-	@WebAuth({ "ROLE_MODIFY" })
+	@WebAuth({ ResourceEnum.ROLE_MODIFY })
 	@RequestMapping("/modify")
 	public Result modify(Long roleId, String roleName, String remark, Long[] resourceIds) {
 		return roleService.modify(roleId, roleName, remark, resourceIds);
@@ -49,7 +50,7 @@ public class RoleApi {
 	/**
 	 * 添加角色
 	 */
-	@WebAuth({ "ROLE_ADD" })
+	@WebAuth({ ResourceEnum.ROLE_ADD })
 	@RequestMapping("/add")
 	public Result add(String roleName, String remark, Long[] resourceIds) {
 		return roleService.add(roleName, remark, resourceIds);
@@ -58,7 +59,7 @@ public class RoleApi {
 	/**
 	 * 删除角色
 	 */
-	@WebAuth({ "ROLE_DELETE" })
+	@WebAuth({ ResourceEnum.ROLE_DELETE })
 	@RequestMapping("/delete")
 	public Result delete(Long roleId) {
 		if (roleId == null || roleId == 0l) {

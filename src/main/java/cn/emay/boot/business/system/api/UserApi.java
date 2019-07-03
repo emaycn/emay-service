@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.emay.boot.base.constant.ResourceEnum;
 import cn.emay.boot.base.web.WebAuth;
 import cn.emay.boot.business.system.dto.UserDTO;
 import cn.emay.boot.business.system.pojo.User;
@@ -34,7 +35,7 @@ public class UserApi {
 	/**
 	 * 用户列表
 	 */
-	@WebAuth({ "USER_VIEW" })
+	@WebAuth({ ResourceEnum.USER_VIEW })
 	@RequestMapping("/page")
 	@ApiOperation("分页查询用户列表")
 	public SuperResult<Page<UserDTO>> list(@ApiParam("起始数据位置") int start, @ApiParam("数据条数") int limit, @ApiParam("用户状态") int state, @ApiParam("用户名") String username) {
@@ -45,7 +46,7 @@ public class UserApi {
 	/**
 	 * 用户详细信息
 	 */
-	@WebAuth({ "USER_VIEW" })
+	@WebAuth({ ResourceEnum.USER_VIEW })
 	@RequestMapping("/info")
 	public SuperResult<UserDTO> userinfo(Long userId) {
 		if (userId == null || userId == 0l) {
@@ -62,7 +63,7 @@ public class UserApi {
 	/**
 	 * 修改用户
 	 */
-	@WebAuth({ "USER_MODIFY" })
+	@WebAuth({ ResourceEnum.USER_MODIFY })
 	@RequestMapping("/modify")
 	public Result modify(String realname, String remark, String email, String mobile, Long[] roleIds, Long userId) {
 		return userService.modify(userId, realname, mobile, email, remark, roleIds);
@@ -71,7 +72,7 @@ public class UserApi {
 	/**
 	 * 添加用户
 	 */
-	@WebAuth({ "USER_ADD" })
+	@WebAuth({ ResourceEnum.USER_ADD })
 	@RequestMapping("/add")
 	public Result add(String username, String password, String realname, String remark, String email, String mobile, Long[] roleIds) {
 		User currentUser = WebUtils.getCurrentUser();
@@ -81,7 +82,7 @@ public class UserApi {
 	/**
 	 * 删除用户
 	 */
-	@WebAuth({ "USER_DELETE" })
+	@WebAuth({ ResourceEnum.USER_DELETE })
 	@RequestMapping("/delete")
 	public Result delete(Long userId) {
 		if (userId == null || userId == 0l) {
@@ -96,7 +97,7 @@ public class UserApi {
 	/**
 	 * 启用用户
 	 */
-	@WebAuth({ "USER_OPER" })
+	@WebAuth({ ResourceEnum.USER_OPER })
 	@RequestMapping("/on")
 	public Result on(Long userId) {
 		if (userId == null || userId == 0l) {
@@ -111,7 +112,7 @@ public class UserApi {
 	/**
 	 * 停用用户
 	 */
-	@WebAuth({ "USER_OPER" })
+	@WebAuth({ ResourceEnum.USER_OPER })
 	@RequestMapping("/off")
 	public Result off(Long userId) {
 		if (userId == null || userId == 0l) {

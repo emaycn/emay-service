@@ -1,9 +1,6 @@
 package cn.emay.boot.base.web;
 
 import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +12,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import cn.emay.boot.business.system.pojo.Resource;
+import cn.emay.boot.base.constant.ResourceEnum;
 import cn.emay.boot.business.system.pojo.User;
 import cn.emay.boot.utils.WebUtils;
 
@@ -42,8 +39,15 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			if (auth == null) {
 				return true;
 			}
-			User user = WebUtils.getCurrentUser();
+			WebToken token = WebUtils.getWebToken();
 			// 未登陆，拦截
+			if (token == null) {
+				WebUtils.logout();
+				WebUtils.toNoLogin();
+				return false;
+			}
+			User user = WebUtils.getCurrentUser();
+			// 登陆状态异常，拦截
 			if (user == null) {
 				WebUtils.logout();
 				WebUtils.toNoLogin();
@@ -55,24 +59,14 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				WebUtils.toNoLogin();
 				return false;
 			}
-			String[] codes = auth.value();
+			ResourceEnum[] codes = auth.value();
 			// 仅需要登录权限的，通过--有注解无Code即视为仅需要登录
 			if (codes == null || codes.length == 0) {
 				return true;
 			}
-			Set<String> codeSet = new HashSet<>();
-			for (String code : codes) {
-				codeSet.add(code);
-			}
-			WebToken token = WebUtils.getWebToken();
-			// 没有Token，拦截
-			if (token == null) {
-				return false;
-			}
-			List<Resource> auths = token.getAuth();
 			boolean isHasAuth = false;
-			for (Resource resource : auths) {
-				if (codeSet.contains(resource.getResourceCode())) {
+			for (ResourceEnum code : codes) {
+				if (token.getUserResourceMap().containsKey(code.getCode())) {
 					isHasAuth = true;
 					break;
 				}
@@ -87,7 +81,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			log.error(e.getMessage(), e);
 			return false;
 		}
-		
+
 	}
 
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {

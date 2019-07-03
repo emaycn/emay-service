@@ -3,9 +3,7 @@ CREATE TABLE system_resource (
   parent_resource_id BIGINT,
   resource_code VARCHAR (255),
   resource_icon VARCHAR (255),
-  resource_index INTEGER,
   resource_name VARCHAR (255),
-  resource_path VARCHAR (255),
   PRIMARY KEY (id)
 ) ;
 

@@ -9,8 +9,6 @@ import javax.persistence.Table;
 
 /**
  * 资源<br/>
- * 多级资源，可自定义每级资源的定义<br/>
- * ag: 1-模块[无code,无path,无上级],2-导航[无code,无path],3-页面，4-操作[无icon]
  * 
  * @author Frank
  *
@@ -20,6 +18,11 @@ import javax.persistence.Table;
 public class Resource implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	public final static String RESOURCE_TYPE_MOUDLE = "MOUDLE";
+	public final static String RESOURCE_TYPE_NAVIGATION = "NAVIGATION";
+	public final static String RESOURCE_TYPE_PAGE = "PAGE";
+	public final static String RESOURCE_TYPE_OPER = "OPER";
 
 	/**
 	 * 
@@ -39,25 +42,47 @@ public class Resource implements java.io.Serializable {
 	@Column(name = "resource_name")
 	private String resourceName;
 	/**
-	 * 资源路径
-	 */
-	@Column(name = "resource_path")
-	private String resourcePath;
-	/**
-	 * 资源顺序
-	 */
-	@Column(name = "resource_index")
-	private Integer resourceIndex;
-	/**
 	 * 资源图标
 	 */
 	@Column(name = "resource_icon")
 	private String resourceIcon;
 	/**
+	 * 资源地址
+	 */
+	@Column(name = "resource_url")
+	private String resourceUrl;
+	/**
+	 * 是否外链
+	 */
+	@Column(name = "is_out_link")
+	private Boolean isOutLink;
+	/**
+	 * 资源类型
+	 */
+	@Column(name = "resource_type")
+	private String resourceType;
+	/**
+	 * 资源序号
+	 */
+	@Column(name = "resource_index")
+	private Integer resourceIndex;
+	/**
 	 * 上级资源ID
 	 */
 	@Column(name = "parent_resource_id")
 	private Long parentResourceId;
+	
+	public Resource() {
+		
+	}
+
+	public Resource(Long id,String resourceCode,  Long parentResourceId,String resourceType,Integer resourceIndex) {
+		this.id = id;
+		this.resourceCode = resourceCode;
+		this.parentResourceId = parentResourceId;
+		this.resourceType = resourceType;
+		this.resourceIndex = resourceIndex;
+	}
 
 	public Long getId() {
 		return id;
@@ -83,12 +108,36 @@ public class Resource implements java.io.Serializable {
 		this.resourceName = resourceName;
 	}
 
-	public String getResourcePath() {
-		return resourcePath;
+	public String getResourceIcon() {
+		return resourceIcon;
 	}
 
-	public void setResourcePath(String resourcePath) {
-		this.resourcePath = resourcePath;
+	public void setResourceIcon(String resourceIcon) {
+		this.resourceIcon = resourceIcon;
+	}
+
+	public String getResourceUrl() {
+		return resourceUrl;
+	}
+
+	public void setResourceUrl(String resourceUrl) {
+		this.resourceUrl = resourceUrl;
+	}
+
+	public Boolean getIsOutLink() {
+		return isOutLink;
+	}
+
+	public void setIsOutLink(Boolean isOutLink) {
+		this.isOutLink = isOutLink;
+	}
+
+	public Long getParentResourceId() {
+		return parentResourceId;
+	}
+
+	public void setParentResourceId(Long parentResourceId) {
+		this.parentResourceId = parentResourceId;
 	}
 
 	public Integer getResourceIndex() {
@@ -99,20 +148,12 @@ public class Resource implements java.io.Serializable {
 		this.resourceIndex = resourceIndex;
 	}
 
-	public String getResourceIcon() {
-		return resourceIcon;
+	public String getResourceType() {
+		return resourceType;
 	}
 
-	public void setResourceIcon(String resourceIcon) {
-		this.resourceIcon = resourceIcon;
-	}
-
-	public Long getParentResourceId() {
-		return parentResourceId;
-	}
-
-	public void setParentResourceId(Long parentResourceId) {
-		this.parentResourceId = parentResourceId;
+	public void setResourceType(String resourceType) {
+		this.resourceType = resourceType;
 	}
 
 }

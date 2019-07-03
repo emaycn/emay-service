@@ -14,6 +14,10 @@ server:
       timeout: 7200
    servlet:
       context-path: /
+   compression:
+      enabled: true
+      mime-types: application/json,application/xml,text/html,text/xml,text/plain
+      min-response-size: 2048
  
 # 图片验证码
 captcha :
@@ -105,18 +109,11 @@ properties :
    storeQueueBaseDir : ./logs/cache/
    # 开发模式--Swagger页面是否开启\是否开启全局跨域
    dev : true
-   # 拦截器
+   # 拦截器例外
    excludeUrlAuth :
-      - /
-      - /loginCaptcha
-      - /logout
-      - /login
       - /swagger-ui.html
       - /webjars/**
+   # XSS防御例外
    excludeUrlXss :
-      - /
-      - /loginCaptcha
-      - /logout
-      - /login
       - /swagger-ui.html
       - /webjars/**
