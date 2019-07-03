@@ -69,6 +69,7 @@ public class WebUtils {
 
 	/**
 	 * 获取当前登录用户<br/>
+	 * 每一次请求都要查询一次数据库来验证用户状态，后续可以把用户状态放到redis管理，状态的改变也随时更新redis
 	 */
 	public static User getCurrentUser() {
 		User user = (User) getCurrentHttpRequest().getAttribute(WebConstant.REQUEST_USER);
