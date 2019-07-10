@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import cn.emay.boot.base.constant.ResourceEnum;
+import cn.emay.boot.business.system.pojo.Resource;
 import cn.emay.boot.business.system.pojo.User;
 import cn.emay.boot.utils.WebUtils;
 
@@ -64,24 +65,21 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			if (codes == null || codes.length == 0) {
 				return true;
 			}
-			boolean isHasAuth = false;
-			for (ResourceEnum code : codes) {
-				if (token.getUserResourceMap().containsKey(code.getCode())) {
-					isHasAuth = true;
-					break;
+			// 有资源权限的，通过
+			for (Resource res : token.getResources()) {
+				for (ResourceEnum code : codes) {
+					if (code.getCode().equalsIgnoreCase(res.getResourceCode())) {
+						return true;
+					}
 				}
 			}
 			// 无资源权限的，拦截
-			if (!isHasAuth) {
-				WebUtils.toError("无权访问");
-				return false;
-			}
-			return true;
+			WebUtils.toError("无权访问");
+			return false;
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return false;
 		}
-
 	}
 
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {

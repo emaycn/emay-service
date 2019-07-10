@@ -16,7 +16,7 @@ public class WebConstant {
 	/**
 	 * 登录过期时间(秒)
 	 */
-	public final static Integer LOGIN_TIMEOUT = 7200;
+	public final static Integer LOGIN_TIMEOUT = 24 * 60 * 60;
 
 	/**
 	 * 验证码登录标识

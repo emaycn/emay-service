@@ -112,6 +112,9 @@ public class WebUtils {
 		RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
 		token = redis.get(sessionId, WebToken.class);
 		if (token != null) {
+			if(token.getCreateTime().getTime() + ( WebConstant.LOGIN_TIMEOUT - 1 * 60 * 60 ) * 1000L < System.currentTimeMillis()) {
+				redis.expire(sessionId, WebConstant.LOGIN_TIMEOUT);
+			}
 			getCurrentHttpRequest().setAttribute(WebConstant.REQUEST_TOKEN, token);
 		}
 		return token;

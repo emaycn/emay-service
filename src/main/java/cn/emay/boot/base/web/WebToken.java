@@ -1,15 +1,12 @@
 package cn.emay.boot.base.web;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import cn.emay.boot.business.system.dto.SimpleUserDTO;
 import cn.emay.boot.business.system.pojo.Resource;
 import cn.emay.boot.business.system.pojo.User;
-import cn.emay.boot.utils.ResourceTreeBuilder;
-import cn.emay.utils.tree.EmaySimpleTreeNode;
 
 public class WebToken implements Serializable {
 
@@ -23,27 +20,24 @@ public class WebToken implements Serializable {
 	 */
 	private SimpleUserDTO user;
 	/**
-	 * 用户资源树，用来构建左侧导航
-	 */
-	private EmaySimpleTreeNode<Long, Resource> userResourceTree;
-	/**
 	 * 用户资源字典，用来进行前端权限校验
 	 */
-	private Map<String, Boolean> userResourceMap;
+	private List<Resource> resources;
+	
+	/**
+	 * 创建时间
+	 */
+	private Date createTime;
 
 	public WebToken() {
-
+		this.createTime = new Date();
 	}
 
 	public WebToken(String sessionId, User user, List<Resource> resources) {
 		this.sessionId = sessionId;
 		this.user = new SimpleUserDTO(user);
-		this.userResourceTree = ResourceTreeBuilder.buildWithoutOper(resources);
-		this.userResourceMap = new HashMap<>();
-		for (Resource resource : resources) {
-			this.userResourceMap.put(resource.getResourceCode(), true);
-		}
-
+		this.resources = resources;
+		this.createTime = new Date();
 	}
 
 	public String getSessionId() {
@@ -62,20 +56,20 @@ public class WebToken implements Serializable {
 		this.user = user;
 	}
 
-	public EmaySimpleTreeNode<Long, Resource> getUserResourceTree() {
-		return userResourceTree;
+	public List<Resource> getResources() {
+		return resources;
 	}
 
-	public void setUserResourceTree(EmaySimpleTreeNode<Long, Resource> userResourceTree) {
-		this.userResourceTree = userResourceTree;
+	public void setResources(List<Resource> resources) {
+		this.resources = resources;
 	}
 
-	public Map<String, Boolean> getUserResourceMap() {
-		return userResourceMap;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setUserResourceMap(Map<String, Boolean> userResourceMap) {
-		this.userResourceMap = userResourceMap;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
 }
