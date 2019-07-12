@@ -20,7 +20,6 @@ import cn.emay.boot.config.PropertiesConfig;
 import cn.emay.json.support.JsonServletSupport;
 import cn.emay.redis.RedisClient;
 import cn.emay.utils.result.Result;
-import cn.emay.utils.web.servlet.RequestUtils;
 
 public class WebUtils {
 
@@ -49,7 +48,7 @@ public class WebUtils {
 	 * 登陆
 	 */
 	public static WebToken login(User user, List<Resource> resources) {
-		String sessionId =  "WEB-" + UUID.randomUUID().toString().replace("-", "").toUpperCase();
+		String sessionId = "WEB-" + UUID.randomUUID().toString().replace("-", "").toUpperCase();
 		WebToken token = new WebToken(sessionId, user, resources);
 		RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
 		redis.set(sessionId, token, WebConstant.LOGIN_TIMEOUT);
@@ -61,7 +60,7 @@ public class WebUtils {
 	 */
 	public static void logout() {
 		String sessionId = getSessionId();
-		if(sessionId != null) {
+		if (sessionId != null) {
 			RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
 			redis.del(sessionId);
 		}
@@ -84,7 +83,7 @@ public class WebUtils {
 		user = userService.findById(token.getUser().getId());
 		if (user == null) {
 			String sessionId = getSessionId();
-			if(sessionId != null) {
+			if (sessionId != null) {
 				RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
 				redis.del(sessionId);
 			}
@@ -111,13 +110,13 @@ public class WebUtils {
 			return token;
 		}
 		String sessionId = getSessionId();
-		if(sessionId == null) {
+		if (sessionId == null) {
 			return null;
 		}
 		RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
 		token = redis.get(sessionId, WebToken.class);
 		if (token != null) {
-			if(token.getCreateTime().getTime() + ( WebConstant.LOGIN_TIMEOUT - 1 * 60 * 60 ) * 1000L < System.currentTimeMillis()) {
+			if (token.getCreateTime().getTime() + (WebConstant.LOGIN_TIMEOUT - 1 * 60 * 60) * 1000L < System.currentTimeMillis()) {
 				redis.expire(sessionId, WebConstant.LOGIN_TIMEOUT);
 			}
 			getCurrentHttpRequest().setAttribute(WebConstant.REQUEST_TOKEN, token);
@@ -129,35 +128,40 @@ public class WebUtils {
 	 * 获取SessionId
 	 */
 	public static String getSessionId() {
-		return  getCurrentHttpRequest().getHeader(WebConstant.SESSION_ID);
+		return getCurrentHttpRequest().getHeader(WebConstant.SESSION_ID);
 	}
 
 	/**
 	 * 跳到错误页面或者提示错误信息
 	 */
 	public static void toError(String errorMassage) throws IOException {
-		HttpServletRequest request = getCurrentHttpRequest();
 		HttpServletResponse response = getCurrentHttpResponse();
-		if (RequestUtils.isAjaxRequest(request)) {
-			JsonServletSupport.outputWithJson(response, Result.badResult("-1", errorMassage, null));
-		} else {
-			PropertiesConfig proper = ApplicationContextUtils.getBean(PropertiesConfig.class);
-			response.sendRedirect(proper.getErrorPage() + "?msg=" + errorMassage);
+		PropertiesConfig propertiesConfig = ApplicationContextUtils.getBean(PropertiesConfig.class);
+		if(propertiesConfig.isDev()) {
+			String origin = getCurrentHttpRequest().getHeader("Origin");
+			response.setHeader("Access-Control-Allow-Origin", origin);
+			response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+			response.setHeader("Access-Control-Allow-Credentials","true");
+			response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept, X-CSRF-TOKEN");
 		}
+		JsonServletSupport.outputWithJson(response, Result.badResult("-1", errorMassage, null));
+
 	}
 
 	/**
 	 * 跳转到登陆页面或者提示未登陆信息
 	 */
 	public static void toNoLogin() throws IOException {
-		HttpServletRequest request = getCurrentHttpRequest();
 		HttpServletResponse response = getCurrentHttpResponse();
-		if (RequestUtils.isAjaxRequest(request)) {
-			JsonServletSupport.outputWithJson(response, Result.badResult("-222", "您还未登陆，请先登录", null));
-		} else {
-			PropertiesConfig proper = ApplicationContextUtils.getBean(PropertiesConfig.class);
-			response.sendRedirect(proper.getLoginPage());
+		PropertiesConfig propertiesConfig = ApplicationContextUtils.getBean(PropertiesConfig.class);
+		if(propertiesConfig.isDev()) {
+			String origin = getCurrentHttpRequest().getHeader("Origin");
+			response.setHeader("Access-Control-Allow-Origin", origin);
+			response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+			response.setHeader("Access-Control-Allow-Credentials","true");
+			response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept, X-CSRF-TOKEN");
 		}
+		JsonServletSupport.outputWithJson(response, Result.badResult("-222", "您还未登陆，请先登录", null));
 	}
 
 }

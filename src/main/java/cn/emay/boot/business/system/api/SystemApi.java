@@ -40,10 +40,6 @@ public class SystemApi {
 			return Result.badResult("新密码不能为空");
 		}
 		User user = WebUtils.getCurrentUser();
-		if (user == null) {
-			WebUtils.toNoLogin();
-			return Result.badResult();
-		}
 		String pass = Md5.md5(password.getBytes());
 		if (!user.getPassword().equals(pass)) {
 			return Result.badResult("密码错误");
