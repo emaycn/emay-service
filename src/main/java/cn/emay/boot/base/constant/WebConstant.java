@@ -11,7 +11,7 @@ public class WebConstant {
 	/**
 	 * SESSION ID
 	 */
-	public final static String SESSION_ID = "EM_WEB_2002";
+	public final static String SESSION_ID = "AUTH-WEB-TOKEN";
 
 	/**
 	 * 登录过期时间(秒)

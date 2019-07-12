@@ -36,9 +36,9 @@ public class PublicApi {
 	 * 验证码图片
 	 */
 	@RequestMapping(value = "/loginCaptcha", method = RequestMethod.GET)
-	public void loginCaptcha() throws Exception {
+	public void loginCaptcha(String uuid) throws Exception {
 		HttpServletResponse response = WebUtils.getCurrentHttpResponse();
-		String tokenId = WebUtils.getSessionId();
+		String tokenId = "LOGIN-" + uuid;
 		CaptchaUtils.writeByRedis(redis, response, tokenId, WebConstant.CAPTCHA_TAG_LOGIN, 1800);
 	}
 
@@ -55,7 +55,7 @@ public class PublicApi {
 	 * 登录
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public Result login(String username, String password, String captcha) {
+	public Result login(String username, String password, String captcha,String uuid) {
 		if (StringUtils.isEmpty(username)) {
 			return Result.badResult("用户名不能为空");
 		}
@@ -65,7 +65,10 @@ public class PublicApi {
 		if (StringUtils.isEmpty(captcha)) {
 			return Result.badResult("验证码不能为空");
 		}
-		String tokenId = WebUtils.getSessionId();
+		if (StringUtils.isEmpty(uuid)) {
+			return Result.badResult("禁止攻击");
+		}
+		String tokenId = "LOGIN-" + uuid;
 		boolean isOk = CaptchaUtils.checkByRedis(redis, tokenId, WebConstant.CAPTCHA_TAG_LOGIN, captcha);
 		if (!isOk) {
 			return Result.badResult("验证码错误");

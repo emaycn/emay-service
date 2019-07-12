@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,7 +21,6 @@ import cn.emay.json.support.JsonServletSupport;
 import cn.emay.redis.RedisClient;
 import cn.emay.utils.result.Result;
 import cn.emay.utils.web.servlet.RequestUtils;
-import cn.emay.utils.web.servlet.ResponseUtils;
 
 public class WebUtils {
 
@@ -51,7 +49,7 @@ public class WebUtils {
 	 * 登陆
 	 */
 	public static WebToken login(User user, List<Resource> resources) {
-		String sessionId = getSessionId();
+		String sessionId =  "WEB-" + UUID.randomUUID().toString().replace("-", "").toUpperCase();
 		WebToken token = new WebToken(sessionId, user, resources);
 		RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
 		redis.set(sessionId, token, WebConstant.LOGIN_TIMEOUT);
@@ -63,8 +61,10 @@ public class WebUtils {
 	 */
 	public static void logout() {
 		String sessionId = getSessionId();
-		RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
-		redis.del(sessionId);
+		if(sessionId != null) {
+			RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
+			redis.del(sessionId);
+		}
 	}
 
 	/**
@@ -84,8 +84,10 @@ public class WebUtils {
 		user = userService.findById(token.getUser().getId());
 		if (user == null) {
 			String sessionId = getSessionId();
-			RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
-			redis.del(sessionId);
+			if(sessionId != null) {
+				RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
+				redis.del(sessionId);
+			}
 			return null;
 		} else {
 			getCurrentHttpRequest().setAttribute(WebConstant.REQUEST_USER, user);
@@ -109,6 +111,9 @@ public class WebUtils {
 			return token;
 		}
 		String sessionId = getSessionId();
+		if(sessionId == null) {
+			return null;
+		}
 		RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
 		token = redis.get(sessionId, WebToken.class);
 		if (token != null) {
@@ -124,18 +129,7 @@ public class WebUtils {
 	 * 获取SessionId
 	 */
 	public static String getSessionId() {
-		HttpServletRequest request = getCurrentHttpRequest();
-		HttpServletResponse response = getCurrentHttpResponse();
-		Cookie cookie = RequestUtils.findCookie(request, WebConstant.SESSION_ID);
-		String sessionId = null;
-		if (cookie != null) {
-			sessionId = cookie.getValue();
-		}
-		if (sessionId == null) {
-			sessionId = "WEB-" + UUID.randomUUID().toString().replace("-", "").toUpperCase();
-			ResponseUtils.addCookie(response, WebConstant.SESSION_ID, sessionId, -1);
-		}
-		return sessionId;
+		return  getCurrentHttpRequest().getHeader(WebConstant.SESSION_ID);
 	}
 
 	/**
