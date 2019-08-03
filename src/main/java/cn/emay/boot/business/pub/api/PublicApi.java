@@ -2,8 +2,6 @@ package cn.emay.boot.business.pub.api;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +16,6 @@ import cn.emay.boot.business.system.service.ResourceService;
 import cn.emay.boot.business.system.service.UserService;
 import cn.emay.boot.utils.CaptchaUtils;
 import cn.emay.boot.utils.WebUtils;
-import cn.emay.redis.RedisClient;
 import cn.emay.utils.encryption.Md5;
 import cn.emay.utils.result.Result;
 
@@ -29,17 +26,14 @@ public class PublicApi {
 	private UserService userService;
 	@Autowired
 	private ResourceService resourceService;
-	@Autowired
-	private RedisClient redis;
-	
+
 	/**
 	 * 验证码图片
 	 */
 	@RequestMapping(value = "/loginCaptcha", method = RequestMethod.GET)
 	public void loginCaptcha(String uuid) throws Exception {
-		HttpServletResponse response = WebUtils.getCurrentHttpResponse();
 		String tokenId = "LOGIN-" + uuid;
-		CaptchaUtils.writeByRedis(redis, response, tokenId, WebConstant.CAPTCHA_TAG_LOGIN, 1800);
+		CaptchaUtils.writeBySession(tokenId, WebConstant.CAPTCHA_TAG_LOGIN);
 	}
 
 	/**
@@ -55,7 +49,7 @@ public class PublicApi {
 	 * 登录
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public Result login(String username, String password, String captcha,String uuid) {
+	public Result login(String username, String password, String captcha, String uuid) {
 		if (StringUtils.isEmpty(username)) {
 			return Result.badResult("用户名不能为空");
 		}
@@ -69,7 +63,7 @@ public class PublicApi {
 			return Result.badResult("禁止攻击");
 		}
 		String tokenId = "LOGIN-" + uuid;
-		boolean isOk = CaptchaUtils.checkByRedis(redis, tokenId, WebConstant.CAPTCHA_TAG_LOGIN, captcha);
+		boolean isOk = CaptchaUtils.checkBySession(tokenId, WebConstant.CAPTCHA_TAG_LOGIN, captcha);
 		if (!isOk) {
 			return Result.badResult("验证码错误");
 		}

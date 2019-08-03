@@ -50,7 +50,8 @@ public class CaptchaUtils {
 	 * @param timeout
 	 * @throws IOException
 	 */
-	public static void writeByRedis(RedisClient redis, HttpServletResponse response, String sessionId, String tag, int timeout) throws IOException {
+	public static void writeByRedis(RedisClient redis, String sessionId, String tag, int timeout) throws IOException {
+		HttpServletResponse response = WebUtils.getCurrentHttpResponse();
 		String key = "CAPTCHA_" + tag + "_" + sessionId;
 		String value = create(response.getOutputStream());
 		redis.set(key, value, timeout);
@@ -60,13 +61,13 @@ public class CaptchaUtils {
 	/**
 	 * 从Session校验
 	 * 
-	 * @param session
 	 * @param tag
 	 * @param captchaText
 	 * @return
 	 */
-	public static boolean checkBySession(HttpSession session, String tag, String captchaText) {
-		String key = "CAPTCHA_" + tag + "_" + session.getId();
+	public static boolean checkBySession(String sessionId, String tag, String captchaText) {
+		HttpSession session = WebUtils.getCurrentHttpSession();
+		String key = "CAPTCHA_" + tag + "_" + sessionId;
 		String value = (String) session.getAttribute(key);
 		if (captchaText != null && captchaText.equalsIgnoreCase(value)) {
 			session.removeAttribute(key);
@@ -78,12 +79,13 @@ public class CaptchaUtils {
 	/**
 	 * 写入Session
 	 * 
-	 * @param session
 	 * @param response
 	 * @param tag
 	 * @throws IOException
 	 */
-	public static void writeBySession(HttpSession session, HttpServletResponse response, String tag) throws IOException {
+	public static void writeBySession(String sessionId, String tag) throws IOException {
+		HttpServletResponse response = WebUtils.getCurrentHttpResponse();
+		HttpSession session = WebUtils.getCurrentHttpSession();
 		String key = "CAPTCHA_" + tag + "_" + session.getId();
 		String value = create(response.getOutputStream());
 		session.setAttribute(key, value);
