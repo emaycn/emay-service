@@ -16,6 +16,7 @@ import cn.emay.boot.business.system.service.ResourceService;
 import cn.emay.boot.business.system.service.UserService;
 import cn.emay.boot.utils.CaptchaUtils;
 import cn.emay.boot.utils.WebUtils;
+import cn.emay.redis.RedisClient;
 import cn.emay.utils.encryption.Md5;
 import cn.emay.utils.result.Result;
 
@@ -26,14 +27,15 @@ public class PublicApi {
 	private UserService userService;
 	@Autowired
 	private ResourceService resourceService;
+	@Autowired
+	private RedisClient redis;
 
 	/**
 	 * 验证码图片
 	 */
 	@RequestMapping(value = "/loginCaptcha", method = RequestMethod.GET)
 	public void loginCaptcha(String uuid) throws Exception {
-		String tokenId = "LOGIN-" + uuid;
-		CaptchaUtils.writeBySession(tokenId, WebConstant.CAPTCHA_TAG_LOGIN);
+		CaptchaUtils.writeByRedis(redis, uuid, WebConstant.CAPTCHA_TAG_LOGIN, 1800);
 	}
 
 	/**
@@ -62,8 +64,7 @@ public class PublicApi {
 		if (StringUtils.isEmpty(uuid)) {
 			return Result.badResult("禁止攻击");
 		}
-		String tokenId = "LOGIN-" + uuid;
-		boolean isOk = CaptchaUtils.checkBySession(tokenId, WebConstant.CAPTCHA_TAG_LOGIN, captcha);
+		boolean isOk = CaptchaUtils.checkByRedis(redis, uuid,  WebConstant.CAPTCHA_TAG_LOGIN, captcha);
 		if (!isOk) {
 			return Result.badResult("验证码错误");
 		}
