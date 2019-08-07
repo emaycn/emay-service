@@ -69,7 +69,6 @@ public class CaptchaUtils {
 		HttpSession session = WebUtils.getCurrentHttpSession();
 		String key = "CAPTCHA_" + tag + "_" + sessionId;
 		String value = (String) session.getAttribute(key);
-		System.out.println(key + "\t" + value);
 		if (captchaText != null && captchaText.equalsIgnoreCase(value)) {
 			session.removeAttribute(key);
 			return true;
@@ -89,7 +88,6 @@ public class CaptchaUtils {
 		HttpSession session = WebUtils.getCurrentHttpSession();
 		String key = "CAPTCHA_" + tag + "_" + sessionId;
 		String value = create(response.getOutputStream());
-		System.out.println(key + "\t" + value);
 		session.setAttribute(key, value);
 		response.getOutputStream().close();
 	}
