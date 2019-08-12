@@ -25,5 +25,5 @@ public interface ResourceService {
 	 * 获取角色所有资源
 	 */
 	public List<Resource> getRoleResources(Long roleId);
-
+	
 }

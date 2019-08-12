@@ -1,5 +1,7 @@
 package cn.emay.boot.business.system.dao;
 
+import java.util.List;
+
 import cn.emay.boot.business.system.pojo.UserRoleAssign;
 import cn.emay.orm.BaseSuperDao;
 
@@ -10,11 +12,7 @@ import cn.emay.orm.BaseSuperDao;
  */
 public interface UserRoleAssignDao extends BaseSuperDao<UserRoleAssign> {
 
-	/**
-	 * 根据用户id删除关联关系
-	 * 
-	 * @param userId
-	 */
 	void deleteByUserId(Long userId);
 
+	List<UserRoleAssign> findByUserId(Long userId);
 }

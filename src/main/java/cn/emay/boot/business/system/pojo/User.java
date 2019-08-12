@@ -18,23 +18,17 @@ import javax.persistence.TemporalType;
  *
  */
 @Entity
-@Table(name = "sytem_user")
+@Table(name = "system_user")
 public class User implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * 启用
-	 */
-	public final static int STATE_ON = 1;
-	/**
-	 * 停用
-	 */
-	public final static int STATE_OFF = 2;
+	public final static int STATE_DELETE = 0;// 删除
+	public final static int STATE_ON = 1;//启用
+	public final static int STATE_OFF = 2;//停用
+	public final static int STATE_LOCKING = 3;//锁定
 
-	/**
-	 * 
-	 */
+	
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,21 +59,21 @@ public class User implements java.io.Serializable {
 	@Column(name = "email")
 	private String email;
 	/**
-	 * 创建时间
-	 */
-	@Column(name = "create_time")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createTime;
-	/**
-	 * 状态[1-启用，2-停用]
+	 * 状态[0-删除，1-停用，2-启用,3-锁定]
 	 */
 	@Column(name = "user_state")
-	private Integer state;
+	private Integer userState;
 	/**
 	 * 说明
 	 */
 	@Column(name = "remark")
 	private String remark;
+	/**
+	 * 创建时间
+	 */
+	@Column(name = "create_time")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createTime;
 	/**
 	 * 创建者
 	 */
@@ -103,7 +97,7 @@ public class User implements java.io.Serializable {
 		this.mobile = mobile;
 		this.email = email;
 		this.createTime = new Date();
-		this.state = STATE_ON;
+		this.userState = STATE_ON;
 		this.remark = remark;
 		this.operatorId = operatorId;
 	}
@@ -164,12 +158,12 @@ public class User implements java.io.Serializable {
 		this.createTime = createTime;
 	}
 
-	public Integer getState() {
-		return state;
+	public Integer getUserState() {
+		return userState;
 	}
 
-	public void setState(Integer state) {
-		this.state = state;
+	public void setUserState(Integer userState) {
+		this.userState = userState;
 	}
 
 	public String getRemark() {

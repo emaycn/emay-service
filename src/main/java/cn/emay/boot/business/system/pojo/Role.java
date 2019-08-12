@@ -35,6 +35,9 @@ public class Role implements java.io.Serializable {
 	 */
 	@Column(name = "role_name")
 	private String roleName;
+	
+	@Column(name = "is_delete")
+	private Boolean isDelete;
 	/**
 	 * 创建时间
 	 */

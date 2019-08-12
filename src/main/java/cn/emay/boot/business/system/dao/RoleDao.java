@@ -24,5 +24,9 @@ public interface RoleDao extends BaseSuperDao<Role> {
 	/**
 	 * 分页查询
 	 */
-	Page<Role> findPage(int start, int limit);
+	Page<Role> findPage(int start, int limit,String roleName);
+	
+	List<Role> findAllRole();
+	
+	Long countNumberByRoleName(String roleName, Long id);
 }

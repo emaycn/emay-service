@@ -15,12 +15,12 @@ public interface UserService {
 	/**
 	 * 保存用户及角色
 	 */
-	public Result add(String username, String password, String realname, String mobile, String email, String remark, Long operatorId, Long[] roleIds);
+	Result add(String username, String realname, String password, String email, String mobile, String roles, Long departmentId, User currentUser);
 
 	/**
 	 * 更新用户及角色
 	 */
-	public Result modify(Long userId, String realname, String mobile, String email, String remark, Long[] roleIds);
+	Result modify(String username, String realname, String email, String mobile, String roles, Long userId, Long departmentId);
 	
 	/**
 	 * 修改用户密码
@@ -46,6 +46,11 @@ public interface UserService {
 	 * 按照ID查找用户
 	 */
 	public User findById(Long userId);
+	
+	/**
+	 * 重置用户密码
+	 */
+	Result updateResetUserPassword(User user);
 
 	/**
 	 * 按照用户名查找用户
@@ -55,6 +60,13 @@ public interface UserService {
 	/**
 	 * 分页查询用户
 	 */
-	public Page<UserDTO> findPage(int start, int limit, String userName, int state);
-
+	public Page<UserDTO> findPage(int start, int limit, String username,String realname,String mobile);
+	/**
+	 * 分页查询用户
+	 */
+	Page<UserDTO> findBycondition(String variableName, Long departmentId, int start, int limit);
+	/**
+	 * 用户名是否重复
+	 */
+	Long countByUserName(Long userId, String username);
 }

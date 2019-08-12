@@ -32,5 +32,10 @@ public class WebConstant {
 	 * request中用户的标识
 	 */
 	public final static String REQUEST_USER = "USER_CURRENT";
+	
+	/**
+	 * 时间格式
+	 */
+	public final static String PARAMETER_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
 }
