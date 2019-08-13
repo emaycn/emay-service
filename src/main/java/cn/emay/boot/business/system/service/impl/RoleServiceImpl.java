@@ -28,7 +28,7 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public Result add(String roleName, String remark, List<RoleResourceAssign> roleList) {
-		Role role = new Role(roleName, remark);
+		Role role = new Role(roleName, remark,false);
 		roleDao.save(role);
 		Long roleId = role.getId();
 		for(RoleResourceAssign roleResourceAssign : roleList) {

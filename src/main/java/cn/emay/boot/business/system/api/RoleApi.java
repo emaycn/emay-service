@@ -83,11 +83,11 @@ public class RoleApi {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="roleName", value="角色名称",required=true, dataType="string"),
 		@ApiImplicitParam(name="remark", value="角色描述",required=true, dataType="string"),
-		@ApiImplicitParam(name="resourceIds", value="角色权限",required=true,dataType="string"),
+		@ApiImplicitParam(name="resourceCodes", value="角色编码权限(逗号分割)",required=true,dataType="string"),
 	})
-	public Result add(String roleName, String remark, String resourceIds) {
+	public Result add(String roleName, String remark, String resourceCodes) {
 		List<RoleResourceAssign> roleList = new ArrayList<RoleResourceAssign>();
-		String errorMsg=checkData(roleName,resourceIds,remark,null,roleList);
+		String errorMsg=checkData(roleName,resourceCodes,remark,null,roleList);
 		if(!StringUtils.isEmpty(errorMsg)){
 			return Result.badResult(errorMsg);
 		}
@@ -112,11 +112,11 @@ public class RoleApi {
 		@ApiImplicitParam(name="roleId", value="角色ID",required=true, dataType="Long"),
 		@ApiImplicitParam(name="roleName", value="角色名称",required=true, dataType="string"),
 		@ApiImplicitParam(name="remark", value="角色描述",required=true, dataType="string"),
-		@ApiImplicitParam(name="resourceIds", value="角色权限",required=true,dataType="string"),
+		@ApiImplicitParam(name="resourceCodes", value="角色编码权限(逗号分割)",required=true,dataType="string"),
 	})
-	public Result modify(Long roleId, String roleName, String remark, String resourceIds) {
+	public Result modify(Long roleId, String roleName, String remark, String resourceCodes) {
 		List<RoleResourceAssign> roleList = new ArrayList<RoleResourceAssign>();
-		String errorMsg=checkData(roleName,resourceIds,remark,roleId,roleList);
+		String errorMsg=checkData(roleName,resourceCodes,remark,roleId,roleList);
 		if(!StringUtils.isEmpty(errorMsg)){
 			return Result.badResult(errorMsg);
 		}
@@ -248,18 +248,19 @@ public class RoleApi {
 		}
 		//校验权限
 		List<Resource> allResource = resourceService.getAll();
-		Map<Long,String> map = new HashMap<Long, String>();
+		Map<String,Long> map = new HashMap<String, Long>();
 		for(Resource resource:allResource){
-			map.put(resource.getId(), "");
+			map.put(resource.getResourceCode(), resource.getId());
 		}
 		try {
 			String[] aus = auths.split(",");
 			for (String au : aus) {
-				if (!map.containsKey(Long.valueOf(au))) {
+				if (!map.containsKey(au)) {
 					errorMsg = "权限不存在";
 					return errorMsg;
 				}
-				RoleResourceAssign roleResourceAssign = new RoleResourceAssign(roleId, Long.valueOf(au));
+				Long auId = map.get(au);
+				RoleResourceAssign roleResourceAssign = new RoleResourceAssign(roleId, auId);
 				roleList.add(roleResourceAssign);
 			}
 		} catch (Exception e) {
