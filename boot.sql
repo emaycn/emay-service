@@ -95,24 +95,6 @@ CREATE TABLE `system_user_oper_log` (
   PRIMARY KEY (`id`),
   KEY `index_username` (`user_name`,`oper_time`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户操作日志表';
-drop table if exists system_enterprise;
-CREATE TABLE `system_enterprise` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `client_number` varchar(128) NOT NULL COMMENT '客户编号',
-  `name_cn` varchar(128) NOT NULL COMMENT '客户名称',
-  `linkman` varchar(128) NOT NULL COMMENT '联系人',
-  `mobile` varchar(32) NOT NULL COMMENT '手机号',
-  `email` varchar(128) DEFAULT NULL COMMENT '邮箱',
-  `telephone` varchar(32) DEFAULT NULL COMMENT '企业电话',
-  `address` varchar(100) DEFAULT NULL COMMENT '企业地址',
-  `remark` varchar(512) DEFAULT NULL COMMENT '备注',
-  `is_delete` tinyint(4) NOT NULL COMMENT '是否删除',
-  `sale_id` bigint(20) DEFAULT NULL COMMENT '销售id',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `creator_id` bigint(20) NOT NULL COMMENT '创建人',
-  `last_update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='企业表';
 
 INSERT INTO `system_resource` VALUES ('1', 'USER_VIEW', '用户管理', now());
 INSERT INTO `system_resource` VALUES ('2', 'USER_MODIFY', '用户修改', now());
@@ -149,4 +131,3 @@ INSERT INTO `system_role_resource_assign` VALUES ('14', '14', '1', now());
 INSERT INTO `system_role` VALUES ('1', '管理员', '管理员', '0', now(), '1', now());
 INSERT INTO `system_user` VALUES ('1', 'admin', '911E5C48DDC066CF6114138AC4FC26E5', '管理员', '13801000000', 'admin@emay.cn', '1', '管理', now(), now(), '1', now());
 INSERT INTO `system_user_role_assign` VALUES ('1', '1', '1', now(), '1');
-insert  into `system_enterprise`(`id`,`client_number`,`name_cn`,`linkman`,`mobile`,`email`,`telephone`,`address`,`remark`,`is_delete`,`sale_id`,`create_time`,`creator_id`,`last_update_time`) values (1,'10001','亿美软通科技有限公司','blackWhitePlaid','13070126221','emay@emay.cn',NULL,'君天大厦',NULL,0,NULL,'2019-07-05 14:27:30',1,'2019-08-13 10:17:33');
