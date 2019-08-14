@@ -27,6 +27,7 @@ public class DepartmentDaoImpl extends BaseSuperDaoImpl<Department> implements D
 			hql = hql + " and departmentName like:departmentName";
 			param.put("departmentName", "%" + CheckUtil.specialCodeEscape(departmentName) + "%");
 		}
+		hql+=" order by id desc";
 		Page<Department> page = this.getPageResult(hql, start, limit, param, Department.class);
 		return page;
 	}
