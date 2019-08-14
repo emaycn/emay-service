@@ -115,6 +115,9 @@ public class RoleApi {
 		@ApiImplicitParam(name="resourceCodes", value="角色编码权限(逗号分割)",required=true,dataType="string"),
 	})
 	public Result modify(Long roleId, String roleName, String remark, String resourceCodes) {
+		if (roleId == 1l) {
+			return Result.badResult("管理员角色不能修改");
+		}
 		List<RoleResourceAssign> roleList = new ArrayList<RoleResourceAssign>();
 		String errorMsg=checkData(roleName,resourceCodes,remark,roleId,roleList);
 		if(!StringUtils.isEmpty(errorMsg)){
