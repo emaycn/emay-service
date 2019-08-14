@@ -111,8 +111,6 @@ INSERT INTO `system_resource` VALUES ('12', 'DEPARTMENT_DELETE', '部门删除',
 INSERT INTO `system_resource` VALUES ('13', 'DEPARTMENT_MODIFY', '部门修改', now());
 INSERT INTO `system_resource` VALUES ('14', 'LOG_VIEW', '日志管理', now());
 
-INSERT INTO `system_role` VALUES ('1', '管理员', '管理员', '0', now(), '1', now());
-
 INSERT INTO `system_role_resource_assign` VALUES ('1', '1', '1', now());
 INSERT INTO `system_role_resource_assign` VALUES ('2', '2', '1', now());
 INSERT INTO `system_role_resource_assign` VALUES ('3', '3', '1', now());
