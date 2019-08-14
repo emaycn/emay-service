@@ -38,7 +38,7 @@ public class RoleDaoImpl extends BaseSuperDaoImpl<Role> implements RoleDao {
 		params.put("isDelete", false);
 		if(!CheckUtil.isEmpty(roleName)){
 			hql+=" and roleName like:roleName";
-			params.put("roleName", roleName);
+			params.put("roleName", "%"+CheckUtil.specialCodeEscape(roleName)+"%");
 		}
 		hql+=" order by createTime desc";
 		return this.getPageResult(hql, start, limit, params, Role.class);

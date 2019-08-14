@@ -33,16 +33,16 @@ public class UserDaoImpl extends BaseSuperDaoImpl<User> implements UserDao {
 				+ " LEFT JOIN system_enterprise_department d ON d.id = ude.enterprise_department_id WHERE u.user_state != ? ";
 		params.add(User.STATE_DELETE);
 		if (username != null && username.trim().length() > 0) {
-			sql += " and u.username = ? ";
-			params.add(username.toLowerCase());
+			sql += " and u.username like ? ";
+			params.add("%"+CheckUtil.specialCodeEscape(username)+"%");
 		}
 		if (realname != null && realname.trim().length() > 0) {
-			sql += " and u.realname = ? ";
-			params.add(realname.toLowerCase());
+			sql += " and u.realname like ? ";
+			params.add("%"+CheckUtil.specialCodeEscape(realname)+"%");
 		}
 		if (mobile != null && mobile.trim().length() > 0) {
-			sql += " and u.mobile = ? ";
-			params.add(mobile);
+			sql += " and u.mobile like ? ";
+			params.add("%"+CheckUtil.specialCodeEscape(mobile)+"%");
 		}
 		sql += " order by u.id desc ";
 		Page<UserDTO> page = this.findSqlForPageForMysql(UserDTO.class, sql, params, start, limit);
