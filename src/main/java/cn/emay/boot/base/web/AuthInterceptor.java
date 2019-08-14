@@ -54,7 +54,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				return false;
 			}
 			// 被删除或者被锁定，拦截
-			if (user == null || user.getUserState() == User.STATE_OFF) {
+			if (user == null || user.getUserState() == User.STATE_LOCKING) {
 				WebUtils.logout();
 				WebUtils.toNoLogin();
 				return false;
