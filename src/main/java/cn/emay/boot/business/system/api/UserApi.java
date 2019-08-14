@@ -185,7 +185,7 @@ public class UserApi {
 		String module = "用户管理";
 		userOperLogService.saveLog(module, currentUser.getId(),currentUser.getUsername(),MessageFormat.format(context, new Object[] { username }), UserOperLog.OPERATE_ADD);
 		log.info("用户:" + currentUser.getUsername() + "添加用户,用户名称为:" + username);
-		return Result.rightResult();
+		return Result.rightResult(randomPwd);
 	}
 
 	/**

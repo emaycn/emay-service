@@ -24,8 +24,8 @@ public class User implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public final static int STATE_DELETE = 0;// 删除
-	public final static int STATE_ON = 1;//启用
-	public final static int STATE_OFF = 2;//停用
+	public final static int STATE_OFF = 1;//停用
+	public final static int STATE_ON = 2;//启用
 	public final static int STATE_LOCKING = 3;//锁定
 
 	
