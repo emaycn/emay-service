@@ -52,7 +52,7 @@ public class RoleDaoImpl extends BaseSuperDaoImpl<Role> implements RoleDao {
 		Map<String, Object> parms = new HashMap<String, Object>();
 		String hql = "select count(*) from Role where roleName=:roleName and isDelete!=:isDelete";
 		parms.put("roleName", roleName);
-		parms.put("isDelete", false);
+		parms.put("isDelete", true);
 		if (null!=id) {
 			hql += " and id <> :id";
 			parms.put("id", id);
