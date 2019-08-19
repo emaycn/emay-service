@@ -27,11 +27,6 @@ public class RoleDaoImpl extends BaseSuperDaoImpl<Role> implements RoleDao {
 	}
 
 	@Override
-	public Role findByRoleName(String roleName) {
-		return this.findByProperty("roleName", roleName);
-	}
-
-	@Override
 	public Page<Role> findPage(int start, int limit,String roleName) {
 		Map<String,Object> params = new HashMap<String, Object>();
 		String hql = FIND_ALL_HQL + " where isDelete=:isDelete";
@@ -57,7 +52,7 @@ public class RoleDaoImpl extends BaseSuperDaoImpl<Role> implements RoleDao {
 		Map<String, Object> parms = new HashMap<String, Object>();
 		String hql = "select count(*) from Role where roleName=:roleName and isDelete!=:isDelete";
 		parms.put("roleName", roleName);
-		parms.put("isDelete", true);
+		parms.put("isDelete", false);
 		if (null!=id) {
 			hql += " and id <> :id";
 			parms.put("id", id);

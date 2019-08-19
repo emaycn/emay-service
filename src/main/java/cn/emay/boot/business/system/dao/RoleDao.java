@@ -17,11 +17,6 @@ public interface RoleDao extends BaseSuperDao<Role> {
 	List<Role> getUserRoles(Long userId);
 
 	/**
-	 * 根据角色名查询
-	 */
-	Role findByRoleName(String roleName);
-
-	/**
 	 * 分页查询
 	 */
 	Page<Role> findPage(int start, int limit,String roleName);
