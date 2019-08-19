@@ -52,6 +52,7 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public Result delete(Long roleId) {
 		roleDao.deleteById(roleId);
+		roleResourceAssignDao.deleteByRoleId(roleId);
 		return Result.rightResult();
 	}
 
