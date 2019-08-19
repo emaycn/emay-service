@@ -20,10 +20,14 @@ public class UserRoleAssignServiceImpl implements UserRoleAssignService{
 	public List<UserRoleAssign> findByUserId(Long userId) {
 		return userRoleAssignDao.findByUserId(userId);
 	}
-	
-	
-	
-	
-	
-	
+
+	@Override
+	public Boolean findByRoleId(Long roleId) {
+		Boolean isExists = true;
+		List<UserRoleAssign> list = userRoleAssignDao.findByRoleId(roleId);
+		if(null==list||list.isEmpty()){
+			isExists = false;
+		}
+		return isExists;
+	}
 }

@@ -26,4 +26,9 @@ public class UserRoleAssignDaoImpl extends BaseSuperDaoImpl<UserRoleAssign> impl
 		return this.findListByProperty("userId", userId);
 	}
 
+	@Override
+	public List<UserRoleAssign> findByRoleId(Long roleId) {
+		return this.findListByProperty("roleId", roleId);
+	}
+
 }

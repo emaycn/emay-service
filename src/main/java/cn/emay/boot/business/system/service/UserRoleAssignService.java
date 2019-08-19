@@ -21,4 +21,9 @@ public interface UserRoleAssignService {
 	 * 查询用户的所有角色
 	 */
 	List<UserRoleAssign> findByUserId(Long userId);
+	
+	/**
+	 * 查询角色的是否绑定用户
+	 */
+	Boolean findByRoleId(Long roleId);
 }

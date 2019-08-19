@@ -29,4 +29,6 @@ public interface RoleDao extends BaseSuperDao<Role> {
 	List<Role> findAllRole();
 	
 	Long countNumberByRoleName(String roleName, Long id);
+	
+	void deleteById(Long id);
 }

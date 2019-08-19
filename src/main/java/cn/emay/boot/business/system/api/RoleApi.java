@@ -31,6 +31,7 @@ import cn.emay.boot.business.system.pojo.UserOperLog;
 import cn.emay.boot.business.system.service.ResourceService;
 import cn.emay.boot.business.system.service.RoleService;
 import cn.emay.boot.business.system.service.UserOperLogService;
+import cn.emay.boot.business.system.service.UserRoleAssignService;
 import cn.emay.boot.utils.CheckUtil;
 import cn.emay.boot.utils.WebUtils;
 import cn.emay.utils.db.common.Page;
@@ -56,6 +57,8 @@ public class RoleApi {
 	private ResourceService resourceService;
 	@Autowired
 	private UserOperLogService userOperLogService;
+	@Autowired
+	private UserRoleAssignService userRoleAssignService;
 	
 	/**
 	 * 角色列表
@@ -149,6 +152,10 @@ public class RoleApi {
 		if(role == null) {
 			return Result.badResult("角色不存在");
 		}
+		Boolean isExists = userRoleAssignService.findByRoleId(roleId);
+		if(isExists){
+			return Result.badResult("角色已关联用户，无法删除.");
+		}
 		roleService.delete(roleId);
 		User currentUser = WebUtils.getCurrentUser();
 		String context = "删除角色:{0}";
@@ -166,51 +173,6 @@ public class RoleApi {
 	@ApiOperation("角色所有资源")
 	public SuperResult<List<Resource>> roleResource(@ApiParam(name="roleId",value="角色ID",required=true)@RequestParam Long roleId) {
 		List<Resource> userResource = resourceService.getRoleResources(roleId);
-		return SuperResult.rightResult(userResource);
-	}
-
-	/**
-	 * 系统所有角色
-	 */
-	@WebAuth({ ResourceEnum.ROLE_VIEW })
-	@RequestMapping("/allRole")
-	@ApiOperation("系统所有角色")
-	public SuperResult<List<Role>> allRoles() {
-		List<Role> roles = roleService.findAll();
-		return SuperResult.rightResult(roles);
-	}
-
-	/**
-	 * 系统所有资源
-	 */
-	@WebAuth({ ResourceEnum.ROLE_VIEW })
-	@RequestMapping(value = "/allResource")
-	@ApiOperation("系统所有资源")
-	public SuperResult<List<Resource>> allresource() {
-		List<Resource> allResource = resourceService.getAll();
-		return SuperResult.rightResult(allResource);
-	}
-	
-	/**
-	 * 用户所有角色
-	 */
-	@WebAuth({ ResourceEnum.ROLE_VIEW })
-	@RequestMapping("/userRole")
-	@ApiOperation("用户所有角色")
-	public SuperResult<List<Role>> userRoles(@ApiParam(name="userId",value="用户ID",required=true)@RequestParam Long userId) {
-		List<Role> roles = roleService.getUserRoles(userId);
-		return SuperResult.rightResult(roles);
-	}
-	
-	/**
-	 * 当前用户所有资源
-	 */
-	@WebAuth({ ResourceEnum.ROLE_VIEW })
-	@RequestMapping(value = "/myResource")
-	@ApiOperation("当前用户所有资源")
-	public SuperResult<List<Resource>> userresource() {
-		User user = WebUtils.getCurrentUser();
-		List<Resource> userResource = resourceService.getUserResources(user.getId());
 		return SuperResult.rightResult(userResource);
 	}
 	

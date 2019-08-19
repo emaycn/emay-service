@@ -64,4 +64,13 @@ public class RoleDaoImpl extends BaseSuperDaoImpl<Role> implements RoleDao {
 		}
 		return (Long) super.getUniqueResult(hql, parms);
 	}
+
+	@Override
+	public void deleteById(Long id) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		String hql =" update Role set isDelete = :isDelete where id=:id";
+		params.put("isDelete", true);
+		params.put("id", id);
+		this.execByHql(hql, params);
+	}
 }
