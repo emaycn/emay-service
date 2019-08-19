@@ -73,7 +73,7 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public List<Role> findAll() {
-		return roleDao.findAll();
+		return roleDao.findAllRole();
 	}
 
 	@Override
