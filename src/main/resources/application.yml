@@ -13,7 +13,7 @@ server:
    session:
       timeout: 7200
    servlet:
-      context-path: /
+      context-path: /api
    compression:
       enabled: true
       mime-types: application/json,application/xml,text/html,text/xml,text/plain
