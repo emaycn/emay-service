@@ -3,6 +3,7 @@ package cn.emay.boot.utils;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.code.kaptcha.Producer;
 
+import cn.emay.boot.base.constant.RedisKeys;
 import cn.emay.redis.RedisClient;
 
 /**
@@ -30,7 +32,7 @@ public class CaptchaUtils {
 	 * @return
 	 */
 	public static boolean checkByRedis(RedisClient redis, String sessionId, String tag, String captchaText) {
-		String key = "CAPTCHA_" + tag + "_" + sessionId;
+		String key = genKey(tag, sessionId);
 		String value = redis.get(key);
 		redis.del(key);
 		if (captchaText != null && captchaText.equalsIgnoreCase(value)) {
@@ -52,7 +54,7 @@ public class CaptchaUtils {
 	 */
 	public static void writeByRedis(RedisClient redis, String sessionId, String tag, int timeout) throws IOException {
 		HttpServletResponse response = WebUtils.getCurrentHttpResponse();
-		String key = "CAPTCHA_" + tag + "_" + sessionId;
+		String key = genKey(tag, sessionId);
 		String value = create(response.getOutputStream());
 		redis.set(key, value, timeout);
 		response.getOutputStream().close();
@@ -67,7 +69,7 @@ public class CaptchaUtils {
 	 */
 	public static boolean checkBySession(String sessionId, String tag, String captchaText) {
 		HttpSession session = WebUtils.getCurrentHttpSession();
-		String key = "CAPTCHA_" + tag + "_" + sessionId;
+		String key = genKey(tag, sessionId);
 		String value = (String) session.getAttribute(key);
 		if (captchaText != null && captchaText.equalsIgnoreCase(value)) {
 			session.removeAttribute(key);
@@ -86,10 +88,21 @@ public class CaptchaUtils {
 	public static void writeBySession(String sessionId, String tag) throws IOException {
 		HttpServletResponse response = WebUtils.getCurrentHttpResponse();
 		HttpSession session = WebUtils.getCurrentHttpSession();
-		String key = "CAPTCHA_" + tag + "_" + sessionId;
+		String key = genKey(tag, sessionId);
 		String value = create(response.getOutputStream());
 		session.setAttribute(key, value);
 		response.getOutputStream().close();
+	}
+
+	/**
+	 * 生成Key
+	 * 
+	 * @param tag
+	 * @param id
+	 * @return
+	 */
+	private static String genKey(String tag, String id) {
+		return MessageFormat.format(RedisKeys.CAPTCHA, tag, id);
 	}
 
 	/**
@@ -126,8 +139,13 @@ public class CaptchaUtils {
 	 */
 	public static class CaptchaResult {
 
+		/**
+		 * 验证码
+		 */
 		private String text;
-
+		/**
+		 * 验证码图片
+		 */
 		private BufferedImage bufferedImage;
 
 		public CaptchaResult() {

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import cn.emay.boot.base.dao.BaseSuperDaoImpl;
 import cn.emay.boot.business.system.dao.RoleDao;
 import cn.emay.boot.business.system.pojo.Role;
-import cn.emay.boot.utils.CheckUtil;
 import cn.emay.utils.db.common.Page;
+import cn.emay.utils.string.StringUtils;
 
 /**
  * @author frank
@@ -31,9 +31,9 @@ public class RoleDaoImpl extends BaseSuperDaoImpl<Role> implements RoleDao {
 		Map<String, Object> params = new HashMap<String, Object>(4);
 		String hql = FIND_ALL_HQL + " where isDelete=:isDelete";
 		params.put("isDelete", false);
-		if (!CheckUtil.isEmpty(roleName)) {
+		if (!StringUtils.isEmpty(roleName)) {
 			hql += " and roleName like:roleName";
-			params.put("roleName", "%" + CheckUtil.specialCodeEscape(roleName) + "%");
+			params.put("roleName", "%" + roleName + "%");
 		}
 		hql += " order by createTime desc";
 		return this.getPageResult(hql, start, limit, params, Role.class);

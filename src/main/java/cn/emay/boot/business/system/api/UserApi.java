@@ -7,10 +7,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,16 +31,18 @@ import cn.emay.boot.business.system.service.UserDepartmentAssignService;
 import cn.emay.boot.business.system.service.UserOperLogService;
 import cn.emay.boot.business.system.service.UserRoleAssignService;
 import cn.emay.boot.business.system.service.UserService;
-import cn.emay.boot.utils.CheckUtil;
+import cn.emay.boot.utils.CheckUtils;
 import cn.emay.boot.utils.PasswordUtils;
-import cn.emay.boot.utils.RandomNumberUtils;
+import cn.emay.boot.utils.RandomUtils;
 import cn.emay.boot.utils.WebUtils;
 import cn.emay.utils.db.common.Page;
-import cn.emay.utils.encryption.Md5;
 import cn.emay.utils.result.Result;
 import cn.emay.utils.result.SuperResult;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 /**
  * 用户API
@@ -57,7 +55,7 @@ import io.swagger.annotations.ApiImplicitParams;
 @Api(tags = { "用户管理" })
 public class UserApi {
 
-	Logger log = LoggerFactory.getLogger(getClass());
+	private Logger log = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private UserService userService;
@@ -160,8 +158,8 @@ public class UserApi {
 			@ApiImplicitParam(name = "departmentId", value = "所属部门ID", dataType = "Long"), @ApiImplicitParam(name = "mobile", value = "手机号", dataType = "string"),
 			@ApiImplicitParam(name = "email", value = "邮箱", dataType = "string"), @ApiImplicitParam(name = "roleIds", value = "角色ID", dataType = "string"), })
 	public Result add(String username, String realname, Long departmentId, String mobile, String email, String roleIds, String remark) {
-		String randomPwd = RandomNumberUtils.getNumbersAndLettersRandom(6);
-		String password = PasswordUtils.encrypt(Md5.md5(randomPwd.getBytes()));
+		String randomPwd = RandomUtils.randomCharset(6);
+		String password = PasswordUtils.encrypt(randomPwd);
 		User currentUser = WebUtils.getCurrentUser();
 		Result result = userService.add(username, realname, password, email, mobile, roleIds, departmentId, currentUser);
 		if (!result.getSuccess()) {
@@ -332,15 +330,11 @@ public class UserApi {
 			errorMsg = "用户名长度为4-16个字符";
 			return errorMsg;
 		}
-		if (!CheckUtil.notExistSpecial(username)) {
+		if (CheckUtils.existSpecial(username)) {
 			errorMsg = "用户名不能包含特殊字符";
 			return errorMsg;
 		}
 		username = username.toLowerCase();
-		if (!CheckUtil.checkUserName(username)) {
-			errorMsg = "请输入正确的用户名";
-			return errorMsg;
-		}
 		if (StringUtils.isEmpty(nickname)) {
 			errorMsg = "姓名不能为空";
 			return errorMsg;
@@ -349,23 +343,23 @@ public class UserApi {
 			errorMsg = "姓名不能超过10个字符";
 			return errorMsg;
 		}
-		if (!CheckUtil.notExistSpecial(nickname)) {
+		if (CheckUtils.existSpecial(nickname)) {
 			errorMsg = "姓名不能包含特殊字符";
 			return errorMsg;
 		}
-		if (!CheckUtil.checkString(nickname)) {
-			errorMsg = "请输入正确的姓名";
+		if (!CheckUtils.isChineseOrEnglish(nickname)) {
+			errorMsg = "姓名只能包含中英文";
 			return errorMsg;
 		}
 		if (StringUtils.isEmpty(email)) {
 			errorMsg = "邮箱不能为空";
 			return errorMsg;
 		}
-		if (!CheckUtil.checkEmail(email)) {
+		if (!CheckUtils.isEmail(email)) {
 			errorMsg = "请输入正确的邮箱";
 			return errorMsg;
 		}
-		if (!CheckUtil.checkMobileFormat(mobile)) {
+		if (!CheckUtils.isMobile(mobile)) {
 			errorMsg = "手机号码格式不正确";
 			return errorMsg;
 		}

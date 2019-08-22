@@ -32,7 +32,7 @@ import cn.emay.boot.business.system.service.ResourceService;
 import cn.emay.boot.business.system.service.RoleService;
 import cn.emay.boot.business.system.service.UserOperLogService;
 import cn.emay.boot.business.system.service.UserRoleAssignService;
-import cn.emay.boot.utils.CheckUtil;
+import cn.emay.boot.utils.CheckUtils;
 import cn.emay.boot.utils.WebUtils;
 import cn.emay.utils.db.common.Page;
 import cn.emay.utils.result.Result;
@@ -185,7 +185,7 @@ public class RoleApi {
 			errorMsg = "角色描述不能超过50个字符";
 			return errorMsg;
 		}
-		if (!CheckUtil.notExistSpecial(roleName)) {
+		if (CheckUtils.existSpecial(roleName)) {
 			errorMsg = "角色名称不合法";
 			return errorMsg;
 		}

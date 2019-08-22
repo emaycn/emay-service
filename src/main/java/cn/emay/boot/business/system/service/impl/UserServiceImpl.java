@@ -24,7 +24,7 @@ import cn.emay.boot.business.system.pojo.UserDepartmentAssign;
 import cn.emay.boot.business.system.pojo.UserRoleAssign;
 import cn.emay.boot.business.system.service.UserService;
 import cn.emay.boot.utils.PasswordUtils;
-import cn.emay.boot.utils.RandomNumberUtils;
+import cn.emay.boot.utils.RandomUtils;
 import cn.emay.utils.db.common.Page;
 import cn.emay.utils.encryption.Md5;
 import cn.emay.utils.result.Result;
@@ -144,7 +144,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Result delete(Long userId) {
-		userDao.updateState(userId, User.STATE_DELETE);
+		userDao.deleteById(userId);
 		return Result.rightResult();
 	}
 
@@ -214,8 +214,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Result updateResetUserPassword(User user) {
-		String randomPwd = RandomNumberUtils.getNumbersAndLettersRandom(6);
-		String newEnPassword = PasswordUtils.encrypt(Md5.md5(randomPwd.getBytes()));
+		String randomPwd = RandomUtils.randomCharset(6);
+		String newEnPassword = PasswordUtils.encrypt(randomPwd);
 		user.setPassword(newEnPassword);
 		user.setLastChangePasswordTime(null);
 		userDao.update(user);

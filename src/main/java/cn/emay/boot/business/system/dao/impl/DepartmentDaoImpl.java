@@ -10,7 +10,6 @@ import org.springframework.util.StringUtils;
 import cn.emay.boot.base.dao.BaseSuperDaoImpl;
 import cn.emay.boot.business.system.dao.DepartmentDao;
 import cn.emay.boot.business.system.pojo.Department;
-import cn.emay.boot.utils.CheckUtil;
 import cn.emay.utils.db.common.Page;
 
 /**
@@ -29,7 +28,7 @@ public class DepartmentDaoImpl extends BaseSuperDaoImpl<Department> implements D
 		param.put("id", id);
 		if (!StringUtils.isEmpty(departmentName)) {
 			hql = hql + " and departmentName like:departmentName";
-			param.put("departmentName", "%" + CheckUtil.specialCodeEscape(departmentName) + "%");
+			param.put("departmentName", "%" + departmentName + "%");
 		}
 		hql += " order by id desc";
 		Page<Department> page = this.getPageResult(hql, start, limit, param, Department.class);

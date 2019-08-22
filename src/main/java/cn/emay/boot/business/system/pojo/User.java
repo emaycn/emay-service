@@ -24,17 +24,13 @@ public class User implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 删除
-	 */
-	public final static int STATE_DELETE = 0;
-	/**
 	 * 停用
 	 */
-	public final static int STATE_OFF = 1;
+	public final static int STATE_OFF = 0;
 	/**
 	 * 启用
 	 */
-	public final static int STATE_ON = 2;
+	public final static int STATE_ON = 1;
 
 	@Id
 	@Column(name = "id")
@@ -66,7 +62,7 @@ public class User implements java.io.Serializable {
 	@Column(name = "email")
 	private String email;
 	/**
-	 * 状态[0-删除，1-停用，2-启用,3-锁定]
+	 * 状态[0-停用，1-启用]
 	 */
 	@Column(name = "user_state")
 	private Integer userState;

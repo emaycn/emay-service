@@ -10,7 +10,6 @@ import org.springframework.util.StringUtils;
 import cn.emay.boot.base.dao.BaseSuperDaoImpl;
 import cn.emay.boot.business.system.dao.UserOperLogDao;
 import cn.emay.boot.business.system.pojo.UserOperLog;
-import cn.emay.boot.utils.CheckUtil;
 import cn.emay.utils.db.common.Page;
 
 /**
@@ -27,11 +26,11 @@ public class UserOperLogDaoImpl extends BaseSuperDaoImpl<UserOperLog> implements
 		String hql = "from UserOperLog m where 1=1";
 		if (!StringUtils.isEmpty(content)) {
 			hql += " and  m.content like :context ";
-			param.put("context", "%" + CheckUtil.specialCodeEscape(content) + "%");
+			param.put("context", "%" + content + "%");
 		}
 		if (!StringUtils.isEmpty(username)) {
 			hql += " and  m.username = :username ";
-			param.put("username", CheckUtil.specialCodeEscape(username));
+			param.put("username", username);
 		}
 		if (!StringUtils.isEmpty(startDate)) {
 			hql += " and m.operTime >= :startDate";

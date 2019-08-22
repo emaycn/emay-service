@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import cn.emay.boot.business.system.dao.UserOperLogDao;
 import cn.emay.boot.business.system.pojo.UserOperLog;
 import cn.emay.boot.business.system.service.UserOperLogService;
-import cn.emay.boot.utils.CheckUtil;
 import cn.emay.utils.db.common.Page;
+import cn.emay.utils.string.StringUtils;
 
 /**
  * 
@@ -37,7 +37,7 @@ public class UserOperLogServiceImpl implements UserOperLogService {
 
 	@Override
 	public Page<UserOperLog> findByPage(String username, String content, Date startDate, Date endDate, int start, int limit) {
-		if (!CheckUtil.isEmpty(username)) {
+		if (!StringUtils.isEmpty(username)) {
 			username = username.toLowerCase();
 		}
 		return userOperLogDao.findByPage(username, content, startDate, endDate, start, limit);

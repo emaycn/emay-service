@@ -1,9 +1,7 @@
 package cn.emay.boot.utils;
 
-import java.io.UnsupportedEncodingException;
-
 import cn.emay.utils.encryption.Aes;
-import cn.emay.utils.encryption.HexByte;
+import cn.emay.utils.encryption.Md5;
 
 /**
  * 密码工具类
@@ -13,21 +11,15 @@ import cn.emay.utils.encryption.HexByte;
  */
 public class PasswordUtils {
 
-	public final static byte[] AES_PASSWORD = "EMAYEUCPEMASFLOW".getBytes();
-
-	public final static String AES_ALGORITHM = "AES/ECB/PKCS5Padding";
-
+	/**
+	 * 加密密码
+	 * 
+	 * @param password
+	 *            密码
+	 * @return 加密后的密码
+	 */
 	public static String encrypt(String password) {
-		return HexByte.byte2Hex(Aes.encrypt(password.getBytes(), AES_PASSWORD, AES_ALGORITHM));
+		return Md5.md5(Aes.encrypt(password.getBytes(), "EMAYEUCPEMRPEBDP".getBytes(), "AES/ECB/PKCS5Padding"));
 	}
-
-	public static String dncrypt(String encrypassword) {
-		try {
-			return new String(Aes.decrypt(HexByte.hex2Byte(encrypassword), AES_PASSWORD, AES_ALGORITHM), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
+	
 }

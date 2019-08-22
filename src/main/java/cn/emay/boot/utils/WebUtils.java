@@ -1,6 +1,7 @@
 package cn.emay.boot.utils;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import cn.emay.boot.base.constant.RedisKeys;
 import cn.emay.boot.base.constant.WebConstant;
 import cn.emay.boot.base.web.WebToken;
 import cn.emay.boot.business.system.pojo.Resource;
@@ -54,7 +56,7 @@ public class WebUtils {
 	 * 登陆
 	 */
 	public static WebToken login(User user, List<Resource> resources) {
-		String sessionId = "WEB-" + UUID.randomUUID().toString().replace("-", "").toUpperCase();
+		String sessionId = MessageFormat.format(RedisKeys.WEB_TOKEN, UUID.randomUUID().toString().replace("-", "").toUpperCase());
 		WebToken token = new WebToken(sessionId, user, resources);
 		RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
 		redis.set(sessionId, token, WebConstant.LOGIN_TIMEOUT);
@@ -122,7 +124,8 @@ public class WebUtils {
 		RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
 		token = redis.get(sessionId, WebToken.class);
 		if (token != null) {
-			if (token.getCreateTime().getTime() + (WebConstant.LOGIN_TIMEOUT - 1 * 60 * 60) * 1000L < System.currentTimeMillis()) {
+			// 如果token缓存时间小于1小时,刷新
+			if (redis.ttl(sessionId) < 60 * 60 * 1000L) {
 				redis.expire(sessionId, WebConstant.LOGIN_TIMEOUT);
 			}
 			getCurrentHttpRequest().setAttribute(WebConstant.REQUEST_TOKEN, token);
@@ -134,7 +137,7 @@ public class WebUtils {
 	 * 获取SessionId
 	 */
 	public static String getSessionId() {
-		return getCurrentHttpRequest().getHeader(WebConstant.SESSION_ID);
+		return getCurrentHttpRequest().getHeader(WebConstant.HEAD_SESSION_ID);
 	}
 
 	/**
@@ -151,7 +154,6 @@ public class WebUtils {
 			response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-CSRF-TOKEN");
 		}
 		JsonServletSupport.outputWithJson(response, Result.badResult("-1", errorMassage, null));
-
 	}
 
 	/**

@@ -1,3 +1,32 @@
+/**
+ * 请使用mysql数据库
+ */
+
+drop table if exists system_user;
+CREATE TABLE `system_user` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) NOT NULL COMMENT '用户名',
+  `password` varchar(256) NOT NULL COMMENT '密码',
+  `realname` varchar(64) NOT NULL COMMENT '姓名',
+  `mobile` varchar(32) DEFAULT NULL COMMENT '手机',
+  `email` varchar(128) DEFAULT NULL COMMENT '邮箱',
+  `user_state` tinyint(4) NOT NULL COMMENT '状态[0-停用，1-启用]',
+  `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
+  `last_change_password_time` datetime DEFAULT NULL COMMENT '最后一次修改密码时间',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `operator_id` bigint(20) NOT NULL COMMENT '创建人',
+  `last_update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='系统用户';
+
+INSERT INTO `system_user` VALUES ('1', 'admin', '5BD43B195E015514A965C49B1F3BA448', '管理员', '13801000000', 'admin@emay.cn', '1', '', now(), now(), '1', now());
+
+
+
+
+
+
+
 drop table if exists system_resource;
 CREATE TABLE `system_resource` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -39,22 +68,7 @@ CREATE TABLE `system_user_role_assign` (
   KEY `index_user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户角色关联';
 
-drop table if exists system_user;
-CREATE TABLE `system_user` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `username` varchar(64) NOT NULL COMMENT '用户名',
-  `password` varchar(256) NOT NULL COMMENT '密码',
-  `realname` varchar(64) NOT NULL COMMENT '姓名',
-  `mobile` varchar(32) DEFAULT NULL COMMENT '手机',
-  `email` varchar(128) DEFAULT NULL COMMENT '邮箱',
-  `user_state` tinyint(4) NOT NULL COMMENT '状态[0-删除，1-停用，2-启用,3-锁定]',
-  `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
-  `last_change_password_time` datetime DEFAULT NULL COMMENT '最后一次修改密码时间',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `operator_id` bigint(20) NOT NULL COMMENT '创建人',
-  `last_update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='系统用户';
+
 
 drop table if exists system_department;
 CREATE TABLE `system_department` (
@@ -125,5 +139,5 @@ INSERT INTO `system_role_resource_assign` VALUES ('13', '13', '1', now());
 INSERT INTO `system_role_resource_assign` VALUES ('14', '14', '1', now());
 
 INSERT INTO `system_role` VALUES ('1', '管理员', '管理员', '0', now(), '1', now());
-INSERT INTO `system_user` VALUES ('1', 'admin', '911E5C48DDC066CF6114138AC4FC26E5', '管理员', '13801000000', 'admin@emay.cn', '1', '管理', now(), now(), '1', now());
+
 INSERT INTO `system_user_role_assign` VALUES ('1', '1', '1', now(), '1');

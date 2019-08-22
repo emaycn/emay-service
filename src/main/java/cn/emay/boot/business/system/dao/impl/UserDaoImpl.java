@@ -12,7 +12,6 @@ import cn.emay.boot.base.dao.BaseSuperDaoImpl;
 import cn.emay.boot.business.system.dao.UserDao;
 import cn.emay.boot.business.system.dto.UserDTO;
 import cn.emay.boot.business.system.pojo.User;
-import cn.emay.boot.utils.CheckUtil;
 import cn.emay.utils.db.common.Page;
 
 /**
@@ -30,19 +29,18 @@ public class UserDaoImpl extends BaseSuperDaoImpl<User> implements UserDao {
 	public Page<UserDTO> findPage(int start, int limit, String username, String realname, String mobile) {
 		List<Object> params = new ArrayList<Object>();
 		String sql = "SELECT u.*, d.department_name as department FROM system_user u LEFT JOIN system_user_department_assign ude ON u.id = ude.system_user_id "
-				+ " LEFT JOIN system_department d ON d.id = ude.system_department_id WHERE u.user_state != ? ";
-		params.add(User.STATE_DELETE);
+				+ " LEFT JOIN system_department d ON d.id = ude.system_department_id WHERE 1 = 1 ";
 		if (username != null && username.trim().length() > 0) {
 			sql += " and u.username like ? ";
-			params.add("%" + CheckUtil.specialCodeEscape(username) + "%");
+			params.add("%" + username + "%");
 		}
 		if (realname != null && realname.trim().length() > 0) {
 			sql += " and u.realname like ? ";
-			params.add("%" + CheckUtil.specialCodeEscape(realname) + "%");
+			params.add("%" + realname + "%");
 		}
 		if (mobile != null && mobile.trim().length() > 0) {
 			sql += " and u.mobile like ? ";
-			params.add("%" + CheckUtil.specialCodeEscape(mobile) + "%");
+			params.add("%" + mobile + "%");
 		}
 		sql += " order by u.id desc ";
 		Page<UserDTO> page = this.findSqlForPageForMysql(UserDTO.class, sql, params, start, limit);
@@ -83,13 +81,12 @@ public class UserDaoImpl extends BaseSuperDaoImpl<User> implements UserDao {
 	@Override
 	public Page<User> findBycondition(String variableName, Long departmentId, int start, int limit) {
 		Map<String, Object> param = new HashMap<String, Object>(8);
-		String hql = "select u from User u,UserDepartmentAssign ud where u.id=ud.systemUserId and u.userState != :state and ud.systemDepartmentId=:departmentId";
+		String hql = "select u from User u,UserDepartmentAssign ud where u.id=ud.systemUserId and ud.systemDepartmentId=:departmentId";
 		param.put("departmentId", departmentId);
 		if (!StringUtils.isEmpty(variableName)) {
 			hql += " and (u.username like :variableName or u.realname like :variableName or u.mobile like :variableName)";
-			param.put("variableName", "%" + CheckUtil.specialCodeEscape(variableName) + "%");
+			param.put("variableName", "%" + variableName + "%");
 		}
-		param.put("state", User.STATE_DELETE);
 		hql += " order by u.createTime desc ";
 		Page<User> page = this.getPageResult(hql, start, limit, param, User.class);
 		return page;
@@ -97,13 +94,12 @@ public class UserDaoImpl extends BaseSuperDaoImpl<User> implements UserDao {
 
 	@Override
 	public Long countByUserName(Long userId, String username) {
-		String hql = "select count(*) from User where userState != :deletestate and username =:username";
+		String hql = "select count(*) from User where username =:username";
 		Map<String, Object> params = new HashMap<String, Object>(4);
 		if (userId != null && userId.longValue() > 0L) {
 			hql = hql + " and id !=:id";
 			params.put("id", userId);
 		}
-		params.put("deletestate", User.STATE_DELETE);
 		params.put("username", username);
 		return (Long) super.getUniqueResult(hql, params);
 	}

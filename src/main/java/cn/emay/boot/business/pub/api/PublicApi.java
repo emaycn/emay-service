@@ -15,9 +15,9 @@ import cn.emay.boot.business.system.pojo.User;
 import cn.emay.boot.business.system.service.ResourceService;
 import cn.emay.boot.business.system.service.UserService;
 import cn.emay.boot.utils.CaptchaUtils;
+import cn.emay.boot.utils.PasswordUtils;
 import cn.emay.boot.utils.WebUtils;
 import cn.emay.redis.RedisClient;
-import cn.emay.utils.encryption.Md5;
 import cn.emay.utils.result.Result;
 
 /**
@@ -81,7 +81,7 @@ public class PublicApi {
 		if (user.getUserState() == User.STATE_OFF) {
 			return Result.badResult("用户已锁定，请联系管理员解锁");
 		}
-		String pass = Md5.md5(password.getBytes());
+		String pass = PasswordUtils.encrypt(password);
 		if (!user.getPassword().equalsIgnoreCase(pass)) {
 			return Result.badResult("用户名或密码错误");
 		}

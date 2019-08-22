@@ -30,7 +30,7 @@ import cn.emay.boot.business.system.service.DepartmentService;
 import cn.emay.boot.business.system.service.UserDepartmentAssignService;
 import cn.emay.boot.business.system.service.UserOperLogService;
 import cn.emay.boot.business.system.service.UserService;
-import cn.emay.boot.utils.CheckUtil;
+import cn.emay.boot.utils.CheckUtils;
 import cn.emay.boot.utils.WebUtils;
 import cn.emay.utils.db.common.Page;
 import cn.emay.utils.result.Result;
@@ -276,11 +276,11 @@ public class DepartmentApi {
 			errorMsg = "部门名称长度不能超过20个字符";
 			return errorMsg;
 		}
-		if (!CheckUtil.checkString(name)) {
+		if (!CheckUtils.isChineseOrEnglish(name)) {
 			errorMsg = "请输入中文和英文";
 			return errorMsg;
 		}
-		if (!CheckUtil.notExistSpecial(name)) {
+		if (CheckUtils.existSpecial(name)) {
 			errorMsg = "名称不能包含特殊字符";
 			return errorMsg;
 		}

@@ -17,6 +17,12 @@ public class ApplicationContextUtils {
 	 */
 	private static ApplicationContext APPLICATION_CONTEXT;
 
+	/**
+	 * 传入上下文对象
+	 * 
+	 * @param applicationContext
+	 *            上下文对象
+	 */
 	public static void setApplicationContext(ApplicationContext applicationContext) {
 		ApplicationContextUtils.APPLICATION_CONTEXT = applicationContext;
 	}
