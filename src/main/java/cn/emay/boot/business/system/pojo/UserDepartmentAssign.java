@@ -11,17 +11,14 @@ import javax.persistence.Table;
 
 /**
  * 
-* @项目名称：ebdp-web-operation 
-* @类描述：用户部门   
-* @创建人：lijunjian   
-* @创建时间：2019年7月30日 上午11:01:23   
-* @修改人：lijunjian   
-* @修改时间：2019年7月30日 上午11:01:23   
-* @修改备注：
+ * @项目名称：ebdp-web-operation  @类描述：用户部门   @创建人：lijunjian  
+ * 
+ * @创建时间：2019年7月30日 上午11:01:23   @修改人：lijunjian  
+ * @修改时间：2019年7月30日 上午11:01:23   @修改备注：
  */
 @Entity
-@Table(name="system_user_department_assign")
-public class UserDepartmentAssign implements Serializable{
+@Table(name = "system_user_department_assign")
+public class UserDepartmentAssign implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,13 +26,13 @@ public class UserDepartmentAssign implements Serializable{
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	/**
 	 * 部门ID
 	 */
-	@Column(name = "enterprise_department_id")
-	private Long enterpriseDepartmentId;
-	
+	@Column(name = "system_department_id")
+	private Long systemDepartmentId;
+
 	/**
 	 * 用户ID
 	 */
@@ -50,12 +47,12 @@ public class UserDepartmentAssign implements Serializable{
 		this.id = id;
 	}
 
-	public Long getEnterpriseDepartmentId() {
-		return enterpriseDepartmentId;
+	public Long getSystemDepartmentId() {
+		return systemDepartmentId;
 	}
 
-	public void setEnterpriseDepartmentId(Long enterpriseDepartmentId) {
-		this.enterpriseDepartmentId = enterpriseDepartmentId;
+	public void setSystemDepartmentId(Long systemDepartmentId) {
+		this.systemDepartmentId = systemDepartmentId;
 	}
 
 	public Long getSystemUserId() {

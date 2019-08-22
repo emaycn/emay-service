@@ -19,7 +19,6 @@ public class DepartmentDTO implements java.io.Serializable {
 	private Long id;
 	private String departmentCode;// 部门编码
 	private String departmentName;// 部门名称
-	private Long enterpriseId;// 所属企业ID
 	private String remark;// 备注
 	private Boolean isDelete;// 是否删除
 	private String parentDepartmentName;// 父级部门名称
@@ -34,7 +33,6 @@ public class DepartmentDTO implements java.io.Serializable {
 		this.id = department.getId();
 		this.departmentCode = department.getDepartmentCode();
 		this.departmentName = department.getDepartmentName();
-		this.enterpriseId = department.getEnterpriseId();
 		this.remark = department.getRemark();
 		this.isDelete = department.getIsDelete();
 		this.getParentDepartmentId=department.getParentDepartmentId();
@@ -71,14 +69,6 @@ public class DepartmentDTO implements java.io.Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	public Long getEnterpriseId() {
-		return enterpriseId;
-	}
-
-	public void setEnterpriseId(Long enterpriseId) {
-		this.enterpriseId = enterpriseId;
 	}
 
 	public Boolean getIsDelete() {

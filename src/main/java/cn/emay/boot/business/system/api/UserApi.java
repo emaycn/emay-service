@@ -109,7 +109,7 @@ public class UserApi {
 		UserDTO dto = new UserDTO(user, userRoles);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (null != userDepartmentAssign) {
-			Department department = departmentService.findDepartmentById(userDepartmentAssign.getEnterpriseDepartmentId());
+			Department department = departmentService.findDepartmentById(userDepartmentAssign.getSystemDepartmentId());
 			map.put("department", department);
 		}
 		map.put("user", dto);// 用户
@@ -304,7 +304,7 @@ public class UserApi {
 	@RequestMapping("/getTree")
 	@ApiOperation("部门树形")
 	public SuperResult<List<Department>> getTree() {
-		List<Department> list = departmentService.findByParentId(0L,Department.MANAGE_ENTERPRISEID);
+		List<Department> list = departmentService.findByParentId(0L);
 		return SuperResult.rightResult(list);
 	}
 	
@@ -318,7 +318,7 @@ public class UserApi {
 		if (null==id) {
 			return SuperResult.badResult("请选择部门");
 		}
-		List<Department> childrenNode = departmentService.findByParentId(id,Department.MANAGE_ENTERPRISEID);
+		List<Department> childrenNode = departmentService.findByParentId(id);
 		return SuperResult.rightResult(childrenNode);
 	}
 	
@@ -393,10 +393,6 @@ public class UserApi {
 		}
 		Department dep = departmentService.findDepartmentById(department);
 		if (null == dep) {
-			errorMsg = "部门不存在";
-			return errorMsg;
-		}
-		if (!dep.getEnterpriseId().equals(Department.MANAGE_ENTERPRISEID)) {
 			errorMsg = "部门不存在";
 			return errorMsg;
 		}

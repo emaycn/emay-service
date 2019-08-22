@@ -56,29 +56,27 @@ CREATE TABLE `system_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='系统用户';
 
-drop table if exists system_enterprise_department;
-CREATE TABLE `system_enterprise_department` (
+drop table if exists system_department;
+CREATE TABLE `system_department` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `department_name` varchar(64) NOT NULL COMMENT '部门名称',
   `department_code` varchar(64) DEFAULT NULL COMMENT '部门编码',
   `remark` varchar(256) DEFAULT NULL COMMENT '备注',
   `full_path` varchar(256) NOT NULL COMMENT '部门ID全路径',
-  `enterprise_id` bigint(20) NOT NULL COMMENT '所属企业ID',
   `parent_department_id` bigint(20) NOT NULL COMMENT '上级部门ID',
   `is_delete` tinyint(4) NOT NULL COMMENT '是否删除  0:未删除,1:已删除',
   `last_update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
-  PRIMARY KEY (`id`),
-  KEY `index_enterprise_id` (`enterprise_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='部门表';
 
 drop table if exists system_user_department_assign;
 CREATE TABLE `system_user_department_assign` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `enterprise_department_id` bigint(20) NOT NULL COMMENT '部门ID',
+  `system_department_id` bigint(20) NOT NULL COMMENT '部门ID',
   `system_user_id` bigint(20) NOT NULL COMMENT '用户ID',
   `last_update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   PRIMARY KEY (`id`),
-  KEY `UDA_ED_ID` (`enterprise_department_id`),
+  KEY `UDA_ED_ID` (`system_department_id`),
   KEY `UDA_U_ID` (`system_user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户部门表';
 

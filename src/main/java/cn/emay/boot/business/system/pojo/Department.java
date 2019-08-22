@@ -21,13 +21,11 @@ import javax.persistence.Table;
 * @修改备注：
  */
 @Entity
-@Table(name = "system_enterprise_department")
+@Table(name = "system_department")
 @ApiModel(value = "Department", description = "部门对象")
 public class Department implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	public final static Long MANAGE_ENTERPRISEID=0L;
 
 	@Id
 	@Column(name = "id")
@@ -49,10 +47,6 @@ public class Department implements java.io.Serializable {
 	@Column(name = "full_path")
 	@ApiModelProperty(value = "部门ID全路径")
 	private String fullPath;// 部门ID全路径
-
-	@Column(name = "enterprise_id")
-	@ApiModelProperty(value = "所属企业ID")
-	private Long enterpriseId;// 所属企业ID
 
 	@Column(name = "parent_department_id")
 	@ApiModelProperty(value = "上级部门ID")
@@ -100,14 +94,6 @@ public class Department implements java.io.Serializable {
 
 	public void setFullPath(String fullPath) {
 		this.fullPath = fullPath;
-	}
-
-	public Long getEnterpriseId() {
-		return enterpriseId;
-	}
-
-	public void setEnterpriseId(Long enterpriseId) {
-		this.enterpriseId = enterpriseId;
 	}
 
 	public Long getParentDepartmentId() {

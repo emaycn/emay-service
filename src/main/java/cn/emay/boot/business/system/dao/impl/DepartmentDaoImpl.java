@@ -17,12 +17,11 @@ import cn.emay.utils.db.common.Page;
 public class DepartmentDaoImpl extends BaseSuperDaoImpl<Department> implements DepartmentDao{
 
 	@Override
-	public Page<Department> findDepartmentByLikeName(Long id, String departmentName,Long enterpriseId,int start,int limit) {
+	public Page<Department> findDepartmentByLikeName(Long id, String departmentName,int start,int limit) {
 		Map<String, Object> param = new HashMap<String, Object>();
-		String hql = "from Department where isDelete=:isDelete and parentDepartmentId =:id and enterpriseId =:enterpriseId";
+		String hql = "from Department where isDelete=:isDelete and parentDepartmentId =:id ";
 		param.put("isDelete", false);
 		param.put("id", id);
-		param.put("enterpriseId", enterpriseId);
 		if (!StringUtils.isEmpty(departmentName)) {
 			hql = hql + " and departmentName like:departmentName";
 			param.put("departmentName", "%" + CheckUtil.specialCodeEscape(departmentName) + "%");
@@ -59,12 +58,11 @@ public class DepartmentDaoImpl extends BaseSuperDaoImpl<Department> implements D
 	}
 	
 	@Override
-	public List<Department> findByParentId(Long parentId,Long enterpriseId) {
+	public List<Department> findByParentId(Long parentId) {
 		Map<String, Object> param = new HashMap<String, Object>();
-		String hql = "from Department where isDelete=:isDelete and parentDepartmentId = :parentId and enterpriseId =:enterpriseId";
+		String hql = "from Department where isDelete=:isDelete and parentDepartmentId = :parentId ";
 		param.put("isDelete", false);
 		param.put("parentId", parentId);
-		param.put("enterpriseId", enterpriseId);
 		return this.getListResult(Department.class, hql, param);
 	}
 	

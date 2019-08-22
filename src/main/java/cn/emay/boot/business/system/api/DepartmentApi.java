@@ -79,7 +79,7 @@ public class DepartmentApi {
 		if (null==id) {
 			return SuperResult.badResult("请选择部门");
 		}
-		Page<DepartmentDTO> page = departmentService.findDepartmentByLikeName(id, departmentName,Department.MANAGE_ENTERPRISEID,start, limit);
+		Page<DepartmentDTO> page = departmentService.findDepartmentByLikeName(id, departmentName,start, limit);
 		return SuperResult.rightResult(page);
 	}
 	
@@ -117,7 +117,6 @@ public class DepartmentApi {
 		department.setParentDepartmentId(parentId);
 		department.setDepartmentName(departmentName);
 		department.setIsDelete(false);
-		department.setEnterpriseId(Department.MANAGE_ENTERPRISEID);//系统用户没有所属企业
 		departmentService.addDepartment(department);
 		String context = "添加部门:{0}";
 		String module = "部门管理";
@@ -139,9 +138,6 @@ public class DepartmentApi {
 		}
 		Department department = departmentService.findDepartmentById(id);
 		if (null==department) {
-			return Result.badResult("部门不存在");
-		}
-		if(!department.getEnterpriseId().equals(Department.MANAGE_ENTERPRISEID)){
 			return Result.badResult("部门不存在");
 		}
 		Long depCount = departmentService.findCountByParentId(id);
@@ -173,9 +169,6 @@ public class DepartmentApi {
 		}
 		Department department = departmentService.findDepartmentById(deptId);
 		if (department == null) {
-			return SuperResult.badResult("部门不存在");
-		}
-		if(!department.getEnterpriseId().equals(Department.MANAGE_ENTERPRISEID)){
 			return SuperResult.badResult("部门不存在");
 		}
 		Department parentDepartment=null;
@@ -213,9 +206,6 @@ public class DepartmentApi {
 		if (dept == null) {
 			return Result.badResult("该部门不存在");
 		}
-		if(!dept.getEnterpriseId().equals(Department.MANAGE_ENTERPRISEID)){
-			return Result.badResult("该部门不存在");
-		}
 		errorMsg = checkInfo(departmentName, id);
 		if (!StringUtils.isEmpty(errorMsg)) {
 			return Result.badResult(errorMsg);
@@ -238,7 +228,7 @@ public class DepartmentApi {
 	@RequestMapping("/getTree")
 	@ApiOperation("部门树形")
 	public SuperResult<List<Department>> getTree() {
-		List<Department> list = departmentService.findByParentId(0L,Department.MANAGE_ENTERPRISEID);
+		List<Department> list = departmentService.findByParentId(0L);
 		return SuperResult.rightResult(list);
 	}
 	
@@ -252,7 +242,7 @@ public class DepartmentApi {
 		if (null==id) {
 			return SuperResult.badResult("请选择部门");
 		}
-		List<Department> childrenNode = departmentService.findByParentId(id,Department.MANAGE_ENTERPRISEID);
+		List<Department> childrenNode = departmentService.findByParentId(id);
 		return SuperResult.rightResult(childrenNode);
 	}
 	
@@ -276,9 +266,6 @@ public class DepartmentApi {
 		if (dept == null) {
 			return SuperResult.badResult("部门不存在");
 		}
-		if(!dept.getEnterpriseId().equals(Department.MANAGE_ENTERPRISEID)){
-			return SuperResult.badResult("部门不存在");
-		}
 		Page<UserDTO> userList = userService.findBycondition(variableName, deptId, start, limit);
 		return SuperResult.rightResult(userList);
 	}
@@ -288,9 +275,6 @@ public class DepartmentApi {
 		if (depId>0L) {
 			Department department = departmentService.findDepartmentById(depId);
 			if (null==department) {
-				return Result.badResult("部门不存在");
-			}
-			if(!department.getEnterpriseId().equals(Department.MANAGE_ENTERPRISEID)){
 				return Result.badResult("部门不存在");
 			}
 		}

@@ -22,7 +22,7 @@ public interface DepartmentService {
 	/**
 	 * 根据名称模糊查找部门
 	 */
-	Page<DepartmentDTO> findDepartmentByLikeName(Long id, String departmentName,Long enterpriseId,int start, int limit);
+	Page<DepartmentDTO> findDepartmentByLikeName(Long id, String departmentName,int start, int limit);
 	
 	/**
 	 * 根据部门ID查找部门
@@ -52,7 +52,7 @@ public interface DepartmentService {
 	/**
 	 * 根据父类id查找部门
 	 */
-	List<Department> findByParentId(Long parentId,Long enterpriseId);
+	List<Department> findByParentId(Long parentId);
 	
 	/**
 	 * 根据名称查找部门

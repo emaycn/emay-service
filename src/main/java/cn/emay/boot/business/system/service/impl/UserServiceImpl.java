@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
 		userRoleAssignDao.saveBatch(urs);
 		UserDepartmentAssign userDepartmentAssign = new UserDepartmentAssign();
 		userDepartmentAssign.setSystemUserId(user.getId());
-		userDepartmentAssign.setEnterpriseDepartmentId(departmentId);
+		userDepartmentAssign.setSystemDepartmentId(departmentId);
 		userDepartmentAssignDao.save(userDepartmentAssign);
 		return Result.rightResult();
 	}
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
 		user.setMobile(mobile);
 		userDao.update(user);
 		UserDepartmentAssign userDepartmentAssign = new UserDepartmentAssign();
-		userDepartmentAssign.setEnterpriseDepartmentId(departmentId);
+		userDepartmentAssign.setSystemDepartmentId(departmentId);
 		userDepartmentAssign.setSystemUserId(userId);
 		if (user.getId().longValue() != 1) {
 			userRoleAssignDao.deleteByUserId(user.getId());

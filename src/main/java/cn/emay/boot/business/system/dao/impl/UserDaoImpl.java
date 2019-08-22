@@ -30,7 +30,7 @@ public class UserDaoImpl extends BaseSuperDaoImpl<User> implements UserDao {
 	public Page<UserDTO> findPage(int start, int limit, String username,String realname,String mobile) {
 		List<Object> params = new ArrayList<Object>();
 		String sql = "SELECT u.*, d.department_name as department FROM system_user u LEFT JOIN system_user_department_assign ude ON u.id = ude.system_user_id "
-				+ " LEFT JOIN system_enterprise_department d ON d.id = ude.enterprise_department_id WHERE u.user_state != ? ";
+				+ " LEFT JOIN system_department d ON d.id = ude.system_department_id WHERE u.user_state != ? ";
 		params.add(User.STATE_DELETE);
 		if (username != null && username.trim().length() > 0) {
 			sql += " and u.username like ? ";
@@ -83,7 +83,7 @@ public class UserDaoImpl extends BaseSuperDaoImpl<User> implements UserDao {
 	@Override
 	public Page<User> findBycondition(String variableName, Long departmentId, int start, int limit) {
 		Map<String, Object> param = new HashMap<String, Object>();
-		String hql = "select u from User u,UserDepartmentAssign ud where u.id=ud.systemUserId and u.userState != :state and ud.enterpriseDepartmentId=:departmentId";
+		String hql = "select u from User u,UserDepartmentAssign ud where u.id=ud.systemUserId and u.userState != :state and ud.systemDepartmentId=:departmentId";
 		param.put("departmentId", departmentId);
 		if (!StringUtils.isEmpty(variableName)) {
 			hql += " and (u.username like :variableName or u.realname like :variableName or u.mobile like :variableName)";
