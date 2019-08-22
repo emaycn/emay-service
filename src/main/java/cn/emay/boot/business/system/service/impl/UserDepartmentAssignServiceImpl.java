@@ -14,11 +14,11 @@ import cn.emay.boot.business.system.service.UserDepartmentAssignService;
  *
  */
 @Service
-public class UserDepartmentAssignServiceImpl implements UserDepartmentAssignService{
+public class UserDepartmentAssignServiceImpl implements UserDepartmentAssignService {
 
 	@Resource
 	private UserDepartmentAssignDao userDepartmentAssignDao;
-	
+
 	@Override
 	public Long findByDepId(Long id) {
 		return userDepartmentAssignDao.findByDepId(id);

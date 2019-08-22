@@ -12,6 +12,7 @@ import cn.emay.boot.business.system.pojo.User;
 
 /**
  * 用户登录Token
+ * 
  * @author Frank
  *
  */
@@ -29,8 +30,8 @@ public class WebToken implements Serializable {
 	/**
 	 * 用户资源字典，用来进行前端权限校验
 	 */
-	private Map<String,Boolean> resources;
-	
+	private Map<String, Boolean> resources;
+
 	/**
 	 * 创建时间
 	 */
@@ -43,8 +44,8 @@ public class WebToken implements Serializable {
 	public WebToken(String sessionId, User user, List<Resource> resources) {
 		this.sessionId = sessionId;
 		this.user = new SimpleUserDTO(user);
-		Map<String,Boolean> resource = new HashMap<>();
-		for(Resource res : resources) {
+		Map<String, Boolean> resource = new HashMap<>();
+		for (Resource res : resources) {
 			resource.put(res.getResourceCode(), true);
 		}
 		this.resources = resource;
@@ -67,11 +68,11 @@ public class WebToken implements Serializable {
 		this.user = user;
 	}
 
-	public Map<String,Boolean> getResources() {
+	public Map<String, Boolean> getResources() {
 		return resources;
 	}
 
-	public void setResources(Map<String,Boolean> resources) {
+	public void setResources(Map<String, Boolean> resources) {
 		this.resources = resources;
 	}
 

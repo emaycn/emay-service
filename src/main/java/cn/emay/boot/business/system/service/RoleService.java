@@ -37,7 +37,7 @@ public interface RoleService {
 	/**
 	 * 分页查询角色
 	 */
-	public Page<Role> findPage(int start, int limit,String roleName);
+	public Page<Role> findPage(int start, int limit, String roleName);
 
 	/**
 	 * 获取用户的所有角色
@@ -48,7 +48,7 @@ public interface RoleService {
 	 * 获取所有角色
 	 */
 	public List<Role> findAll();
-	
+
 	/**
 	 * 查询用户名是否重复
 	 */

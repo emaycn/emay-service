@@ -22,6 +22,7 @@ import cn.emay.utils.result.Result;
 
 /**
  * 公共API
+ * 
  * @author Frank
  *
  */
@@ -69,7 +70,7 @@ public class PublicApi {
 		if (StringUtils.isEmpty(uuid)) {
 			return Result.badResult("禁止攻击");
 		}
-		boolean isOk = CaptchaUtils.checkByRedis(redis, uuid,  WebConstant.CAPTCHA_TAG_LOGIN, captcha);
+		boolean isOk = CaptchaUtils.checkByRedis(redis, uuid, WebConstant.CAPTCHA_TAG_LOGIN, captcha);
 		if (!isOk) {
 			return Result.badResult("验证码错误");
 		}

@@ -12,11 +12,12 @@ import javax.persistence.Table;
 
 /**
  * 用户操作日志
+ * 
  * @author lijunjian
  *
  */
 @Entity
-@Table(name="system_user_oper_log")
+@Table(name = "system_user_oper_log")
 public class UserOperLog implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -25,27 +26,27 @@ public class UserOperLog implements Serializable {
 	public static final String OPERATE_DELETE = "DELETE";
 	public static final String OPERATE_MODIFY = "MODIFY";
 	public static final String OPERATE_DOWNLOAD = "DOWNLOAD";
-	
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;//
-	
+
 	@Column(name = "user_id")
 	private Long userId;// 用户ID
-	
+
 	@Column(name = "user_name")
-	private String username;//用户名
-	
+	private String username;// 用户名
+
 	@Column(name = "module")
-	private String module;//操作模块
-	
+	private String module;// 操作模块
+
 	@Column(name = "content")
 	private String content;// 内容
-	
+
 	@Column(name = "oper_type")
 	private String operType;// 操作类型[ADD-增，DELETE-删，MODIFY-改，DOWNLOAD-下载]
-	
+
 	@Column(name = "oper_time")
 	private Date operTime;// 操作时间[yyyy-MM-dd HH:mm:ss]
 

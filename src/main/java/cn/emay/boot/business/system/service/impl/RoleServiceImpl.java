@@ -28,10 +28,10 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public Result add(String roleName, String remark, List<RoleResourceAssign> roleList) {
-		Role role = new Role(roleName, remark,false);
+		Role role = new Role(roleName, remark, false);
 		roleDao.save(role);
 		Long roleId = role.getId();
-		for(RoleResourceAssign roleResourceAssign : roleList) {
+		for (RoleResourceAssign roleResourceAssign : roleList) {
 			roleResourceAssign.setRoleId(roleId);
 		}
 		roleResourceAssignDao.saveBatch(roleList);
@@ -62,8 +62,8 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public Page<Role> findPage(int start, int limit,String roleName) {
-		return roleDao.findPage(start,limit,roleName);
+	public Page<Role> findPage(int start, int limit, String roleName) {
+		return roleDao.findPage(start, limit, roleName);
 	}
 
 	@Override

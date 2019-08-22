@@ -12,6 +12,7 @@ import javax.persistence.Table;
 
 /**
  * 部门
+ * 
  * @author lijunjian
  *
  */

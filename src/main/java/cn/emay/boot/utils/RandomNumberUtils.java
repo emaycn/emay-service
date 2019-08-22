@@ -9,7 +9,6 @@ import java.util.Random;
  *
  */
 public class RandomNumberUtils {
-	
 
 	/**
 	 * 生成随机，可能为纯数字、纯字母、数字字母

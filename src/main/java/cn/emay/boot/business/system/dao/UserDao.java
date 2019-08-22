@@ -11,7 +11,7 @@ import cn.emay.utils.db.common.Page;
  *
  */
 public interface UserDao extends BaseSuperDao<User> {
-	
+
 	/**
 	 * 根据用户名查询用户
 	 */
@@ -20,14 +20,14 @@ public interface UserDao extends BaseSuperDao<User> {
 	/**
 	 * 分页查询
 	 */
-	Page<UserDTO> findPage(int start, int limit, String username,String realname,String mobile);
+	Page<UserDTO> findPage(int start, int limit, String username, String realname, String mobile);
 
 	/**
 	 * 更新状态
 	 */
 	void updateState(Long userId, int state);
-	
+
 	Page<User> findBycondition(String variableName, Long departmentId, int start, int limit);
-	
+
 	Long countByUserName(Long userId, String username);
 }

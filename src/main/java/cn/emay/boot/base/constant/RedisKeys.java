@@ -8,5 +8,4 @@ package cn.emay.boot.base.constant;
  */
 public class RedisKeys {
 
-
 }

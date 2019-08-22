@@ -16,8 +16,8 @@ public interface UserOperLogService {
 	 * 存储日志
 	 * 
 	 */
-	void saveLog(String module, Long userId,String username, String content, String type);
-	
+	void saveLog(String module, Long userId, String username, String content, String type);
+
 	/**
 	 * 分页查询
 	 * 

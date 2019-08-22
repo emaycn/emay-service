@@ -15,7 +15,7 @@ import cn.emay.boot.business.system.pojo.UserDepartmentAssign;
  *
  */
 @Repository
-public class UserDepartmentAssignDaoImpl extends BaseSuperDaoImpl<UserDepartmentAssign> implements UserDepartmentAssignDao{
+public class UserDepartmentAssignDaoImpl extends BaseSuperDaoImpl<UserDepartmentAssign> implements UserDepartmentAssignDao {
 
 	@Override
 	public Long findByDepId(Long id) {
@@ -34,5 +34,5 @@ public class UserDepartmentAssignDaoImpl extends BaseSuperDaoImpl<UserDepartment
 	public UserDepartmentAssign findByUserId(Long userId) {
 		return this.findByProperty("systemUserId", userId);
 	}
-	
+
 }

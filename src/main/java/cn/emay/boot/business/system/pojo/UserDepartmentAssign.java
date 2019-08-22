@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 /**
  * 角色部门 绑定关系
+ * 
  * @author lijunjian
  *
  */

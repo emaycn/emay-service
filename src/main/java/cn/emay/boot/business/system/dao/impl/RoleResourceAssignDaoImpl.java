@@ -12,12 +12,11 @@ import cn.emay.boot.business.system.pojo.RoleResourceAssign;
  *
  */
 @Repository
-public class RoleResourceAssignDaoImpl extends BaseSuperDaoImpl<RoleResourceAssign> implements RoleResourceAssignDao{
+public class RoleResourceAssignDaoImpl extends BaseSuperDaoImpl<RoleResourceAssign> implements RoleResourceAssignDao {
 
 	@Override
 	public void deleteByRoleId(Long roleId) {
 		this.deleteByProperty("roleId", roleId);
 	}
-
 
 }

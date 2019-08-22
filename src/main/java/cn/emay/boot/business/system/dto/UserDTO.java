@@ -11,13 +11,14 @@ import cn.emay.boot.business.system.pojo.UserRoleAssign;
 
 /**
  * 用户DTO
+ * 
  * @author Frank
  *
  */
-public class UserDTO implements Serializable{
+public class UserDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long id;
 	private String username;// 用户名
 	private String realname;// 真实姓名
@@ -33,10 +34,11 @@ public class UserDTO implements Serializable{
 	private String parentDepartment;// 上级部门名
 	private Long departmentId;// 部门id
 	private List<Long> roles = new ArrayList<Long>();
-	
-	public UserDTO(){
-		
+
+	public UserDTO() {
+
 	}
+
 	public UserDTO(User user) {
 		this.createTime = user.getCreateTime();
 		this.email = user.getEmail();
@@ -46,7 +48,7 @@ public class UserDTO implements Serializable{
 		this.userState = user.getUserState();
 		this.username = user.getUsername();
 	}
-	
+
 	public UserDTO(User user, Department department, Department parmentDepmant) {
 		this.id = user.getId();
 		this.username = user.getUsername();
@@ -66,7 +68,7 @@ public class UserDTO implements Serializable{
 		}
 		this.departmentId = department.getId();
 	}
-	
+
 	public UserDTO(User user, List<UserRoleAssign> userroles) {
 		this.id = user.getId();
 		this.username = user.getUsername();
@@ -118,9 +120,11 @@ public class UserDTO implements Serializable{
 	public Integer getUserState() {
 		return userState;
 	}
+
 	public void setUserState(Integer userState) {
 		this.userState = userState;
 	}
+
 	public Date getCreateTime() {
 		return createTime;
 	}

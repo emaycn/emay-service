@@ -23,7 +23,7 @@ public class PasswordUtils {
 
 	public static String dncrypt(String encrypassword) {
 		try {
-			return new String(Aes.decrypt(HexByte.hex2Byte(encrypassword), AES_PASSWORD, AES_ALGORITHM),"UTF-8");
+			return new String(Aes.decrypt(HexByte.hex2Byte(encrypassword), AES_PASSWORD, AES_ALGORITHM), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return null;

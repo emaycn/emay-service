@@ -27,15 +27,15 @@ public class RoleDaoImpl extends BaseSuperDaoImpl<Role> implements RoleDao {
 	}
 
 	@Override
-	public Page<Role> findPage(int start, int limit,String roleName) {
-		Map<String,Object> params = new HashMap<String, Object>();
+	public Page<Role> findPage(int start, int limit, String roleName) {
+		Map<String, Object> params = new HashMap<String, Object>();
 		String hql = FIND_ALL_HQL + " where isDelete=:isDelete";
 		params.put("isDelete", false);
-		if(!CheckUtil.isEmpty(roleName)){
-			hql+=" and roleName like:roleName";
-			params.put("roleName", "%"+CheckUtil.specialCodeEscape(roleName)+"%");
+		if (!CheckUtil.isEmpty(roleName)) {
+			hql += " and roleName like:roleName";
+			params.put("roleName", "%" + CheckUtil.specialCodeEscape(roleName) + "%");
 		}
-		hql+=" order by createTime desc";
+		hql += " order by createTime desc";
 		return this.getPageResult(hql, start, limit, params, Role.class);
 	}
 
@@ -46,14 +46,14 @@ public class RoleDaoImpl extends BaseSuperDaoImpl<Role> implements RoleDao {
 		parms.put("isDelete", false);
 		return this.getListResult(Role.class, hql, parms);
 	}
-	
+
 	@Override
 	public Long countNumberByRoleName(String roleName, Long id) {
 		Map<String, Object> parms = new HashMap<String, Object>();
 		String hql = "select count(*) from Role where roleName=:roleName and isDelete!=:isDelete";
 		parms.put("roleName", roleName);
 		parms.put("isDelete", true);
-		if (null!=id) {
+		if (null != id) {
 			hql += " and id <> :id";
 			parms.put("id", id);
 		}
@@ -63,7 +63,7 @@ public class RoleDaoImpl extends BaseSuperDaoImpl<Role> implements RoleDao {
 	@Override
 	public void deleteById(Long id) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		String hql =" update Role set isDelete = :isDelete where id=:id";
+		String hql = " update Role set isDelete = :isDelete where id=:id";
 		params.put("isDelete", true);
 		params.put("id", id);
 		this.execByHql(hql, params);

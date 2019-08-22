@@ -63,12 +63,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		if (propertiesConfig.isDev()) {
-			registry.addMapping("/**")
-			.allowedOrigins("*")
-			.allowCredentials(true)
-			.allowedMethods("GET", "POST", "PUT","OPTIONS", "DELETE")
-			.allowedHeaders("*")
-			.exposedHeaders("cookies");
+			registry.addMapping("/**").allowedOrigins("*").allowCredentials(true).allowedMethods("GET", "POST", "PUT", "OPTIONS", "DELETE").allowedHeaders("*").exposedHeaders("cookies");
 		}
 	}
 

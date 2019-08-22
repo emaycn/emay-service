@@ -6,6 +6,7 @@ import cn.emay.boot.business.system.pojo.User;
 
 /**
  * 用户简易DTO
+ * 
  * @author Frank
  *
  */

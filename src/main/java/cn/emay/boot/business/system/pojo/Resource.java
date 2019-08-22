@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 /**
  * 资源
+ * 
  * @author frank
  *
  */
@@ -32,23 +33,27 @@ public class Resource implements java.io.Serializable {
 	 */
 	@Column(name = "resource_name")
 	private String resourceName;
-	
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getResourceCode() {
 		return resourceCode;
 	}
+
 	public void setResourceCode(String resourceCode) {
 		this.resourceCode = resourceCode;
 	}
+
 	public String getResourceName() {
 		return resourceName;
 	}
+
 	public void setResourceName(String resourceName) {
 		this.resourceName = resourceName;
 	}

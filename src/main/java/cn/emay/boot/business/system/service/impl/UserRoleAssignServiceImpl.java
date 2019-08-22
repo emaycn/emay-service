@@ -16,7 +16,7 @@ import cn.emay.boot.business.system.service.UserRoleAssignService;
  *
  */
 @Service
-public class UserRoleAssignServiceImpl implements UserRoleAssignService{
+public class UserRoleAssignServiceImpl implements UserRoleAssignService {
 
 	@Resource
 	private UserRoleAssignDao userRoleAssignDao;
@@ -30,7 +30,7 @@ public class UserRoleAssignServiceImpl implements UserRoleAssignService{
 	public Boolean findByRoleId(Long roleId) {
 		Boolean isExists = true;
 		List<UserRoleAssign> list = userRoleAssignDao.findByRoleId(roleId);
-		if(null==list||list.isEmpty()){
+		if (null == list || list.isEmpty()) {
 			isExists = false;
 		}
 		return isExists;

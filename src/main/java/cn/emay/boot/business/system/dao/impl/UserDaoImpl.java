@@ -27,22 +27,22 @@ public class UserDaoImpl extends BaseSuperDaoImpl<User> implements UserDao {
 	}
 
 	@Override
-	public Page<UserDTO> findPage(int start, int limit, String username,String realname,String mobile) {
+	public Page<UserDTO> findPage(int start, int limit, String username, String realname, String mobile) {
 		List<Object> params = new ArrayList<Object>();
 		String sql = "SELECT u.*, d.department_name as department FROM system_user u LEFT JOIN system_user_department_assign ude ON u.id = ude.system_user_id "
 				+ " LEFT JOIN system_department d ON d.id = ude.system_department_id WHERE u.user_state != ? ";
 		params.add(User.STATE_DELETE);
 		if (username != null && username.trim().length() > 0) {
 			sql += " and u.username like ? ";
-			params.add("%"+CheckUtil.specialCodeEscape(username)+"%");
+			params.add("%" + CheckUtil.specialCodeEscape(username) + "%");
 		}
 		if (realname != null && realname.trim().length() > 0) {
 			sql += " and u.realname like ? ";
-			params.add("%"+CheckUtil.specialCodeEscape(realname)+"%");
+			params.add("%" + CheckUtil.specialCodeEscape(realname) + "%");
 		}
 		if (mobile != null && mobile.trim().length() > 0) {
 			sql += " and u.mobile like ? ";
-			params.add("%"+CheckUtil.specialCodeEscape(mobile)+"%");
+			params.add("%" + CheckUtil.specialCodeEscape(mobile) + "%");
 		}
 		sql += " order by u.id desc ";
 		Page<UserDTO> page = this.findSqlForPageForMysql(UserDTO.class, sql, params, start, limit);
@@ -51,8 +51,8 @@ public class UserDaoImpl extends BaseSuperDaoImpl<User> implements UserDao {
 			ids.add(u.getId());
 		}
 		if (ids.size() > 0) {
-			String sql1 = "select r.role_name,ur.user_id from system_role r,system_user_role_assign ur where r.id = ur.role_id and "
-					+ " ur.user_id in ("+org.apache.commons.lang3.StringUtils.join(ids.toArray(), ",")+")";
+			String sql1 = "select r.role_name,ur.user_id from system_role r,system_user_role_assign ur where r.id = ur.role_id and " + " ur.user_id in ("
+					+ org.apache.commons.lang3.StringUtils.join(ids.toArray(), ",") + ")";
 			List<Map<String, Object>> list1 = this.getJdbcTemplate().queryForList(sql1);
 			Map<Long, String> rolenames = new HashMap<Long, String>();
 			for (Map<String, Object> map : list1) {
@@ -79,7 +79,7 @@ public class UserDaoImpl extends BaseSuperDaoImpl<User> implements UserDao {
 		params.put("id", userId);
 		this.execByHql(hql, params);
 	}
-	
+
 	@Override
 	public Page<User> findBycondition(String variableName, Long departmentId, int start, int limit) {
 		Map<String, Object> param = new HashMap<String, Object>();

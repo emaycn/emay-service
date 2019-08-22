@@ -19,10 +19,10 @@ import cn.emay.utils.db.common.Page;
  *
  */
 @Repository
-public class DepartmentDaoImpl extends BaseSuperDaoImpl<Department> implements DepartmentDao{
+public class DepartmentDaoImpl extends BaseSuperDaoImpl<Department> implements DepartmentDao {
 
 	@Override
-	public Page<Department> findDepartmentByLikeName(Long id, String departmentName,int start,int limit) {
+	public Page<Department> findDepartmentByLikeName(Long id, String departmentName, int start, int limit) {
 		Map<String, Object> param = new HashMap<String, Object>();
 		String hql = "from Department where isDelete=:isDelete and parentDepartmentId =:id ";
 		param.put("isDelete", false);
@@ -31,11 +31,11 @@ public class DepartmentDaoImpl extends BaseSuperDaoImpl<Department> implements D
 			hql = hql + " and departmentName like:departmentName";
 			param.put("departmentName", "%" + CheckUtil.specialCodeEscape(departmentName) + "%");
 		}
-		hql+=" order by id desc";
+		hql += " order by id desc";
 		Page<Department> page = this.getPageResult(hql, start, limit, param, Department.class);
 		return page;
 	}
-	
+
 	@Override
 	public List<Department> findByIds(List<Long> list) {
 		Map<String, Object> param = new HashMap<String, Object>();
@@ -44,7 +44,7 @@ public class DepartmentDaoImpl extends BaseSuperDaoImpl<Department> implements D
 		param.put("ids", list);
 		return this.getListResult(Department.class, hql, param);
 	}
-	
+
 	@Override
 	public Long findCountByParentId(Long parentId) {
 		Map<String, Object> param = new HashMap<String, Object>();
@@ -57,11 +57,11 @@ public class DepartmentDaoImpl extends BaseSuperDaoImpl<Department> implements D
 	@Override
 	public void deleteDepartment(Long departmentId) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		String hql ="update Department set isDelete=1 where id=:id";
+		String hql = "update Department set isDelete=1 where id=:id";
 		params.put("id", departmentId);
 		this.execByHql(hql, params);
 	}
-	
+
 	@Override
 	public List<Department> findByParentId(Long parentId) {
 		Map<String, Object> param = new HashMap<String, Object>();
@@ -70,7 +70,7 @@ public class DepartmentDaoImpl extends BaseSuperDaoImpl<Department> implements D
 		param.put("parentId", parentId);
 		return this.getListResult(Department.class, hql, param);
 	}
-	
+
 	@Override
 	public Long findDepartmentByName(String departmentName, Long id) {
 		Map<String, Object> param = new HashMap<String, Object>();

@@ -4,6 +4,7 @@ import cn.emay.boot.business.system.pojo.Department;
 
 /**
  * 部门DTO
+ * 
  * @author lijunjian
  *
  */
@@ -30,7 +31,7 @@ public class DepartmentDTO implements java.io.Serializable {
 		this.departmentName = department.getDepartmentName();
 		this.remark = department.getRemark();
 		this.isDelete = department.getIsDelete();
-		this.getParentDepartmentId=department.getParentDepartmentId();
+		this.getParentDepartmentId = department.getParentDepartmentId();
 		this.parentDepartmentName = parentName;
 	}
 
@@ -97,5 +98,5 @@ public class DepartmentDTO implements java.io.Serializable {
 	public void setGetParentDepartmentId(Long getParentDepartmentId) {
 		this.getParentDepartmentId = getParentDepartmentId;
 	}
-	
+
 }

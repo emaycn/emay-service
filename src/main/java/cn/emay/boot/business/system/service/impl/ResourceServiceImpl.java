@@ -19,7 +19,7 @@ public class ResourceServiceImpl implements ResourceService {
 
 	@Autowired
 	private ResourceDao resourceDao;
-	
+
 	@Override
 	public List<Resource> getAll() {
 		return resourceDao.findAll();
@@ -34,6 +34,5 @@ public class ResourceServiceImpl implements ResourceService {
 	public List<Resource> getRoleResources(Long roleId) {
 		return resourceDao.getRoleResources(roleId);
 	}
-
 
 }

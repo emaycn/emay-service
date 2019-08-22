@@ -16,7 +16,8 @@ public class CheckUtil {
 	 * 
 	 * @Title: specialCodeEscape
 	 * @Description: 特殊字符转义
-	 * @param @param value
+	 * @param @param
+	 *            value
 	 * @param @return
 	 * @return String
 	 */
@@ -26,7 +27,7 @@ public class CheckUtil {
 		}
 		return value;
 	}
-	
+
 	/**
 	 * 校验是否包含特殊字符
 	 * 
@@ -39,7 +40,7 @@ public class CheckUtil {
 		Matcher m = p.matcher(value);
 		return m.matches();
 	}
-	
+
 	/**
 	 * 英文加数字不能以数字开头
 	 * 
@@ -56,7 +57,7 @@ public class CheckUtil {
 		Matcher m = p.matcher(val);
 		return m.matches();
 	}
-	
+
 	/**
 	 * 验证只含有中文和英文
 	 * 
@@ -72,7 +73,7 @@ public class CheckUtil {
 		Matcher m = p.matcher(val);
 		return m.matches();
 	}
-	
+
 	/**
 	 * 校验邮箱
 	 * 
@@ -90,7 +91,7 @@ public class CheckUtil {
 		Matcher m = p.matcher(email);
 		return m.matches();
 	}
-	
+
 	/**
 	 * 验证手机号码格式
 	 * 
@@ -106,7 +107,7 @@ public class CheckUtil {
 		Matcher m = p.matcher(mobile);
 		return m.matches();
 	}
-	
+
 	/**
 	 * 判断是否为空
 	 * 
@@ -120,10 +121,11 @@ public class CheckUtil {
 			return false;
 		}
 	}
-	
+
 	/**
-	 *  1-8位正整数
-	  * @Title: checkNumber
+	 * 1-8位正整数
+	 * 
+	 * @Title: checkNumber
 	 */
 	public static boolean checkOneToEightNumber(String val) {
 		if (null == val || "".equals(val)) {
@@ -134,7 +136,7 @@ public class CheckUtil {
 		Matcher m = p.matcher(val);
 		return m.matches();
 	}
-	
+
 	/**
 	 * 正整数校验
 	 * 
@@ -150,7 +152,7 @@ public class CheckUtil {
 		Matcher m = p.matcher(number);
 		return m.matches();
 	}
-	
+
 	/**
 	 * 效验IP、效验IP段
 	 * 
@@ -163,7 +165,7 @@ public class CheckUtil {
 		Matcher m = p.matcher(value);
 		return m.matches();
 	}
-	
+
 	/**
 	 * 效验1到9位 正整数 第一位不为0
 	 * 
@@ -179,7 +181,7 @@ public class CheckUtil {
 		Matcher m = p.matcher(number);
 		return m.matches();
 	}
-	
+
 	/**
 	 * 校验金额，8位整数，3位小数
 	 */
@@ -192,7 +194,7 @@ public class CheckUtil {
 		Matcher m = p.matcher(number);
 		return m.matches();
 	}
-	
+
 	/**
 	 * Excel导入的错误信息数组
 	 * 
@@ -202,5 +204,5 @@ public class CheckUtil {
 		error[obj.length] = errorMessage;
 		return error;
 	}
-	
+
 }

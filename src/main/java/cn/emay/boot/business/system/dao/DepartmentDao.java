@@ -11,17 +11,17 @@ import cn.emay.utils.db.common.Page;
  * @author Frank
  *
  */
-public interface DepartmentDao extends BaseSuperDao<Department>{
+public interface DepartmentDao extends BaseSuperDao<Department> {
 
-	Page<Department> findDepartmentByLikeName(Long id, String departmentName,int start, int limit);
-	
+	Page<Department> findDepartmentByLikeName(Long id, String departmentName, int start, int limit);
+
 	List<Department> findByIds(List<Long> list);
-	
+
 	Long findCountByParentId(Long parentId);
-	
+
 	void deleteDepartment(Long departmentId);
-	
+
 	List<Department> findByParentId(Long parentId);
-	
+
 	Long findDepartmentByName(String departmentName, Long id);
 }

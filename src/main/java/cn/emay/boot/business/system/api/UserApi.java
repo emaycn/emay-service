@@ -58,7 +58,7 @@ import io.swagger.annotations.ApiImplicitParams;
 public class UserApi {
 
 	Logger log = LoggerFactory.getLogger(getClass());
-	
+
 	@Autowired
 	private UserService userService;
 	@Resource
@@ -71,22 +71,18 @@ public class UserApi {
 	private UserDepartmentAssignService userDepartmentAssignService;
 	@Resource
 	private RoleService roleService;
-	
+
 	/**
 	 * 用户列表
 	 */
 	@WebAuth({ ResourceEnum.USER_VIEW })
 	@RequestMapping("/page")
 	@ApiOperation("分页查询用户列表")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name="start", value="起始数据位置",required=true, dataType="int"),
-		@ApiImplicitParam(name="limit", value="数据条数",required=true, dataType="int"),
-		@ApiImplicitParam(name="username", value="用户名",dataType="string"),
-		@ApiImplicitParam(name="realname", value="姓名",dataType="string"),
-		@ApiImplicitParam(name="mobile", value="手机号",dataType="string"),
-	})
-	public SuperResult<Page<UserDTO>> list(int start,int limit,String username,String realname,String mobile) {
-		Page<UserDTO> userpage = userService.findPage(start, limit, username, realname,mobile);
+	@ApiImplicitParams({ @ApiImplicitParam(name = "start", value = "起始数据位置", required = true, dataType = "int"), @ApiImplicitParam(name = "limit", value = "数据条数", required = true, dataType = "int"),
+			@ApiImplicitParam(name = "username", value = "用户名", dataType = "string"), @ApiImplicitParam(name = "realname", value = "姓名", dataType = "string"),
+			@ApiImplicitParam(name = "mobile", value = "手机号", dataType = "string"), })
+	public SuperResult<Page<UserDTO>> list(int start, int limit, String username, String realname, String mobile) {
+		Page<UserDTO> userpage = userService.findPage(start, limit, username, realname, mobile);
 		return SuperResult.rightResult(userpage);
 	}
 
@@ -96,7 +92,7 @@ public class UserApi {
 	@WebAuth({ ResourceEnum.USER_VIEW })
 	@RequestMapping("/info")
 	@ApiOperation("用户详情")
-	public SuperResult<Map<String, Object>> userinfo(@ApiParam(name="id",value="用户ID",required=true)@RequestParam Long id) {
+	public SuperResult<Map<String, Object>> userinfo(@ApiParam(name = "id", value = "用户ID", required = true) @RequestParam Long id) {
 		if (id == null) {
 			return SuperResult.badResult("用户不存在");
 		}
@@ -114,7 +110,7 @@ public class UserApi {
 		}
 		map.put("user", dto);// 用户
 		map.put("roleList", userRoles);// 角色
-		return SuperResult.rightResult(map);	
+		return SuperResult.rightResult(map);
 	}
 
 	/**
@@ -123,16 +119,11 @@ public class UserApi {
 	@WebAuth({ ResourceEnum.USER_MODIFY })
 	@RequestMapping("/modify")
 	@ApiOperation("修改用户")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name="userId", value="用户ID",dataType="Long"),
-		@ApiImplicitParam(name="username", value="用户名",dataType="string"),
-		@ApiImplicitParam(name="realname", value="姓名",dataType="string"),
-		@ApiImplicitParam(name="departmentId", value="所属部门ID",dataType="Long"),
-		@ApiImplicitParam(name="mobile", value="手机号",dataType="string"),
-		@ApiImplicitParam(name="email", value="邮箱",dataType="string"),
-		@ApiImplicitParam(name="roleIds", value="角色ID",dataType="string"),
-	})
-	public Result modify(Long userId,String username,String realname,Long departmentId,String mobile, String email, String roleIds) {
+	@ApiImplicitParams({ @ApiImplicitParam(name = "userId", value = "用户ID", dataType = "Long"), @ApiImplicitParam(name = "username", value = "用户名", dataType = "string"),
+			@ApiImplicitParam(name = "realname", value = "姓名", dataType = "string"), @ApiImplicitParam(name = "departmentId", value = "所属部门ID", dataType = "Long"),
+			@ApiImplicitParam(name = "mobile", value = "手机号", dataType = "string"), @ApiImplicitParam(name = "email", value = "邮箱", dataType = "string"),
+			@ApiImplicitParam(name = "roleIds", value = "角色ID", dataType = "string"), })
+	public Result modify(Long userId, String username, String realname, Long departmentId, String mobile, String email, String roleIds) {
 		if (userId <= 0L) {
 			return Result.badResult("用户不存在");
 		}
@@ -148,13 +139,13 @@ public class UserApi {
 			return Result.badResult(errorMsg);
 		}
 		Result result = userService.modify(username, realname, email, mobile, roleIds, userId, departmentId);
-		if(!result.getSuccess()){
+		if (!result.getSuccess()) {
 			return result;
 		}
 		User currentUser = WebUtils.getCurrentUser();
 		String context = "修改用户{0}";
 		String module = "用户管理";
-		userOperLogService.saveLog(module, currentUser.getId(),currentUser.getUsername(),MessageFormat.format(context, new Object[] { username }), UserOperLog.OPERATE_MODIFY);
+		userOperLogService.saveLog(module, currentUser.getId(), currentUser.getUsername(), MessageFormat.format(context, new Object[] { username }), UserOperLog.OPERATE_MODIFY);
 		log.info("用户:" + currentUser.getUsername() + "修改用户,用户名称为:" + username);
 		return Result.rightResult();
 	}
@@ -165,25 +156,20 @@ public class UserApi {
 	@WebAuth({ ResourceEnum.USER_ADD })
 	@RequestMapping("/add")
 	@ApiOperation("添加用户")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name="username", value="用户名",dataType="string"),
-		@ApiImplicitParam(name="realname", value="姓名",dataType="string"),
-		@ApiImplicitParam(name="departmentId", value="所属部门ID",dataType="Long"),
-		@ApiImplicitParam(name="mobile", value="手机号",dataType="string"),
-		@ApiImplicitParam(name="email", value="邮箱",dataType="string"),
-		@ApiImplicitParam(name="roleIds", value="角色ID",dataType="string"),
-	})
-	public Result add(String username,String realname,Long departmentId,String mobile, String email, String roleIds,String remark) {
+	@ApiImplicitParams({ @ApiImplicitParam(name = "username", value = "用户名", dataType = "string"), @ApiImplicitParam(name = "realname", value = "姓名", dataType = "string"),
+			@ApiImplicitParam(name = "departmentId", value = "所属部门ID", dataType = "Long"), @ApiImplicitParam(name = "mobile", value = "手机号", dataType = "string"),
+			@ApiImplicitParam(name = "email", value = "邮箱", dataType = "string"), @ApiImplicitParam(name = "roleIds", value = "角色ID", dataType = "string"), })
+	public Result add(String username, String realname, Long departmentId, String mobile, String email, String roleIds, String remark) {
 		String randomPwd = RandomNumberUtils.getNumbersAndLettersRandom(6);
 		String password = PasswordUtils.encrypt(Md5.md5(randomPwd.getBytes()));
 		User currentUser = WebUtils.getCurrentUser();
 		Result result = userService.add(username, realname, password, email, mobile, roleIds, departmentId, currentUser);
-		if(!result.getSuccess()){
+		if (!result.getSuccess()) {
 			return result;
 		}
 		String context = "添加用户{0}";
 		String module = "用户管理";
-		userOperLogService.saveLog(module, currentUser.getId(),currentUser.getUsername(),MessageFormat.format(context, new Object[] { username }), UserOperLog.OPERATE_ADD);
+		userOperLogService.saveLog(module, currentUser.getId(), currentUser.getUsername(), MessageFormat.format(context, new Object[] { username }), UserOperLog.OPERATE_ADD);
 		log.info("用户:" + currentUser.getUsername() + "添加用户,用户名称为:" + username);
 		return Result.rightResult(randomPwd);
 	}
@@ -194,7 +180,7 @@ public class UserApi {
 	@WebAuth({ ResourceEnum.USER_DELETE })
 	@RequestMapping("/delete")
 	@ApiOperation("删除用户")
-	public Result delete(@ApiParam(name="userId",value="用户ID",required=true)@RequestParam Long userId) {
+	public Result delete(@ApiParam(name = "userId", value = "用户ID", required = true) @RequestParam Long userId) {
 		if (userId == null || userId == 0L) {
 			return Result.badResult("用户不存在");
 		}
@@ -209,7 +195,7 @@ public class UserApi {
 		User currentUser = WebUtils.getCurrentUser();
 		String context = "删除用户:{0}";
 		String module = "用户管理";
-		userOperLogService.saveLog(module, currentUser.getId(),currentUser.getUsername(),MessageFormat.format(context, new Object[] {user.getUsername()}), UserOperLog.OPERATE_DELETE);
+		userOperLogService.saveLog(module, currentUser.getId(), currentUser.getUsername(), MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_DELETE);
 		log.info("用户:" + currentUser.getUsername() + "删除用户,用户名称为:" + user.getUsername());
 		return Result.rightResult();
 	}
@@ -220,7 +206,7 @@ public class UserApi {
 	@WebAuth({ ResourceEnum.USER_OPER })
 	@RequestMapping("/on")
 	@ApiOperation("启用用户")
-	public Result on(@ApiParam(name="userId",value="用户ID",required=true)@RequestParam Long userId) {
+	public Result on(@ApiParam(name = "userId", value = "用户ID", required = true) @RequestParam Long userId) {
 		if (userId == null || userId == 0L) {
 			return Result.badResult("用户不存在");
 		}
@@ -235,7 +221,7 @@ public class UserApi {
 		User currentUser = WebUtils.getCurrentUser();
 		String context = "启用用户:{0}";
 		String module = "用户管理";
-		userOperLogService.saveLog(module, currentUser.getId(),currentUser.getUsername(),MessageFormat.format(context, new Object[] {user.getUsername()}), UserOperLog.OPERATE_DELETE);
+		userOperLogService.saveLog(module, currentUser.getId(), currentUser.getUsername(), MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_DELETE);
 		log.info("用户:" + currentUser.getUsername() + "启用用户,用户名称为:" + user.getUsername());
 		return Result.rightResult();
 	}
@@ -246,7 +232,7 @@ public class UserApi {
 	@WebAuth({ ResourceEnum.USER_OPER })
 	@RequestMapping("/off")
 	@ApiOperation("停用用户")
-	public Result off(@ApiParam(name="userId",value="用户ID",required=true)@RequestParam Long userId) {
+	public Result off(@ApiParam(name = "userId", value = "用户ID", required = true) @RequestParam Long userId) {
 		if (userId == null || userId == 0L) {
 			return Result.badResult("用户不存在");
 		}
@@ -261,17 +247,17 @@ public class UserApi {
 		User currentUser = WebUtils.getCurrentUser();
 		String context = "停用用户:{0}";
 		String module = "用户管理";
-		userOperLogService.saveLog(module, currentUser.getId(),currentUser.getUsername(),MessageFormat.format(context, new Object[] {user.getUsername()}), UserOperLog.OPERATE_DELETE);
+		userOperLogService.saveLog(module, currentUser.getId(), currentUser.getUsername(), MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_DELETE);
 		log.info("用户:" + currentUser.getUsername() + "停用用户,用户名称为:" + user.getUsername());
 		return Result.rightResult();
 	}
-	
+
 	/**
 	 * 重置密码
 	 */
 	@WebAuth({ ResourceEnum.USER_OPER })
 	@RequestMapping(value = "/ajax/reset")
-	public Result resetPassword(@ApiParam(name="userId",value="用户ID",required=true)@RequestParam Long userId){
+	public Result resetPassword(@ApiParam(name = "userId", value = "用户ID", required = true) @RequestParam Long userId) {
 		if (userId == null || userId == 0L) {
 			return Result.badResult("用户不存在");
 		}
@@ -292,11 +278,11 @@ public class UserApi {
 		}
 		String context = "重置密码的用户:{0}";
 		String module = "用户管理";
-		userOperLogService.saveLog(module, currentUser.getId(),currentUser.getUsername(),MessageFormat.format(context, new Object[] { user.getUsername()}), UserOperLog.OPERATE_MODIFY);
+		userOperLogService.saveLog(module, currentUser.getId(), currentUser.getUsername(), MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_MODIFY);
 		log.info("用户:" + currentUser.getUsername() + "重置用户密码,用户名称为:" + user.getUsername());
 		return Result.rightResult(result.getResult());
 	}
-	
+
 	/**
 	 * 部门树形
 	 */
@@ -307,21 +293,21 @@ public class UserApi {
 		List<Department> list = departmentService.findByParentId(0L);
 		return SuperResult.rightResult(list);
 	}
-	
+
 	/**
 	 * 展开子节点
 	 */
 	@WebAuth({ ResourceEnum.USER_VIEW })
 	@RequestMapping("/showChildrenNode")
 	@ApiOperation("树子节点")
-	public SuperResult<List<Department>> showChildrenNode(@ApiParam(name="id",value="部门ID",required=true)@RequestParam Long id) {
-		if (null==id) {
+	public SuperResult<List<Department>> showChildrenNode(@ApiParam(name = "id", value = "部门ID", required = true) @RequestParam Long id) {
+		if (null == id) {
 			return SuperResult.badResult("请选择部门");
 		}
 		List<Department> childrenNode = departmentService.findByParentId(id);
 		return SuperResult.rightResult(childrenNode);
 	}
-	
+
 	/**
 	 * 系统所有角色
 	 */
@@ -332,7 +318,7 @@ public class UserApi {
 		List<Role> roles = roleService.findAll();
 		return SuperResult.rightResult(roles);
 	}
-	
+
 	/**
 	 * 校验用户信息
 	 */
@@ -387,7 +373,7 @@ public class UserApi {
 			errorMsg = "角色不能为空";
 			return errorMsg;
 		}
-		if (null==department) {
+		if (null == department) {
 			errorMsg = "请选择部门";
 			return errorMsg;
 		}

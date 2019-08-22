@@ -166,9 +166,12 @@ public class BaseSuperDaoImpl<E extends java.io.Serializable> extends AbstractPo
 	/**
 	 * @Title: nameJdbcBatchExec
 	 * @Description: 实体批量入库
-	 * @param @param beanList
-	 * @param @param jdbcTemplate
-	 * @param @param useId
+	 * @param @param
+	 *            beanList
+	 * @param @param
+	 *            jdbcTemplate
+	 * @param @param
+	 *            useId
 	 * @return void
 	 */
 	public <T> int[] nameJdbcBatchExec(List<T> beanList, JdbcTemplate jdbcTemplate, String dbTableName, Boolean isIgnore, boolean useId) {
@@ -184,8 +187,10 @@ public class BaseSuperDaoImpl<E extends java.io.Serializable> extends AbstractPo
 	/**
 	 * @Title: transBean2Sql
 	 * @Description: 实体转换sql :name格式
-	 * @param @param clazz
-	 * @param @param useId 是否id入库
+	 * @param @param
+	 *            clazz
+	 * @param @param
+	 *            useId 是否id入库
 	 * @param @return
 	 * @return String
 	 */

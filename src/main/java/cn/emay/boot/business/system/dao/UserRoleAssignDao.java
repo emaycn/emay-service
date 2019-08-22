@@ -15,6 +15,6 @@ public interface UserRoleAssignDao extends BaseSuperDao<UserRoleAssign> {
 	void deleteByUserId(Long userId);
 
 	List<UserRoleAssign> findByUserId(Long userId);
-	
+
 	List<UserRoleAssign> findByRoleId(Long roleId);
 }

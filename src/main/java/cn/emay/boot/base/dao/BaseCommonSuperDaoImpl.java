@@ -10,6 +10,7 @@ import cn.emay.orm.AbstractDaoSupport;
 
 /**
  * 基础Dao，作为父类使用，提供常用方法。
+ * 
  * @author Frank
  *
  */

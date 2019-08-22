@@ -24,7 +24,7 @@ public class UserOperLogServiceImpl implements UserOperLogService {
 	private UserOperLogDao userOperLogDao;
 
 	@Override
-	public void saveLog(String module, Long userId,String username, String content, String type) {
+	public void saveLog(String module, Long userId, String username, String content, String type) {
 		UserOperLog log = new UserOperLog();
 		log.setContent(content);
 		log.setModule(module);
@@ -37,7 +37,7 @@ public class UserOperLogServiceImpl implements UserOperLogService {
 
 	@Override
 	public Page<UserOperLog> findByPage(String username, String content, Date startDate, Date endDate, int start, int limit) {
-		if(!CheckUtil.isEmpty(username)){
+		if (!CheckUtil.isEmpty(username)) {
 			username = username.toLowerCase();
 		}
 		return userOperLogDao.findByPage(username, content, startDate, endDate, start, limit);

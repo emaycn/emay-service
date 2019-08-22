@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.support.WebBindingInitializer;
 
 import cn.emay.boot.base.constant.WebConstant;
+
 /**
  * emay-web-controller增强类
+ * 
  * @author HS
  *
  */
@@ -22,8 +24,8 @@ public class EmayWebControllerAdvice implements WebBindingInitializer {
 	@Override
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
-		 //转换日期
-        DateFormat dateFormat=new SimpleDateFormat(WebConstant.PARAMETER_DATE_FORMAT);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+		// 转换日期
+		DateFormat dateFormat = new SimpleDateFormat(WebConstant.PARAMETER_DATE_FORMAT);
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
 	}
 }

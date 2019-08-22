@@ -16,38 +16,38 @@ public interface DepartmentService {
 	/**
 	 * 根据名称模糊查找部门
 	 */
-	Page<DepartmentDTO> findDepartmentByLikeName(Long id, String departmentName,int start, int limit);
-	
+	Page<DepartmentDTO> findDepartmentByLikeName(Long id, String departmentName, int start, int limit);
+
 	/**
 	 * 根据部门ID查找部门
 	 */
 	Department findDepartmentById(Long departmentId);
-	
+
 	/**
 	 * 添加部门
 	 */
 	void addDepartment(Department department);
-	
+
 	/**
 	 * 根据父类id查找部门数量
 	 */
 	Long findCountByParentId(Long parentId);
-	
+
 	/**
 	 * 删除部门
 	 */
 	void deleteDepartment(Long departmentId);
-	
+
 	/**
 	 * 修改部门
 	 */
 	void modifyDepartment(Department department);
-	
+
 	/**
 	 * 根据父类id查找部门
 	 */
 	List<Department> findByParentId(Long parentId);
-	
+
 	/**
 	 * 根据名称查找部门
 	 */
