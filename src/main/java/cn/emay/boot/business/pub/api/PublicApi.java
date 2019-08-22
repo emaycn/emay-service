@@ -78,7 +78,7 @@ public class PublicApi {
 		if (user == null) {
 			return Result.badResult("用户名或密码错误");
 		}
-		if (user.getUserState() == User.STATE_LOCKING) {
+		if (user.getUserState() == User.STATE_OFF) {
 			return Result.badResult("用户已锁定，请联系管理员解锁");
 		}
 		String pass = Md5.md5(password.getBytes());

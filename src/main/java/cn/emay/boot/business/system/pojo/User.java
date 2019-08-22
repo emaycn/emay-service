@@ -35,10 +35,6 @@ public class User implements java.io.Serializable {
 	 * 启用
 	 */
 	public final static int STATE_ON = 2;
-	/**
-	 * 锁定
-	 */
-	public final static int STATE_LOCKING = 3;
 
 	@Id
 	@Column(name = "id")
