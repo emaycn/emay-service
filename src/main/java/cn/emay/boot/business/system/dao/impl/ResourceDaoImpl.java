@@ -21,7 +21,7 @@ public class ResourceDaoImpl extends BaseSuperDaoImpl<Resource> implements Resou
 	@Override
 	public List<Resource> getUserResources(Long userId) {
 		String hql = "select re from Resource re , RoleResourceAssign rra , Role r , UserRoleAssign ura where re.id = rra.resourceId and rra.roleId = r.id and r.id = ura.roleId and ura.userId = :userId ";
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<String, Object>(1);
 		params.put("userId", userId);
 		return this.getListResult(Resource.class, hql, params);
 	}
@@ -29,7 +29,7 @@ public class ResourceDaoImpl extends BaseSuperDaoImpl<Resource> implements Resou
 	@Override
 	public List<Resource> getRoleResources(Long roleId) {
 		String hql = "select re from Resource re , RoleResourceAssign rra where re.id = rra.resourceId and rra.roleId = :roleId ";
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<String, Object>(1);
 		params.put("roleId", roleId);
 		return this.getListResult(Resource.class, hql, params);
 	}

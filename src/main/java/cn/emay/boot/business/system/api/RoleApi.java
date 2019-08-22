@@ -204,7 +204,7 @@ public class RoleApi {
 		}
 		// 校验权限
 		List<Resource> allResource = resourceService.getAll();
-		Map<String, Long> map = new HashMap<String, Long>();
+		Map<String, Long> map = new HashMap<String, Long>(allResource.size());
 		for (Resource resource : allResource) {
 			map.put(resource.getResourceCode(), resource.getId());
 		}

@@ -12,13 +12,37 @@ public class DepartmentDTO implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * ID
+	 */
 	private Long id;
-	private String departmentCode;// 部门编码
-	private String departmentName;// 部门名称
-	private String remark;// 备注
-	private Boolean isDelete;// 是否删除
-	private String parentDepartmentName;// 父级部门名称
-	private String state;// 状态,1部门，2人员
+	/**
+	 * 部门编码
+	 */
+	private String departmentCode;
+	/**
+	 * 部门名称
+	 */
+	private String departmentName;
+	/**
+	 * 备注
+	 */
+	private String remark;
+	/**
+	 * 是否删除
+	 */
+	private Boolean isDelete;
+	/**
+	 * 父级部门名称
+	 */
+	private String parentDepartmentName;
+	/**
+	 * 状态,1部门，2人员
+	 */
+	private String state;
+	/**
+	 * 父级部门ID
+	 */
 	private Long getParentDepartmentId;
 
 	public DepartmentDTO() {
@@ -97,6 +121,11 @@ public class DepartmentDTO implements java.io.Serializable {
 
 	public void setGetParentDepartmentId(Long getParentDepartmentId) {
 		this.getParentDepartmentId = getParentDepartmentId;
+	}
+
+	@Override
+	public String toString() {
+		return super.toString();
 	}
 
 }

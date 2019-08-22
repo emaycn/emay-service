@@ -37,7 +37,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 				list.add(dep.getParentDepartmentId());
 			}
 			List<Department> depList = departmentDao.findByIds(list);
-			Map<Long, String> map = new HashMap<Long, String>();
+			Map<Long, String> map = new HashMap<Long, String>(depList.size());
 			for (Department depPar : depList) {
 				map.put(depPar.getId(), depPar.getDepartmentName());
 			}

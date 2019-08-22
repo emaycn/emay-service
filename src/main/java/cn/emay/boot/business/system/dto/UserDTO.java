@@ -19,24 +19,69 @@ public class UserDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * ID
+	 */
 	private Long id;
-	private String username;// 用户名
-	private String realname;// 真实姓名
-	private String mobile;// 手机号
-	private String email;// 邮箱
-	private Date createTime;// 创建时间
-	private Integer userState;// 状态[0-删除，1-停用，2-启用]
-	private String remark;// 说明
-	private Long operatorId;// 创建者
-	private Date lastChangePasswordTime;// 最后一次修改密码时间[用来判断登陆修改密码]
-	private String rolename;// 角色名
-	private String department;// 部门名
-	private String parentDepartment;// 上级部门名
-	private Long departmentId;// 部门id
-	private List<Long> roles = new ArrayList<Long>();
+	/**
+	 * 用户名
+	 */
+	private String username; 
+	/**
+	 * 真实姓名
+	 */
+	private String realname; 
+	/**
+	 * 手机号
+	 */
+	private String mobile; 
+	/**
+	 * 邮箱
+	 */
+	private String email; 
+	/**
+	 * 创建时间
+	 */
+	private Date createTime; 
+	/**
+	 * 状态[0-删除，1-停用，2-启用]
+	 */
+	private Integer userState; 
+	/**
+	 * 说明
+	 */
+	private String remark; 
+	/**
+	 * 创建者
+	 */
+	private Long operatorId; 
+	/**
+	 * 最后一次修改密码时间[用来判断登陆修改密码]
+	 */
+	private Date lastChangePasswordTime; 
+	/**
+	 * 角色名
+	 */
+	private String rolename; 
+	/**
+	 * 部门名
+	 */
+	private String department; 
+	/**
+	 * 上级部门名
+	 */
+	private String parentDepartment; 
+	/**
+	 * 部门id
+	 */
+	private Long departmentId; 
+	/**
+	 * 所有角色ID
+	 */
+	private List<Long> roles;
 
 	public UserDTO() {
-
+		this.roles = new ArrayList<Long>();
 	}
 
 	public UserDTO(User user) {
@@ -47,6 +92,7 @@ public class UserDTO implements Serializable {
 		this.realname = user.getRealname();
 		this.userState = user.getUserState();
 		this.username = user.getUsername();
+		this.roles = new ArrayList<Long>();
 	}
 
 	public UserDTO(User user, Department department, Department parmentDepmant) {
@@ -67,6 +113,7 @@ public class UserDTO implements Serializable {
 			this.parentDepartment = "";
 		}
 		this.departmentId = department.getId();
+		this.roles = new ArrayList<Long>();
 	}
 
 	public UserDTO(User user, List<UserRoleAssign> userroles) {
@@ -80,8 +127,9 @@ public class UserDTO implements Serializable {
 		this.remark = user.getRemark();
 		this.operatorId = user.getOperatorId();
 		this.lastChangePasswordTime = user.getLastChangePasswordTime();
+		this.roles = new ArrayList<Long>();
 		for (UserRoleAssign ur : userroles) {
-			roles.add(ur.getRoleId());
+			this.roles.add(ur.getRoleId());
 		}
 	}
 
@@ -203,5 +251,10 @@ public class UserDTO implements Serializable {
 
 	public void setRoles(List<Long> roles) {
 		this.roles = roles;
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString();
 	}
 }

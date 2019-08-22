@@ -62,5 +62,10 @@ public class SimpleUserDTO implements Serializable {
 	public void setRealname(String realname) {
 		this.realname = realname;
 	}
+	
+	@Override
+	public String toString() {
+		return super.toString();
+	}
 
 }

@@ -103,13 +103,13 @@ public class UserApi {
 		List<UserRoleAssign> userRoles = userRoleAssignService.findByUserId(id);
 		UserDepartmentAssign userDepartmentAssign = userDepartmentAssignService.findByUserId(id);
 		UserDTO dto = new UserDTO(user, userRoles);
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>(4);
 		if (null != userDepartmentAssign) {
 			Department department = departmentService.findDepartmentById(userDepartmentAssign.getSystemDepartmentId());
 			map.put("department", department);
 		}
-		map.put("user", dto);// 用户
-		map.put("roleList", userRoles);// 角色
+		map.put("user", dto);
+		map.put("roleList", userRoles);
 		return SuperResult.rightResult(map);
 	}
 

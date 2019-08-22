@@ -125,8 +125,8 @@ public class UserServiceImpl implements UserService {
 		for (String roleId : roleIdArray) {
 			roleIdSet.add(Long.valueOf(roleId));
 		}
-		Map<Long, Role> map = new HashMap<Long, Role>();
 		List<Role> roles = roleDao.findAllRole();
+		Map<Long, Role> map = new HashMap<Long, Role>(roles.size());
 		for (Role role : roles) {
 			map.put(role.getId(), role);
 		}

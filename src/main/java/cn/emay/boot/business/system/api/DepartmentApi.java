@@ -103,7 +103,7 @@ public class DepartmentApi {
 			if (dept == null) {
 				return Result.badResult("上级部门不存在");
 			}
-			department.setFullPath(dept.getFullPath() + parentId + ",");// 全路径
+			department.setFullPath(dept.getFullPath() + parentId + ",");
 		}
 		department.setParentDepartmentId(parentId);
 		department.setDepartmentName(departmentName);

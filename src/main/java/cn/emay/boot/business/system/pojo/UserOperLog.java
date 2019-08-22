@@ -27,28 +27,43 @@ public class UserOperLog implements Serializable {
 	public static final String OPERATE_MODIFY = "MODIFY";
 	public static final String OPERATE_DOWNLOAD = "DOWNLOAD";
 
+	/**
+	 * ID
+	 */
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;//
-
+	private Long id;
+	/**
+	 * ID
+	 */
 	@Column(name = "user_id")
-	private Long userId;// 用户ID
-
+	private Long userId;
+	/**
+	 * 用户名
+	 */
 	@Column(name = "user_name")
-	private String username;// 用户名
-
+	private String username; 
+	/**
+	 * 操作模块
+	 */
 	@Column(name = "module")
-	private String module;// 操作模块
-
+	private String module; 
+	/**
+	 * 内容
+	 */
 	@Column(name = "content")
-	private String content;// 内容
-
+	private String content;
+	/**
+	 * 操作类型[ADD-增，DELETE-删，MODIFY-改，DOWNLOAD-下载]
+	 */
 	@Column(name = "oper_type")
-	private String operType;// 操作类型[ADD-增，DELETE-删，MODIFY-改，DOWNLOAD-下载]
-
+	private String operType;
+	/**
+	 * 操作时间
+	 */
 	@Column(name = "oper_time")
-	private Date operTime;// 操作时间[yyyy-MM-dd HH:mm:ss]
+	private Date operTime; 
 
 	public Long getId() {
 		return id;

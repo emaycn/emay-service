@@ -214,7 +214,7 @@ public class BaseSuperDaoImpl<E extends java.io.Serializable> extends AbstractPo
 					if ("id".equals(filedName) && !useId) {
 						continue;
 					}
-					fileToConvert = fileToConvert(filedName); // 处理大小写字段
+					fileToConvert = fileToConvert(filedName); 
 					modelColumns.add(":" + filedName);
 					tableColumns.add(fileToConvert);
 				}

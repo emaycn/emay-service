@@ -21,14 +21,14 @@ public class RoleDaoImpl extends BaseSuperDaoImpl<Role> implements RoleDao {
 	@Override
 	public List<Role> getUserRoles(Long userId) {
 		String hql = " select r from UserRoleAssign ura , Role r where r.id = ura.roleId and ura.userId = :userId ";
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<String, Object>(4);
 		params.put("userId", userId);
 		return this.getListResult(Role.class, hql, params);
 	}
 
 	@Override
 	public Page<Role> findPage(int start, int limit, String roleName) {
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<String, Object>(4);
 		String hql = FIND_ALL_HQL + " where isDelete=:isDelete";
 		params.put("isDelete", false);
 		if (!CheckUtil.isEmpty(roleName)) {
@@ -41,7 +41,7 @@ public class RoleDaoImpl extends BaseSuperDaoImpl<Role> implements RoleDao {
 
 	@Override
 	public List<Role> findAllRole() {
-		Map<String, Object> parms = new HashMap<String, Object>();
+		Map<String, Object> parms = new HashMap<String, Object>(4);
 		String hql = "from Role where isDelete=:isDelete";
 		parms.put("isDelete", false);
 		return this.getListResult(Role.class, hql, parms);
@@ -49,7 +49,7 @@ public class RoleDaoImpl extends BaseSuperDaoImpl<Role> implements RoleDao {
 
 	@Override
 	public Long countNumberByRoleName(String roleName, Long id) {
-		Map<String, Object> parms = new HashMap<String, Object>();
+		Map<String, Object> parms = new HashMap<String, Object>(4);
 		String hql = "select count(*) from Role where roleName=:roleName and isDelete!=:isDelete";
 		parms.put("roleName", roleName);
 		parms.put("isDelete", true);
@@ -62,7 +62,7 @@ public class RoleDaoImpl extends BaseSuperDaoImpl<Role> implements RoleDao {
 
 	@Override
 	public void deleteById(Long id) {
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<String, Object>(4);
 		String hql = " update Role set isDelete = :isDelete where id=:id";
 		params.put("isDelete", true);
 		params.put("id", id);

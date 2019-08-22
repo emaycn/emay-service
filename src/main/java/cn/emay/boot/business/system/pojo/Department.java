@@ -30,27 +30,27 @@ public class Department implements java.io.Serializable {
 
 	@Column(name = "department_name")
 	@ApiModelProperty(value = "部门名称")
-	private String departmentName;// 部门名称
+	private String departmentName;
 
 	@Column(name = "department_code")
 	@ApiModelProperty(value = "部门编码")
-	private String departmentCode;// 部门编码
+	private String departmentCode;
 
 	@Column(name = "remark")
 	@ApiModelProperty(value = "备注")
-	private String remark;// 备注
+	private String remark;
 
 	@Column(name = "full_path")
 	@ApiModelProperty(value = "部门ID全路径")
-	private String fullPath;// 部门ID全路径
+	private String fullPath;
 
 	@Column(name = "parent_department_id")
 	@ApiModelProperty(value = "上级部门ID")
-	private Long parentDepartmentId;// 上级部门ID
+	private Long parentDepartmentId;
 
 	@Column(name = "is_delete")
 	@ApiModelProperty(value = "是否删除")
-	private Boolean isDelete;// 是否删除
+	private Boolean isDelete;
 
 	public Long getId() {
 		return id;
