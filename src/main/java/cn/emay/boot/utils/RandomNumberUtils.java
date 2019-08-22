@@ -2,6 +2,12 @@ package cn.emay.boot.utils;
 
 import java.util.Random;
 
+/**
+ * 随机数工具类
+ * 
+ * @author Frank
+ *
+ */
 public class RandomNumberUtils {
 	
 

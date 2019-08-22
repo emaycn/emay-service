@@ -6,7 +6,7 @@ import cn.emay.boot.business.system.pojo.Resource;
 
 /**
  * 
- * @author Frank
+ * @author lijunjian
  *
  */
 public interface ResourceService {

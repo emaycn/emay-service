@@ -21,7 +21,7 @@ public interface UserService {
 	 * 更新用户及角色
 	 */
 	Result modify(String username, String realname, String email, String mobile, String roles, Long userId, Long departmentId);
-	
+
 	/**
 	 * 修改用户密码
 	 */
@@ -31,12 +31,12 @@ public interface UserService {
 	 * 删除用户
 	 */
 	public Result delete(Long userId);
-	
+
 	/**
 	 * 启用用户
 	 */
 	public Result on(Long userId);
-	
+
 	/**
 	 * 停用用户
 	 */
@@ -46,7 +46,7 @@ public interface UserService {
 	 * 按照ID查找用户
 	 */
 	public User findById(Long userId);
-	
+
 	/**
 	 * 重置用户密码
 	 */
@@ -60,11 +60,13 @@ public interface UserService {
 	/**
 	 * 分页查询用户
 	 */
-	public Page<UserDTO> findPage(int start, int limit, String username,String realname,String mobile);
+	public Page<UserDTO> findPage(int start, int limit, String username, String realname, String mobile);
+
 	/**
 	 * 分页查询用户
 	 */
 	Page<UserDTO> findBycondition(String variableName, Long departmentId, int start, int limit);
+
 	/**
 	 * 用户名是否重复
 	 */

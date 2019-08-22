@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 import cn.emay.boot.business.system.pojo.User;
 
+/**
+ * 用户简易DTO
+ * @author Frank
+ *
+ */
 public class SimpleUserDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

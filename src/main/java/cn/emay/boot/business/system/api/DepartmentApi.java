@@ -37,14 +37,9 @@ import cn.emay.utils.result.Result;
 import cn.emay.utils.result.SuperResult;
 
 /**
- * 
-* @项目名称：ebdp-web-operation 
-* @类描述： 部门管理  
-* @创建人：lijunjian   
-* @创建时间：2019年7月8日 上午9:47:13   
-* @修改人：lijunjian   
-* @修改时间：2019年7月8日 上午9:47:13   
-* @修改备注：
+ * 部门API
+ * @author lijunjian
+ *
  */
 @RestController
 @Api(tags={"部门管理"})

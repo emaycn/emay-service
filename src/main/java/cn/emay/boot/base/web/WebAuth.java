@@ -8,7 +8,13 @@ import java.lang.annotation.Target;
 
 import cn.emay.boot.base.constant.ResourceEnum;
 
-@Target({ElementType.METHOD })
+/**
+ * 权限控制
+ * 
+ * @author Frank
+ *
+ */
+@Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface WebAuth {

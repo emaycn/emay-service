@@ -8,6 +8,11 @@ import cn.emay.boot.business.system.dao.UserDepartmentAssignDao;
 import cn.emay.boot.business.system.pojo.UserDepartmentAssign;
 import cn.emay.boot.business.system.service.UserDepartmentAssignService;
 
+/**
+ * 
+ * @author Frank
+ *
+ */
 @Service
 public class UserDepartmentAssignServiceImpl implements UserDepartmentAssignService{
 

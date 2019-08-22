@@ -3,14 +3,9 @@ package cn.emay.boot.business.system.dto;
 import cn.emay.boot.business.system.pojo.Department;
 
 /**
- * 
-* @项目名称：ebdp-web-operation 
-* @类描述： 部门dto  
-* @创建人：lijunjian   
-* @创建时间：2019年7月8日 上午10:40:39   
-* @修改人：lijunjian   
-* @修改时间：2019年7月8日 上午10:40:39   
-* @修改备注：
+ * 部门DTO
+ * @author lijunjian
+ *
  */
 public class DepartmentDTO implements java.io.Serializable {
 

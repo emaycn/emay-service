@@ -10,6 +10,11 @@ import cn.emay.boot.business.system.dto.SimpleUserDTO;
 import cn.emay.boot.business.system.pojo.Resource;
 import cn.emay.boot.business.system.pojo.User;
 
+/**
+ * 用户登录Token
+ * @author Frank
+ *
+ */
 public class WebToken implements Serializable {
 
 	private static final long serialVersionUID = 1L;

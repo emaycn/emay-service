@@ -27,6 +27,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
 
+	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		try {
 			// 不符合继承关系，通过
@@ -79,10 +80,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		}
 	}
 
+	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
 	}
 
+	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
 	}

@@ -12,7 +12,11 @@ import cn.emay.boot.business.system.service.UserOperLogService;
 import cn.emay.boot.utils.CheckUtil;
 import cn.emay.utils.db.common.Page;
 
-
+/**
+ * 
+ * @author lijunjian
+ *
+ */
 @Service
 public class UserOperLogServiceImpl implements UserOperLogService {
 

@@ -10,6 +10,11 @@ import cn.emay.boot.business.system.dao.UserRoleAssignDao;
 import cn.emay.boot.business.system.pojo.UserRoleAssign;
 import cn.emay.boot.business.system.service.UserRoleAssignService;
 
+/**
+ * 
+ * @author frank
+ *
+ */
 @Service
 public class UserRoleAssignServiceImpl implements UserRoleAssignService{
 

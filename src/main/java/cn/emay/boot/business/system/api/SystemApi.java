@@ -15,9 +15,9 @@ import cn.emay.utils.encryption.Md5;
 import cn.emay.utils.result.Result;
 
 /**
- * 根
+ * 系统其他API
  * 
- * @author 东旭
+ * @author frank
  *
  */
 @RestController

@@ -39,9 +39,9 @@ import cn.emay.utils.result.Result;
 import cn.emay.utils.result.SuperResult;
 
 /**
- * 角色管理
+ * 角色API
  * 
- * @author 东旭
+ * @author frank
  *
  */
 @RequestMapping(value = "/role", method = RequestMethod.POST)
@@ -118,7 +118,7 @@ public class RoleApi {
 		@ApiImplicitParam(name="resourceCodes", value="角色编码权限(逗号分割)",required=true,dataType="string"),
 	})
 	public Result modify(Long roleId, String roleName, String remark, String resourceCodes) {
-		if (roleId == 1l) {
+		if (roleId == 1L) {
 			return Result.badResult("管理员角色不能修改");
 		}
 		List<RoleResourceAssign> roleList = new ArrayList<RoleResourceAssign>();
@@ -142,10 +142,10 @@ public class RoleApi {
 	@RequestMapping("/delete")
 	@ApiOperation("删除角色")
 	public Result delete(@ApiParam(name="roleId",value="角色ID",required=true)@RequestParam Long roleId) {
-		if (roleId == null || roleId == 0l) {
+		if (roleId == null || roleId == 0L) {
 			return Result.badResult("角色不存在");
 		}
-		if (roleId == 1l) {
+		if (roleId == 1L) {
 			return Result.badResult("管理员角色不能删除");
 		}
 		Role role = roleService.findById(roleId);

@@ -13,7 +13,11 @@ import cn.emay.boot.business.system.pojo.UserOperLog;
 import cn.emay.boot.utils.CheckUtil;
 import cn.emay.utils.db.common.Page;
 
-
+/**
+ * 
+ * @author Frank
+ *
+ */
 @Repository
 public class UserOperLogDaoImpl extends BaseSuperDaoImpl<UserOperLog> implements UserOperLogDao {
 

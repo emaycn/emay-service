@@ -9,6 +9,11 @@ import cn.emay.boot.business.system.pojo.Department;
 import cn.emay.boot.business.system.pojo.User;
 import cn.emay.boot.business.system.pojo.UserRoleAssign;
 
+/**
+ * 用户DTO
+ * @author Frank
+ *
+ */
 public class UserDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;

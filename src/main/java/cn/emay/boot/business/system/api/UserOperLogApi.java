@@ -19,14 +19,10 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 /**
+ * 日志API
  * 
-* @项目名称：ebdp-web-operation 
-* @类描述： 日志管理  
-* @创建人：lijunjian   
-* @创建时间：2019年7月5日 下午2:51:54   
-* @修改人：lijunjian   
-* @修改时间：2019年7月5日 下午2:51:54   
-* @修改备注：
+ * @author lijunjian
+ *
  */
 @RequestMapping(value="/user/log",method=RequestMethod.POST)
 @RestController
@@ -35,13 +31,7 @@ public class UserOperLogApi {
 
 	@Autowired
 	private UserOperLogService userOperLogService;
-	
-//	@InitBinder
-//    public void initBinder(WebDataBinder binder, WebRequest request) {
-//        //转换日期 注意这里的转化要和传进来的字符串的格式一直 如2015-9-9 就应该为yyyy-MM-dd
-//        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));// CustomDateEditor为自定义日期编辑器
-//    }
+
 	/**
 	 * 日志列表
 	 */

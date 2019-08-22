@@ -10,11 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * 
- * @项目名称：ebdp-web-operation  @类描述：用户部门   @创建人：lijunjian  
- * 
- * @创建时间：2019年7月30日 上午11:01:23   @修改人：lijunjian  
- * @修改时间：2019年7月30日 上午11:01:23   @修改备注：
+ * 角色部门 绑定关系
+ * @author lijunjian
+ *
  */
 @Entity
 @Table(name = "system_user_department_assign")

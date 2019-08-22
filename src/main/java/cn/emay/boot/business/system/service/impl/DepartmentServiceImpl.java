@@ -15,33 +15,38 @@ import cn.emay.boot.business.system.pojo.Department;
 import cn.emay.boot.business.system.service.DepartmentService;
 import cn.emay.utils.db.common.Page;
 
+/**
+ * 
+ * @author Frank
+ *
+ */
 @Service
-public class DepartmentServiceImpl implements DepartmentService{
+public class DepartmentServiceImpl implements DepartmentService {
 
 	@Resource
 	DepartmentDao departmentDao;
-	
+
 	@Override
 	public Page<DepartmentDTO> findDepartmentByLikeName(Long id, String departmentName, int start, int limit) {
-		Page<Department> page = departmentDao.findDepartmentByLikeName(id, departmentName,start, limit);
+		Page<Department> page = departmentDao.findDepartmentByLikeName(id, departmentName, start, limit);
 		Page<DepartmentDTO> pagedto = new Page<DepartmentDTO>();
 		List<DepartmentDTO> listdto = new ArrayList<DepartmentDTO>();
-		List<Long> list=new ArrayList<Long>();
-		if(page.getList().size()>0){
-			for(Department dep : page.getList()){
+		List<Long> list = new ArrayList<Long>();
+		if (page.getList().size() > 0) {
+			for (Department dep : page.getList()) {
 				list.add(dep.getParentDepartmentId());
 			}
-			List<Department> depList=departmentDao.findByIds(list);
-			Map<Long,String> map=new HashMap<Long,String>();
-			for(Department depPar:depList){
+			List<Department> depList = departmentDao.findByIds(list);
+			Map<Long, String> map = new HashMap<Long, String>();
+			for (Department depPar : depList) {
 				map.put(depPar.getId(), depPar.getDepartmentName());
 			}
-			for(Department dep : page.getList()){
-				DepartmentDTO departmentDTO=new DepartmentDTO(dep, map.get(dep.getParentDepartmentId()));
+			for (Department dep : page.getList()) {
+				DepartmentDTO departmentDTO = new DepartmentDTO(dep, map.get(dep.getParentDepartmentId()));
 				listdto.add(departmentDTO);
 			}
 			pagedto.setList(listdto);
-		}else{
+		} else {
 			pagedto.setList(null);
 		}
 		pagedto.setCurrentPageNum(page.getCurrentPageNum());

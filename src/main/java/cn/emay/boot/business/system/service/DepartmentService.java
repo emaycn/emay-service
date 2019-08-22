@@ -6,16 +6,10 @@ import cn.emay.boot.business.system.dto.DepartmentDTO;
 import cn.emay.boot.business.system.pojo.Department;
 import cn.emay.utils.db.common.Page;
 
-
 /**
  * 
-* @项目名称：ebdp-web-operation 
-* @类描述：部门管理   
-* @创建人：lijunjian   
-* @创建时间：2019年7月8日 上午9:56:31   
-* @修改人：lijunjian   
-* @修改时间：2019年7月8日 上午9:56:31   
-* @修改备注：
+ * @author lijunjian
+ *
  */
 public interface DepartmentService {
 

@@ -11,14 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * 
-* @项目名称：emay-spring-boot 
-* @类描述：部门   
-* @创建人：lijunjian   
-* @创建时间：2019年8月12日 上午10:26:06   
-* @修改人：lijunjian   
-* @修改时间：2019年8月12日 上午10:26:06   
-* @修改备注：
+ * 部门
+ * @author lijunjian
+ *
  */
 @Entity
 @Table(name = "system_department")

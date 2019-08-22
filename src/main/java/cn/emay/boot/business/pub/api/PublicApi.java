@@ -20,6 +20,11 @@ import cn.emay.redis.RedisClient;
 import cn.emay.utils.encryption.Md5;
 import cn.emay.utils.result.Result;
 
+/**
+ * 公共API
+ * @author Frank
+ *
+ */
 @RestController
 public class PublicApi {
 

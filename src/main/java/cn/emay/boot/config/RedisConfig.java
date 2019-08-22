@@ -32,7 +32,7 @@ public class RedisConfig {
 	/**
 	 * 集群Redis参数
 	 */
-	private clusterInfo cluster;
+	private ClusterInfo cluster;
 	/**
 	 * 超时时间
 	 */
@@ -97,11 +97,11 @@ public class RedisConfig {
 		this.sharded = sharded;
 	}
 
-	public clusterInfo getCluster() {
+	public ClusterInfo getCluster() {
 		return cluster;
 	}
 
-	public void setCluster(clusterInfo cluster) {
+	public void setCluster(ClusterInfo cluster) {
 		this.cluster = cluster;
 	}
 
@@ -159,7 +159,7 @@ public class RedisConfig {
 	 * @author Frank
 	 *
 	 */
-	public static class clusterInfo {
+	public static class ClusterInfo {
 
 		/**
 		 * 节点地址

@@ -5,7 +5,12 @@ import java.io.UnsupportedEncodingException;
 import cn.emay.utils.encryption.Aes;
 import cn.emay.utils.encryption.HexByte;
 
-
+/**
+ * 密码工具类
+ * 
+ * @author Frank
+ *
+ */
 public class PasswordUtils {
 
 	public final static byte[] AES_PASSWORD = "EMAYEUCPEMASFLOW".getBytes();

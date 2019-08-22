@@ -11,14 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * 
-* @项目名称：ebdp-web-operation 
-* @类描述：用户操作日志   
-* @创建人：lijunjian   
-* @创建时间：2019年7月5日 下午2:57:16   
-* @修改人：lijunjian   
-* @修改时间：2019年7月5日 下午2:57:16   
-* @修改备注：
+ * 用户操作日志
+ * @author lijunjian
+ *
  */
 @Entity
 @Table(name="system_user_oper_log")

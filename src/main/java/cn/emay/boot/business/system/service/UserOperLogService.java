@@ -7,13 +7,8 @@ import cn.emay.utils.db.common.Page;
 
 /**
  * 
-* @项目名称：ebdp-web-operation 
-* @类描述：日志管理   
-* @创建人：lijunjian   
-* @创建时间：2019年7月5日 下午2:55:53   
-* @修改人：lijunjian   
-* @修改时间：2019年7月5日 下午2:55:53   
-* @修改备注：
+ * @author lijunjian
+ *
  */
 public interface UserOperLogService {
 

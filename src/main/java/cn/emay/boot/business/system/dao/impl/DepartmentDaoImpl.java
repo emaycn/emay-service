@@ -13,6 +13,11 @@ import cn.emay.boot.business.system.pojo.Department;
 import cn.emay.boot.utils.CheckUtil;
 import cn.emay.utils.db.common.Page;
 
+/**
+ * 
+ * @author lijunjian
+ *
+ */
 @Repository
 public class DepartmentDaoImpl extends BaseSuperDaoImpl<Department> implements DepartmentDao{
 

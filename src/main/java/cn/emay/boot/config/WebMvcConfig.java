@@ -57,8 +57,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		configurer.enable();
 	}
 
+	/**
+	 * 重写父类提供的跨域请求处理的接口
+	 */
 	@Override
-	// 重写父类提供的跨域请求处理的接口
 	public void addCorsMappings(CorsRegistry registry) {
 		if (propertiesConfig.isDev()) {
 			registry.addMapping("/**")

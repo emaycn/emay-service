@@ -9,20 +9,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.emay.utils.result.Result;
 
+/**
+ * 错误统一返回
+ * 
+ * @author Frank
+ *
+ */
 @Controller
 public class HttpErrorController implements ErrorController {
 
-    private final static String ERROR_PATH = "/error";
+	private final static String ERROR_PATH = "/error";
 
-    @RequestMapping(value = ERROR_PATH)
-    @ResponseBody
-    public Result error(HttpServletRequest request) {
-    	 return Result.badResult("request fail");
-    }
+	@RequestMapping(value = ERROR_PATH)
+	@ResponseBody
+	public Result error(HttpServletRequest request) {
+		return Result.badResult("request fail");
+	}
 
-    @Override
-    public String getErrorPath() {
-        return ERROR_PATH;
-    }
-    
+	@Override
+	public String getErrorPath() {
+		return ERROR_PATH;
+	}
+
 }

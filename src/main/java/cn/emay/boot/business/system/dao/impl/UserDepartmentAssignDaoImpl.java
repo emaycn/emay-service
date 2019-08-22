@@ -9,6 +9,11 @@ import cn.emay.boot.base.dao.BaseSuperDaoImpl;
 import cn.emay.boot.business.system.dao.UserDepartmentAssignDao;
 import cn.emay.boot.business.system.pojo.UserDepartmentAssign;
 
+/**
+ * 
+ * @author Frank
+ *
+ */
 @Repository
 public class UserDepartmentAssignDaoImpl extends BaseSuperDaoImpl<UserDepartmentAssign> implements UserDepartmentAssignDao{
 

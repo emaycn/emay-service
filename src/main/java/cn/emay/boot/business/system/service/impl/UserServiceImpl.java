@@ -47,8 +47,7 @@ public class UserServiceImpl implements UserService {
 	private UserDepartmentAssignDao userDepartmentAssignDao;
 	@Autowired
 	private RoleDao roleDao;
-	
-	
+
 	@Override
 	public Result add(String username, String realname, String password, String email, String mobile, String roles, Long departmentId, User currentUser) {
 		List<UserRoleAssign> urs = new ArrayList<UserRoleAssign>();
@@ -59,7 +58,7 @@ public class UserServiceImpl implements UserService {
 		if (urs.size() == 0) {
 			return Result.badResult("角色权限不能为空");
 		}
-		if (this.countByUserName(0l, username) > 0) {
+		if (this.countByUserName(0L, username) > 0) {
 			return Result.badResult("用户名已存在");
 		}
 		Department department = departmentDao.findById(departmentId);
@@ -84,9 +83,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Result modify(String username, String realname, String email, String mobile, String roleIds, Long userId, Long departmentId){
+	public Result modify(String username, String realname, String email, String mobile, String roleIds, Long userId, Long departmentId) {
 		User user = userDao.findById(userId);
-		if(user == null) {
+		if (user == null) {
 			return Result.badResult("用户不存在");
 		}
 		List<UserRoleAssign> urs = new ArrayList<UserRoleAssign>();
@@ -118,7 +117,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return Result.rightResult();
 	}
-	
+
 	private String getUserRoles(String roleIds, List<UserRoleAssign> urs) {
 		String message = "";
 		String[] roleIdArray = roleIds.split(",");
@@ -160,7 +159,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Page<UserDTO> findPage(int start, int limit, String username,String realname,String mobile) {
+	public Page<UserDTO> findPage(int start, int limit, String username, String realname, String mobile) {
 		Page<UserDTO> page = userDao.findPage(start, limit, username, realname, mobile);
 		return page;
 	}
@@ -180,7 +179,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Result modifyPassword(Long userId, String newPassword) {
 		User user = userDao.findById(userId);
-		if(user == null) {
+		if (user == null) {
 			return Result.badResult("用户不存在");
 		}
 		user.setPassword(Md5.md5(newPassword));

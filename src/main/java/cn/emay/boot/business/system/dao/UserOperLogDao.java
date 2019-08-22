@@ -6,6 +6,11 @@ import cn.emay.boot.business.system.pojo.UserOperLog;
 import cn.emay.orm.BaseSuperDao;
 import cn.emay.utils.db.common.Page;
 
+/**
+ * 
+ * @author Frank
+ *
+ */
 public interface UserOperLogDao extends BaseSuperDao<UserOperLog> {
 
 	Page<UserOperLog> findByPage(String username, String content, Date startDate, Date endDate, int start, int limit);

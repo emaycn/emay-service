@@ -5,14 +5,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * 校验工具类
  * 
-* @项目名称：ebdp-web-operation 
-* @类描述：校验工具类   
-* @创建人：lijunjian   
-* @创建时间：2019年7月4日 下午3:34:55   
-* @修改人：lijunjian   
-* @修改时间：2019年7月4日 下午3:34:55   
-* @修改备注：
+ * @author lijunjian
+ *
  */
 public class CheckUtil {
 

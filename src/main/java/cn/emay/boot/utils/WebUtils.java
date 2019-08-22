@@ -21,6 +21,12 @@ import cn.emay.json.support.JsonServletSupport;
 import cn.emay.redis.RedisClient;
 import cn.emay.utils.result.Result;
 
+/**
+ * Web工具类
+ * 
+ * @author Frank
+ *
+ */
 public class WebUtils {
 
 	/**
@@ -137,12 +143,12 @@ public class WebUtils {
 	public static void toError(String errorMassage) throws IOException {
 		HttpServletResponse response = getCurrentHttpResponse();
 		PropertiesConfig propertiesConfig = ApplicationContextUtils.getBean(PropertiesConfig.class);
-		if(propertiesConfig.isDev()) {
+		if (propertiesConfig.isDev()) {
 			String origin = getCurrentHttpRequest().getHeader("Origin");
 			response.setHeader("Access-Control-Allow-Origin", origin);
 			response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-			response.setHeader("Access-Control-Allow-Credentials","true");
-			response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept, X-CSRF-TOKEN");
+			response.setHeader("Access-Control-Allow-Credentials", "true");
+			response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-CSRF-TOKEN");
 		}
 		JsonServletSupport.outputWithJson(response, Result.badResult("-1", errorMassage, null));
 
@@ -154,12 +160,12 @@ public class WebUtils {
 	public static void toNoLogin() throws IOException {
 		HttpServletResponse response = getCurrentHttpResponse();
 		PropertiesConfig propertiesConfig = ApplicationContextUtils.getBean(PropertiesConfig.class);
-		if(propertiesConfig.isDev()) {
+		if (propertiesConfig.isDev()) {
 			String origin = getCurrentHttpRequest().getHeader("Origin");
 			response.setHeader("Access-Control-Allow-Origin", origin);
 			response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-			response.setHeader("Access-Control-Allow-Credentials","true");
-			response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept, X-CSRF-TOKEN");
+			response.setHeader("Access-Control-Allow-Credentials", "true");
+			response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-CSRF-TOKEN");
 		}
 		JsonServletSupport.outputWithJson(response, Result.badResult("-222", "您还未登陆，请先登录", null));
 	}

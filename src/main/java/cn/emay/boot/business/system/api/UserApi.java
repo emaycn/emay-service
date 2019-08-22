@@ -47,9 +47,9 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 
 /**
- * 用户管理
+ * 用户API
  * 
- * @author 东旭
+ * @author frank
  *
  */
 @RestController
@@ -133,14 +133,14 @@ public class UserApi {
 		@ApiImplicitParam(name="roleIds", value="角色ID",dataType="string"),
 	})
 	public Result modify(Long userId,String username,String realname,Long departmentId,String mobile, String email, String roleIds) {
-		if (userId <= 0l) {
+		if (userId <= 0L) {
 			return Result.badResult("用户不存在");
 		}
 		User user = userService.findById(userId);
 		if (user == null) {
 			return Result.badResult("用户不存在");
 		}
-		if (userId == 1l) {
+		if (userId == 1L) {
 			return Result.badResult("不能操作ADMIN");
 		}
 		String errorMsg = checkUserRequired(username, realname, mobile, email, roleIds, departmentId, userId);
@@ -195,14 +195,14 @@ public class UserApi {
 	@RequestMapping("/delete")
 	@ApiOperation("删除用户")
 	public Result delete(@ApiParam(name="userId",value="用户ID",required=true)@RequestParam Long userId) {
-		if (userId == null || userId == 0l) {
+		if (userId == null || userId == 0L) {
 			return Result.badResult("用户不存在");
 		}
 		User user = userService.findById(userId);
 		if (user == null) {
 			return Result.badResult("用户不存在");
 		}
-		if (userId == 1l) {
+		if (userId == 1L) {
 			return Result.badResult("不能操作ADMIN");
 		}
 		userService.delete(userId);
@@ -221,10 +221,10 @@ public class UserApi {
 	@RequestMapping("/on")
 	@ApiOperation("启用用户")
 	public Result on(@ApiParam(name="userId",value="用户ID",required=true)@RequestParam Long userId) {
-		if (userId == null || userId == 0l) {
+		if (userId == null || userId == 0L) {
 			return Result.badResult("用户不存在");
 		}
-		if (userId == 1l) {
+		if (userId == 1L) {
 			return Result.badResult("不能操作ADMIN");
 		}
 		User user = userService.findById(userId);
@@ -247,10 +247,10 @@ public class UserApi {
 	@RequestMapping("/off")
 	@ApiOperation("停用用户")
 	public Result off(@ApiParam(name="userId",value="用户ID",required=true)@RequestParam Long userId) {
-		if (userId == null || userId == 0l) {
+		if (userId == null || userId == 0L) {
 			return Result.badResult("用户不存在");
 		}
-		if (userId == 1l) {
+		if (userId == 1L) {
 			return Result.badResult("不能操作ADMIN");
 		}
 		User user = userService.findById(userId);
@@ -272,10 +272,10 @@ public class UserApi {
 	@WebAuth({ ResourceEnum.USER_OPER })
 	@RequestMapping(value = "/ajax/reset")
 	public Result resetPassword(@ApiParam(name="userId",value="用户ID",required=true)@RequestParam Long userId){
-		if (userId == null || userId == 0l) {
+		if (userId == null || userId == 0L) {
 			return Result.badResult("用户不存在");
 		}
-		if (userId == 1l) {
+		if (userId == 1L) {
 			return Result.badResult("不能操作ADMIN");
 		}
 		User user = userService.findById(userId);
