@@ -72,7 +72,6 @@ public class UserServiceImpl implements UserService {
 		userDao.save(user);
 		for (UserRoleAssign ur : urs) {
 			ur.setUserId(user.getId());
-			ur.setCreatorId(currentUser.getId());
 		}
 		userRoleAssignDao.saveBatch(urs);
 		UserDepartmentAssign userDepartmentAssign = new UserDepartmentAssign();

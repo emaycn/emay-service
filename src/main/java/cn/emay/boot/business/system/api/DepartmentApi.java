@@ -107,7 +107,6 @@ public class DepartmentApi {
 		}
 		department.setParentDepartmentId(parentId);
 		department.setDepartmentName(departmentName);
-		department.setIsDelete(false);
 		departmentService.addDepartment(department);
 		String context = "添加部门:{0}";
 		String module = "部门管理";

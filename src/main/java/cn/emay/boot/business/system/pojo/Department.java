@@ -32,10 +32,6 @@ public class Department implements java.io.Serializable {
 	@ApiModelProperty(value = "部门名称")
 	private String departmentName;
 
-	@Column(name = "department_code")
-	@ApiModelProperty(value = "部门编码")
-	private String departmentCode;
-
 	@Column(name = "remark")
 	@ApiModelProperty(value = "备注")
 	private String remark;
@@ -47,10 +43,6 @@ public class Department implements java.io.Serializable {
 	@Column(name = "parent_department_id")
 	@ApiModelProperty(value = "上级部门ID")
 	private Long parentDepartmentId;
-
-	@Column(name = "is_delete")
-	@ApiModelProperty(value = "是否删除")
-	private Boolean isDelete;
 
 	public Long getId() {
 		return id;
@@ -66,14 +58,6 @@ public class Department implements java.io.Serializable {
 
 	public void setDepartmentName(String departmentName) {
 		this.departmentName = departmentName;
-	}
-
-	public String getDepartmentCode() {
-		return departmentCode;
-	}
-
-	public void setDepartmentCode(String departmentCode) {
-		this.departmentCode = departmentCode;
 	}
 
 	public String getRemark() {
@@ -98,14 +82,6 @@ public class Department implements java.io.Serializable {
 
 	public void setParentDepartmentId(Long parentDepartmentId) {
 		this.parentDepartmentId = parentDepartmentId;
-	}
-
-	public Boolean getIsDelete() {
-		return isDelete;
-	}
-
-	public void setIsDelete(Boolean isDelete) {
-		this.isDelete = isDelete;
 	}
 
 	public static long getSerialversionuid() {

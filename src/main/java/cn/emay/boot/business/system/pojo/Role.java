@@ -35,9 +35,6 @@ public class Role implements java.io.Serializable {
 	 */
 	@Column(name = "role_name")
 	private String roleName;
-
-	@Column(name = "is_delete")
-	private Boolean isDelete;
 	/**
 	 * 创建时间
 	 */
@@ -54,11 +51,10 @@ public class Role implements java.io.Serializable {
 
 	}
 
-	public Role(String roleName, String remark, Boolean isDelete) {
+	public Role(String roleName, String remark) {
 		this.roleName = roleName;
 		this.createTime = new Date();
 		this.remark = remark;
-		this.isDelete = isDelete;
 	}
 
 	public Long getId() {
@@ -91,14 +87,6 @@ public class Role implements java.io.Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	public Boolean getIsDelete() {
-		return isDelete;
-	}
-
-	public void setIsDelete(Boolean isDelete) {
-		this.isDelete = isDelete;
 	}
 
 }

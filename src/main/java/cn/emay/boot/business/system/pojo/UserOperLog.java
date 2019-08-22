@@ -22,9 +22,21 @@ public class UserOperLog implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 新增类型
+	 */
 	public static final String OPERATE_ADD = "ADD";
+	/**
+	 * 删除类型
+	 */
 	public static final String OPERATE_DELETE = "DELETE";
+	/**
+	 * 修改类型
+	 */
 	public static final String OPERATE_MODIFY = "MODIFY";
+	/**
+	 * 操作类型
+	 */
 	public static final String OPERATE_DOWNLOAD = "DOWNLOAD";
 
 	/**

@@ -37,9 +37,6 @@ public class UserRoleAssign implements java.io.Serializable {
 	@Column(name = "role_id")
 	private Long roleId;
 
-	@Column(name = "creator_id")
-	private Long creatorId;
-
 	public UserRoleAssign() {
 
 	}
@@ -71,14 +68,6 @@ public class UserRoleAssign implements java.io.Serializable {
 
 	public void setRoleId(Long roleId) {
 		this.roleId = roleId;
-	}
-
-	public Long getCreatorId() {
-		return creatorId;
-	}
-
-	public void setCreatorId(Long creatorId) {
-		this.creatorId = creatorId;
 	}
 
 }
