@@ -13,7 +13,8 @@ import org.springframework.web.bind.support.WebBindingInitializer;
 import cn.emay.boot.base.constant.WebConstant;
 
 /**
- * emay-web-controller增强类
+ * emay-web-controller增强类<br/>
+ * controller接收参数时的类型转换
  * 
  * @author HS
  *

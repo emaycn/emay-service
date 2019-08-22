@@ -125,7 +125,7 @@ public class WebUtils {
 		token = redis.get(sessionId, WebToken.class);
 		if (token != null) {
 			// 如果token缓存时间小于1小时,刷新
-			if (redis.ttl(sessionId) < 60 * 60 * 1000L) {
+			if (redis.ttl(sessionId) < WebConstant.HOUR_MILLIS) {
 				redis.expire(sessionId, WebConstant.LOGIN_TIMEOUT);
 			}
 			getCurrentHttpRequest().setAttribute(WebConstant.REQUEST_TOKEN, token);
@@ -137,7 +137,7 @@ public class WebUtils {
 	 * 获取SessionId
 	 */
 	public static String getSessionId() {
-		return getCurrentHttpRequest().getHeader(WebConstant.HEAD_SESSION_ID);
+		return getCurrentHttpRequest().getHeader(WebConstant.HEAD_AUTH_TOKEN);
 	}
 
 	/**

@@ -26,6 +26,9 @@ import cn.emay.task.core.realize.normal.Task;
 @Order(99)
 public class SchedulerConfig {
 
+	/**
+	 * 所有任务
+	 */
 	private TaskInfo[] tasks;
 
 	/**

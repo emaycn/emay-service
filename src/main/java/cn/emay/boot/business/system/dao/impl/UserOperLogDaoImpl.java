@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import cn.emay.boot.base.dao.BaseSuperDaoImpl;
+import cn.emay.boot.base.dao.BasePojoSuperDaoImpl;
 import cn.emay.boot.business.system.dao.UserOperLogDao;
 import cn.emay.boot.business.system.pojo.UserOperLog;
 import cn.emay.utils.db.common.Page;
@@ -18,7 +18,7 @@ import cn.emay.utils.db.common.Page;
  *
  */
 @Repository
-public class UserOperLogDaoImpl extends BaseSuperDaoImpl<UserOperLog> implements UserOperLogDao {
+public class UserOperLogDaoImpl extends BasePojoSuperDaoImpl<UserOperLog> implements UserOperLogDao {
 
 	@Override
 	public Page<UserOperLog> findByPage(String username, String content, Date startDate, Date endDate, int start, int limit) {

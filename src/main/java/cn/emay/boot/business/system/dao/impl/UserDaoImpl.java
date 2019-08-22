@@ -8,7 +8,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import cn.emay.boot.base.dao.BaseSuperDaoImpl;
+import cn.emay.boot.base.dao.BasePojoSuperDaoImpl;
 import cn.emay.boot.business.system.dao.UserDao;
 import cn.emay.boot.business.system.dto.UserDTO;
 import cn.emay.boot.business.system.pojo.User;
@@ -18,7 +18,7 @@ import cn.emay.utils.db.common.Page;
  * @author frank
  */
 @Repository
-public class UserDaoImpl extends BaseSuperDaoImpl<User> implements UserDao {
+public class UserDaoImpl extends BasePojoSuperDaoImpl<User> implements UserDao {
 
 	@Override
 	public User findByUserName(String username) {
@@ -43,7 +43,7 @@ public class UserDaoImpl extends BaseSuperDaoImpl<User> implements UserDao {
 			params.add("%" + mobile + "%");
 		}
 		sql += " order by u.id desc ";
-		Page<UserDTO> page = this.findSqlForPageForMysql(UserDTO.class, sql, params, start, limit);
+		Page<UserDTO> page = this.findObjectPageByClassInMysql(UserDTO.class, sql, start, limit, params.toArray());
 		List<Long> ids = new ArrayList<Long>();
 		for (UserDTO u : page.getList()) {
 			ids.add(u.getId());

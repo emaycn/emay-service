@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import cn.emay.boot.base.dao.BaseSuperDaoImpl;
+import cn.emay.boot.base.dao.BasePojoSuperDaoImpl;
 import cn.emay.boot.business.system.dao.RoleDao;
 import cn.emay.boot.business.system.pojo.Role;
 import cn.emay.utils.db.common.Page;
@@ -16,7 +16,7 @@ import cn.emay.utils.string.StringUtils;
  * @author frank
  */
 @Repository
-public class RoleDaoImpl extends BaseSuperDaoImpl<Role> implements RoleDao {
+public class RoleDaoImpl extends BasePojoSuperDaoImpl<Role> implements RoleDao {
 
 	@Override
 	public List<Role> getUserRoles(Long userId) {

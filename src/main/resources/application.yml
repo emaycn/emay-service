@@ -103,10 +103,6 @@ scheduler :
 #         resizeIntervalSecond : 10
 
 properties :  
-   loginPage : /login.html
-   errorPage : /error.html       
-   # 文件队列存储路径  
-   storeQueueBaseDir : ./logs/cache/
    # 开发模式--Swagger页面是否开启\是否开启全局跨域
    dev : true
    # 拦截器例外

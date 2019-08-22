@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import cn.emay.boot.base.dao.BaseSuperDaoImpl;
+import cn.emay.boot.base.dao.BasePojoSuperDaoImpl;
 import cn.emay.boot.business.system.dao.DepartmentDao;
 import cn.emay.boot.business.system.pojo.Department;
 import cn.emay.utils.db.common.Page;
@@ -18,7 +18,7 @@ import cn.emay.utils.db.common.Page;
  *
  */
 @Repository
-public class DepartmentDaoImpl extends BaseSuperDaoImpl<Department> implements DepartmentDao {
+public class DepartmentDaoImpl extends BasePojoSuperDaoImpl<Department> implements DepartmentDao {
 
 	@Override
 	public Page<Department> findDepartmentByLikeName(Long id, String departmentName, int start, int limit) {

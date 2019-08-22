@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -57,12 +56,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		configurer.enable();
 	}
 
-	/**
-	 * 重写父类提供的跨域请求处理的接口
-	 */
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		if (propertiesConfig.isDev()) {
+			// dev 环境开启 跨域
 			registry.addMapping("/**").allowedOrigins("*").allowCredentials(true).allowedMethods("GET", "POST", "PUT", "OPTIONS", "DELETE").allowedHeaders("*").exposedHeaders("cookies");
 		}
 	}
@@ -105,19 +102,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	 */
 	public static class XssFilter implements Filter {
 
-		FilterConfig filterConfig = null;
-
 		private Set<String> excludedPageArray;
-
-		@Override
-		public void init(FilterConfig filterConfig) throws ServletException {
-			this.filterConfig = filterConfig;
-		}
-
-		@Override
-		public void destroy() {
-			this.filterConfig = null;
-		}
 
 		@Override
 		public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

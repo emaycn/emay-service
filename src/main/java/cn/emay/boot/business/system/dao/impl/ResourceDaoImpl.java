@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import cn.emay.boot.base.dao.BaseSuperDaoImpl;
+import cn.emay.boot.base.dao.BasePojoSuperDaoImpl;
 import cn.emay.boot.business.system.dao.ResourceDao;
 import cn.emay.boot.business.system.pojo.Resource;
 
@@ -16,7 +16,7 @@ import cn.emay.boot.business.system.pojo.Resource;
  *
  */
 @Repository
-public class ResourceDaoImpl extends BaseSuperDaoImpl<Resource> implements ResourceDao {
+public class ResourceDaoImpl extends BasePojoSuperDaoImpl<Resource> implements ResourceDao {
 
 	@Override
 	public List<Resource> getUserResources(Long userId) {

@@ -9,14 +9,19 @@ package cn.emay.boot.base.constant;
 public class WebConstant {
 
 	/**
-	 * SESSION ID
+	 * Head 中的Token标识
 	 */
-	public final static String HEAD_SESSION_ID = "AUTH-WEB-TOKEN";
+	public final static String HEAD_AUTH_TOKEN = "AUTH-WEB-TOKEN";
 
 	/**
 	 * 登录过期时间(秒)
 	 */
 	public final static Integer LOGIN_TIMEOUT = 24 * 60 * 60;
+
+	/**
+	 * 一小时的毫秒数
+	 */
+	public final static Long HOUR_MILLIS = 60 * 60 * 1000L;
 
 	/**
 	 * 验证码登录标识

@@ -15,15 +15,18 @@ import org.springframework.core.annotation.Order;
 @Order(0)
 public class PropertiesConfig {
 
+	/**
+	 * 排除的权限URL
+	 */
 	private String[] excludeUrlAuth;
-
+	/**
+	 * 排除的XSS防御URL
+	 */
 	private String[] excludeUrlXss;
-
+	/**
+	 * 是否开发环境
+	 */
 	private boolean dev;
-
-	private String loginPage;
-
-	private String errorPage;
 
 	public String[] getExcludeUrlAuth() {
 		return excludeUrlAuth;
@@ -39,22 +42,6 @@ public class PropertiesConfig {
 
 	public void setExcludeUrlXss(String[] excludeUrlXss) {
 		this.excludeUrlXss = excludeUrlXss;
-	}
-
-	public String getErrorPage() {
-		return errorPage;
-	}
-
-	public void setErrorPage(String errorPage) {
-		this.errorPage = errorPage;
-	}
-
-	public String getLoginPage() {
-		return loginPage;
-	}
-
-	public void setLoginPage(String loginPage) {
-		this.loginPage = loginPage;
 	}
 
 	public boolean isDev() {

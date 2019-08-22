@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import cn.emay.boot.base.dao.BaseSuperDaoImpl;
+import cn.emay.boot.base.dao.BasePojoSuperDaoImpl;
 import cn.emay.boot.business.system.dao.UserDepartmentAssignDao;
 import cn.emay.boot.business.system.pojo.UserDepartmentAssign;
 
@@ -15,7 +15,7 @@ import cn.emay.boot.business.system.pojo.UserDepartmentAssign;
  *
  */
 @Repository
-public class UserDepartmentAssignDaoImpl extends BaseSuperDaoImpl<UserDepartmentAssign> implements UserDepartmentAssignDao {
+public class UserDepartmentAssignDaoImpl extends BasePojoSuperDaoImpl<UserDepartmentAssign> implements UserDepartmentAssignDao {
 
 	@Override
 	public Long findByDepId(Long id) {

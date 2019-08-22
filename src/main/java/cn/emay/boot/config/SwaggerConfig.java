@@ -28,8 +28,8 @@ public class SwaggerConfig {
 	}
 
 	private ApiInfo apiInfo() {
-		Contact contact = new Contact("发送短信接口", "http://127.0.0.1:8080/", "shidongxu@emay.cn");
-		return new ApiInfoBuilder().title("发送短信接口").contact(contact).description("这里是 RESTful API 描述").version("1.0.0").build();
+		Contact contact = new Contact("emay spring boot", "http://127.0.0.1:8080/", "emay@emay.cn");
+		return new ApiInfoBuilder().title("emay spring boot").contact(contact).description("emay spring boot").version("1.0.0").build();
 	}
 
 }

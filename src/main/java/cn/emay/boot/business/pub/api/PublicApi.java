@@ -68,7 +68,7 @@ public class PublicApi {
 			return Result.badResult("验证码不能为空");
 		}
 		if (StringUtils.isEmpty(uuid)) {
-			return Result.badResult("禁止攻击");
+			return Result.badResult("参数错误");
 		}
 		boolean isOk = CaptchaUtils.checkByRedis(redis, uuid, WebConstant.CAPTCHA_TAG_LOGIN, captcha);
 		if (!isOk) {

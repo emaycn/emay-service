@@ -20,7 +20,7 @@ import cn.emay.boot.base.constant.ResourceEnum;
 public @interface WebAuth {
 
 	/**
-	 * 可以访问此类/方法的资源代码<br/>
+	 * 可以访问此方法的资源代码<br/>
 	 * 
 	 * @return
 	 */

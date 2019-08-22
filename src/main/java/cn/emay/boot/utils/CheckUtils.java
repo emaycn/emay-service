@@ -3,6 +3,8 @@ package cn.emay.boot.utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.emay.utils.string.StringUtils;
+
 /**
  * 校验工具类
  * 
@@ -12,6 +14,23 @@ import java.util.regex.Pattern;
 public class CheckUtils {
 
 	/**
+	 * 完整号码起始
+	 */
+	private static final String MOBILE_FULL_START = "+861";
+	/**
+	 * 完整号码位数
+	 */
+	private static final int MOBILE_FULL_LENGTH = 14;
+	/**
+	 * 号码起始
+	 */
+	private static final String MOBILE_START = "1";
+	/**
+	 * 号码位数
+	 */
+	private static final int MOBILE_LENGTH = 11;
+
+	/**
 	 * 校验邮箱
 	 * 
 	 * @param email
@@ -19,7 +38,7 @@ public class CheckUtils {
 	 * @return
 	 */
 	public static boolean isEmail(String email) {
-		if (null == email || "".equals(email)) {
+		if (StringUtils.isEmpty(email)) {
 			return false;
 		}
 		String regExp = "^([a-zA-Z0-9]+[_|\\_|\\.|\\-]?)*[\\u4e00-\\u9fa5a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\_|\\.|\\-]?)*[a-zA-Z0-9]*[\\u4e00-\\u9fa5a-zA-Z0-9]+\\.[a-zA-Z]*[\\u4e00-\\u9fa5a-zA-Z0-9]{2,3}$";
@@ -39,14 +58,14 @@ public class CheckUtils {
 		if (null == mobile || "".equals(mobile)) {
 			return false;
 		}
-		if (mobile.startsWith("+861")) {
-			if (mobile.length() == 14) {
+		if (mobile.startsWith(MOBILE_FULL_START)) {
+			if (mobile.length() == MOBILE_FULL_LENGTH) {
 				return true;
 			} else {
 				return false;
 			}
-		} else if (mobile.startsWith("1")) {
-			if (mobile.length() == 11) {
+		} else if (mobile.startsWith(MOBILE_START)) {
+			if (mobile.length() == MOBILE_LENGTH) {
 				return true;
 			} else {
 				return false;

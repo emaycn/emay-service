@@ -135,6 +135,7 @@ public class DatabaseConfig {
 		properties.setProperty("delete*", "PROPAGATION_REQUIRED");
 		properties.setProperty("remove*", "PROPAGATION_REQUIRED");
 		properties.setProperty("update*", "PROPAGATION_REQUIRED");
+		properties.setProperty("reset*", "PROPAGATION_REQUIRED");
 		properties.setProperty("modify*", "PROPAGATION_REQUIRED");
 		properties.setProperty("change*", "PROPAGATION_REQUIRED");
 		properties.setProperty("on*", "PROPAGATION_REQUIRED");
