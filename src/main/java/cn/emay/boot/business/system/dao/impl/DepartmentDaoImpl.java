@@ -19,6 +19,8 @@ import cn.emay.utils.db.common.Page;
  */
 @Repository
 public class DepartmentDaoImpl extends BasePojoSuperDaoImpl<Department> implements DepartmentDao {
+	
+	/*---------------------------------*/
 
 	@Override
 	public Page<Department> findDepartmentByLikeName(Long id, String departmentName, int start, int limit) {

@@ -13,6 +13,8 @@ import cn.emay.utils.db.common.Page;
  */
 public interface DepartmentDao extends BaseSuperDao<Department> {
 
+	/*---------------------------------*/
+	
 	Page<Department> findDepartmentByLikeName(Long id, String departmentName, int start, int limit);
 
 	List<Department> findByIds(List<Long> list);

@@ -25,7 +25,7 @@ public interface UserOperLogService {
 	 * @param type
 	 *            操作类型
 	 */
-	void log(String module,  String content, String type);
+	void saveLogByCurrentUser(String module,  String content, String type);
 
 	/**
 	 * 存储日志

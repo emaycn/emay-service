@@ -13,6 +13,8 @@ import cn.emay.utils.db.common.Page;
  */
 public interface DepartmentService {
 
+	/*---------------------------------*/
+	
 	/**
 	 * 根据名称模糊查找部门
 	 */

@@ -20,6 +20,8 @@ import cn.emay.utils.db.common.Page;
 @Repository
 public class UserDaoImpl extends BasePojoSuperDaoImpl<User> implements UserDao {
 
+	/*---------------------------------*/
+	
 	@Override
 	public User findByUserName(String username) {
 		return this.findByProperty("username", username);

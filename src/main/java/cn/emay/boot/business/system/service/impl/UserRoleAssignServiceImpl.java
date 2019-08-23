@@ -22,12 +22,7 @@ public class UserRoleAssignServiceImpl implements UserRoleAssignService {
 	private UserRoleAssignDao userRoleAssignDao;
 
 	@Override
-	public List<UserRoleAssign> findByUserId(Long userId) {
-		return userRoleAssignDao.findByUserId(userId);
-	}
-
-	@Override
-	public Boolean findByRoleId(Long roleId) {
+	public Boolean findExistsByRoleId(Long roleId) {
 		Boolean isExists = true;
 		List<UserRoleAssign> list = userRoleAssignDao.findByRoleId(roleId);
 		if (null == list || list.isEmpty()) {
@@ -35,4 +30,13 @@ public class UserRoleAssignServiceImpl implements UserRoleAssignService {
 		}
 		return isExists;
 	}
+	
+	/*---------------------------------*/
+	
+	@Override
+	public List<UserRoleAssign> findByUserId(Long userId) {
+		return userRoleAssignDao.findByUserId(userId);
+	}
+
+	
 }

@@ -17,6 +17,13 @@ import cn.emay.boot.business.system.pojo.UserRoleAssign;
 public class UserRoleAssignDaoImpl extends BasePojoSuperDaoImpl<UserRoleAssign> implements UserRoleAssignDao {
 
 	@Override
+	public List<UserRoleAssign> findByRoleId(Long roleId) {
+		return this.findListByProperty("roleId", roleId);
+	}
+	
+	/*---------------------------------*/
+	
+	@Override
 	public void deleteByUserId(Long userId) {
 		this.deleteByProperty("userId", userId);
 	}
@@ -26,9 +33,6 @@ public class UserRoleAssignDaoImpl extends BasePojoSuperDaoImpl<UserRoleAssign> 
 		return this.findListByProperty("userId", userId);
 	}
 
-	@Override
-	public List<UserRoleAssign> findByRoleId(Long roleId) {
-		return this.findListByProperty("roleId", roleId);
-	}
+	
 
 }

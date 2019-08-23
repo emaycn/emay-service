@@ -26,7 +26,7 @@ public class UserOperLogServiceImpl implements UserOperLogService {
 	private UserOperLogDao userOperLogDao;
 	
 	@Override
-	public void log(String module, String content, String type) {
+	public void saveLogByCurrentUser(String module, String content, String type) {
 		User user = WebUtils.getCurrentUser();
 		if(user == null) {
 			throw new IllegalArgumentException("no user login");

@@ -12,6 +12,8 @@ import cn.emay.utils.db.common.Page;
  */
 public interface UserDao extends BaseSuperDao<User> {
 
+	/*---------------------------------*/
+	
 	/**
 	 * 根据用户名查询用户
 	 */

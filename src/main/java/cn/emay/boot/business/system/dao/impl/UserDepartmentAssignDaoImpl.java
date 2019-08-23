@@ -17,6 +17,8 @@ import cn.emay.boot.business.system.pojo.UserDepartmentAssign;
 @Repository
 public class UserDepartmentAssignDaoImpl extends BasePojoSuperDaoImpl<UserDepartmentAssign> implements UserDepartmentAssignDao {
 
+	/*---------------------------------*/
+	
 	@Override
 	public Long findByDepId(Long id) {
 		Map<String, Object> params = new HashMap<String, Object>(4);

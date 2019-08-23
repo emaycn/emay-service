@@ -108,7 +108,7 @@ public class DepartmentApi {
 		departmentService.addDepartment(department);
 		String context = "添加部门:{0}";
 		String module = "部门管理";
-		userOperLogService.log(module, MessageFormat.format(context, new Object[] { departmentName }), UserOperLog.OPERATE_ADD);
+		userOperLogService.saveLogByCurrentUser(module, MessageFormat.format(context, new Object[] { departmentName }), UserOperLog.OPERATE_ADD);
 		return Result.rightResult();
 	}
 
@@ -137,7 +137,7 @@ public class DepartmentApi {
 		departmentService.deleteDepartment(id);
 		String context = "删除部门:{0}";
 		String module = "部门管理";
-		userOperLogService.log(module, MessageFormat.format(context, new Object[] { department.getDepartmentName() }), UserOperLog.OPERATE_DELETE);
+		userOperLogService.saveLogByCurrentUser(module, MessageFormat.format(context, new Object[] { department.getDepartmentName() }), UserOperLog.OPERATE_DELETE);
 		return Result.rightResult();
 	}
 
@@ -195,7 +195,7 @@ public class DepartmentApi {
 		departmentService.modifyDepartment(dept);
 		String context = "修改部门:{0}";
 		String module = "部门管理";
-		userOperLogService.log(module,  MessageFormat.format(context, new Object[] { departmentName }), UserOperLog.OPERATE_MODIFY);
+		userOperLogService.saveLogByCurrentUser(module,  MessageFormat.format(context, new Object[] { departmentName }), UserOperLog.OPERATE_MODIFY);
 		return Result.rightResult();
 	}
 

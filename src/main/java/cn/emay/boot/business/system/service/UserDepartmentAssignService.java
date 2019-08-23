@@ -9,6 +9,8 @@ import cn.emay.boot.business.system.pojo.UserDepartmentAssign;
  */
 public interface UserDepartmentAssignService {
 
+	/*---------------------------------*/
+	
 	/**
 	 * 查询部门下是否还有用户
 	 */

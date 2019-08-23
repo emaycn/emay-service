@@ -16,6 +16,8 @@ import cn.emay.boot.business.system.service.UserDepartmentAssignService;
 @Service
 public class UserDepartmentAssignServiceImpl implements UserDepartmentAssignService {
 
+	/*---------------------------------*/
+	
 	@Resource
 	private UserDepartmentAssignDao userDepartmentAssignDao;
 

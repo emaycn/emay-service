@@ -88,14 +88,12 @@ public class RoleApi {
 		roleService.add(roleName, remark, roleList);
 		String context = "添加角色:{0}";
 		String module = "角色管理";
-		userOperLogService.log(module,  MessageFormat.format(context, new Object[] { roleName }), UserOperLog.OPERATE_ADD);
+		userOperLogService.saveLogByCurrentUser(module, MessageFormat.format(context, new Object[] { roleName }), UserOperLog.OPERATE_ADD);
 		return Result.rightResult();
 	}
 
 	/**
 	 * 修改角色权限
-	 * 
-	 * @return
 	 */
 	@ApiOperation("修改角色权限")
 	@WebAuth({ ResourceEnum.ROLE_MODIFY })
@@ -115,8 +113,19 @@ public class RoleApi {
 		roleService.modify(roleId, roleName, remark, roleList);
 		String context = "修改角色:{0}";
 		String module = "角色管理";
-		userOperLogService.log(module,  MessageFormat.format(context, new Object[] { roleName }), UserOperLog.OPERATE_MODIFY);
+		userOperLogService.saveLogByCurrentUser(module, MessageFormat.format(context, new Object[] { roleName }), UserOperLog.OPERATE_MODIFY);
 		return Result.rightResult();
+	}
+
+	/**
+	 * 角色所有资源
+	 */
+	@WebAuth({ ResourceEnum.ROLE_VIEW })
+	@RequestMapping(value = "/roleResource")
+	@ApiOperation("角色所有资源")
+	public SuperResult<List<Resource>> roleResource(@ApiParam(name = "roleId", value = "角色ID", required = true) @RequestParam Long roleId) {
+		List<Resource> userResource = resourceService.getRoleResources(roleId);
+		return SuperResult.rightResult(userResource);
 	}
 
 	/**
@@ -136,62 +145,59 @@ public class RoleApi {
 		if (role == null) {
 			return Result.badResult("角色不存在");
 		}
-		Boolean isExists = userRoleAssignService.findByRoleId(roleId);
+		Boolean isExists = userRoleAssignService.findExistsByRoleId(roleId);
 		if (isExists) {
 			return Result.badResult("角色已关联用户，无法删除.");
 		}
 		roleService.delete(roleId);
 		String context = "删除角色:{0}";
 		String module = "角色管理";
-		userOperLogService.log(module,  MessageFormat.format(context, new Object[] { role.getRoleName() }), UserOperLog.OPERATE_DELETE);
+		userOperLogService.saveLogByCurrentUser(module, MessageFormat.format(context, new Object[] { role.getRoleName() }), UserOperLog.OPERATE_DELETE);
 		return Result.rightResult();
 	}
 
 	/**
-	 * 角色所有资源
+	 * 检测新增/修改数据
+	 * 
+	 * @param roleName
+	 *            角色名
+	 * @param auths
+	 *            权限集合
+	 * @param remark
+	 *            备注
+	 * @param roleId
+	 *            角色ID
+	 * @param roleList
+	 *            权限接收容器
+	 * @return
 	 */
-	@WebAuth({ ResourceEnum.ROLE_VIEW })
-	@RequestMapping(value = "/roleResource")
-	@ApiOperation("角色所有资源")
-	public SuperResult<List<Resource>> roleResource(@ApiParam(name = "roleId", value = "角色ID", required = true) @RequestParam Long roleId) {
-		List<Resource> userResource = resourceService.getRoleResources(roleId);
-		return SuperResult.rightResult(userResource);
-	}
-
 	private String checkData(String roleName, String auths, String remark, Long roleId, List<RoleResourceAssign> roleList) {
-		String errorMsg = "";
 		if (StringUtils.isEmpty(roleName)) {
-			errorMsg = "角色名不能为空";
-			return errorMsg;
+			return "角色名不能为空";
 		}
 		if (StringUtils.isEmpty(auths)) {
-			errorMsg = "权限不能为空";
-			return errorMsg;
+			return "权限不能为空";
 		}
 		if (roleName.length() > 20) {
-			errorMsg = "角色名称长度不可超过20个字符";
-			return errorMsg;
+			return "角色名称长度不可超过20个字符";
 		}
 		if (!StringUtils.isEmpty(remark) && remark.length() > 50) {
-			errorMsg = "角色描述不能超过50个字符";
-			return errorMsg;
+			return "角色描述不能超过50个字符";
 		}
 		if (CheckUtils.existSpecial(roleName)) {
-			errorMsg = "角色名称不合法";
-			return errorMsg;
+			return "角色名称不合法";
 		}
+		// 修改时校验角色是否存在
 		if (null != roleId) {
 			Role role = roleService.findById(roleId);
 			if (role == null) {
-				errorMsg = "角色不存在";
-				return errorMsg;
+				return "角色不存在";
 			}
 		}
-		Long count = roleService.countNumberByRoleName(roleName, roleId);
 		// 角色名称唯一校验
-		if (count > 0) {
-			errorMsg = "角色名已存在";
-			return errorMsg;
+		boolean hasSame = roleService.hasSameRoleName(roleName, roleId);
+		if (hasSame) {
+			return "角色名已存在";
 		}
 		// 校验权限
 		List<Resource> allResource = resourceService.getAll();
@@ -199,23 +205,21 @@ public class RoleApi {
 		for (Resource resource : allResource) {
 			map.put(resource.getResourceCode(), resource.getId());
 		}
-		try {
-			String[] aus = auths.split(",");
-			for (String au : aus) {
-				if (!map.containsKey(au)) {
-					errorMsg = "权限不存在";
-					return errorMsg;
-				}
-				Long auId = map.get(au);
-				RoleResourceAssign roleResourceAssign = new RoleResourceAssign(roleId, auId);
-				roleList.add(roleResourceAssign);
+		List<RoleResourceAssign> roleList1 = new ArrayList<>();
+		String[] aus = auths.split(",");
+		for (String au : aus) {
+			Long auId = map.get(au);
+			if (auId == null) {
+				continue;
 			}
-		} catch (Exception e) {
-			log.error("权限解析错误", e);
-			errorMsg = "权限解析错误";
-			return errorMsg;
+			RoleResourceAssign roleResourceAssign = new RoleResourceAssign(roleId, auId);
+			roleList1.add(roleResourceAssign);
 		}
-		return errorMsg;
+		if (roleList1.size() == 0) {
+			return "权限不能为空";
+		}
+		roleList.addAll(roleList1);
+		return null;
 	}
 
 }

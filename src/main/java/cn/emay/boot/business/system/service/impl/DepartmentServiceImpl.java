@@ -26,6 +26,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Resource
 	DepartmentDao departmentDao;
 
+	/*---------------------------------*/
+	
 	@Override
 	public Page<DepartmentDTO> findDepartmentByLikeName(Long id, String departmentName, int start, int limit) {
 		Page<Department> page = departmentDao.findDepartmentByLikeName(id, departmentName, start, limit);

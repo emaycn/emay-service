@@ -45,6 +45,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private RoleDao roleDao;
 
+	/*---------------------------------*/
+	
 	@Override
 	public Result add(String username, String realname, String password, String email, String mobile, String roles, Long departmentId, User currentUser) {
 		List<UserRoleAssign> urs = new ArrayList<UserRoleAssign>();

@@ -13,17 +13,25 @@ public interface ResourceService {
 
 	/**
 	 * 获取所有资源
+	 * 
+	 * @return
 	 */
-	public List<Resource> getAll();
+	List<Resource> getAll();
+
+	/**
+	 * 获取角色所有资源
+	 * 
+	 * @param roleId
+	 *            角色ID
+	 * @return
+	 */
+	List<Resource> getRoleResources(Long roleId);
+
+	/*---------------------------------*/
 
 	/**
 	 * 获取用户资源
 	 */
-	public List<Resource> getUserResources(Long userId);
-
-	/**
-	 * 获取角色所有资源
-	 */
-	public List<Resource> getRoleResources(Long roleId);
+	List<Resource> getUserResources(Long userId);
 
 }

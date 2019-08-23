@@ -142,7 +142,7 @@ public class UserApi {
 		}
 		String context = "修改用户{0}";
 		String module = "用户管理";
-		userOperLogService.log(module, MessageFormat.format(context, new Object[] { username }), UserOperLog.OPERATE_MODIFY);
+		userOperLogService.saveLogByCurrentUser(module, MessageFormat.format(context, new Object[] { username }), UserOperLog.OPERATE_MODIFY);
 		return Result.rightResult();
 	}
 
@@ -165,7 +165,7 @@ public class UserApi {
 		}
 		String context = "添加用户{0}";
 		String module = "用户管理";
-		userOperLogService.log(module, MessageFormat.format(context, new Object[] { username }), UserOperLog.OPERATE_ADD);
+		userOperLogService.saveLogByCurrentUser(module, MessageFormat.format(context, new Object[] { username }), UserOperLog.OPERATE_ADD);
 		return Result.rightResult(randomPwd);
 	}
 
@@ -189,7 +189,7 @@ public class UserApi {
 		userService.delete(userId);
 		String context = "删除用户:{0}";
 		String module = "用户管理";
-		userOperLogService.log(module, MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_DELETE);
+		userOperLogService.saveLogByCurrentUser(module, MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_DELETE);
 		return Result.rightResult();
 	}
 
@@ -214,7 +214,7 @@ public class UserApi {
 		User currentUser = WebUtils.getCurrentUser();
 		String context = "启用用户:{0}";
 		String module = "用户管理";
-		userOperLogService.log(module, MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_DELETE);
+		userOperLogService.saveLogByCurrentUser(module, MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_DELETE);
 		log.info("用户:" + currentUser.getUsername() + "启用用户,用户名称为:" + user.getUsername());
 		return Result.rightResult();
 	}
@@ -239,7 +239,7 @@ public class UserApi {
 		userService.off(userId);
 		String context = "停用用户:{0}";
 		String module = "用户管理";
-		userOperLogService.log(module, MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_DELETE);
+		userOperLogService.saveLogByCurrentUser(module, MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_DELETE);
 		return Result.rightResult();
 	}
 
@@ -271,7 +271,7 @@ public class UserApi {
 		}
 		String context = "重置密码的用户:{0}";
 		String module = "用户管理";
-		userOperLogService.log(module, MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_MODIFY);
+		userOperLogService.saveLogByCurrentUser(module, MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_MODIFY);
 		return Result.rightResult(result.getResult());
 	}
 

@@ -24,15 +24,19 @@ public class ResourceServiceImpl implements ResourceService {
 	public List<Resource> getAll() {
 		return resourceDao.findAll();
 	}
+	
+	@Override
+	public List<Resource> getRoleResources(Long roleId) {
+		return resourceDao.getRoleResources(roleId);
+	}
+	
+	/*---------------------------------*/
 
 	@Override
 	public List<Resource> getUserResources(Long userId) {
 		return resourceDao.getUserResources(userId);
 	}
 
-	@Override
-	public List<Resource> getRoleResources(Long roleId) {
-		return resourceDao.getRoleResources(roleId);
-	}
+	
 
 }

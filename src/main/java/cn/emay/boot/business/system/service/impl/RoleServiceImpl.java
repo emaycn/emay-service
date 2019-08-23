@@ -25,46 +25,60 @@ public class RoleServiceImpl implements RoleService {
 	private RoleDao roleDao;
 	@Autowired
 	private RoleResourceAssignDao roleResourceAssignDao;
-
+	
 	@Override
-	public Result add(String roleName, String remark, List<RoleResourceAssign> roleList) {
-		Role role = new Role(roleName, remark);
-		roleDao.save(role);
-		Long roleId = role.getId();
-		for (RoleResourceAssign roleResourceAssign : roleList) {
-			roleResourceAssign.setRoleId(roleId);
-		}
-		roleResourceAssignDao.saveBatch(roleList);
-		return Result.rightResult();
-	}
-
-	@Override
-	public Result modify(Long roleId, String roleName, String remark, List<RoleResourceAssign> roleList) {
-		Role role = roleDao.findById(roleId);
-		role.setRoleName(roleName);
-		role.setRemark(remark);
-		roleDao.update(role);
-		roleResourceAssignDao.deleteByRoleId(roleId);
-		roleResourceAssignDao.saveBatch(roleList);
-		return Result.rightResult();
-	}
-
-	@Override
-	public Result delete(Long roleId) {
-		roleDao.deleteById(roleId);
-		roleResourceAssignDao.deleteByRoleId(roleId);
-		return Result.rightResult();
+	public Page<Role> findPage(int start, int limit, String roleName) {
+		return roleDao.findPage(start, limit, roleName);
 	}
 
 	@Override
 	public Role findById(Long roleId) {
 		return roleDao.findById(roleId);
 	}
-
+	
 	@Override
-	public Page<Role> findPage(int start, int limit, String roleName) {
-		return roleDao.findPage(start, limit, roleName);
+	public boolean hasSameRoleName(String roleName, Long ignoreRoleId) {
+		return roleDao.hasSameRoleName(roleName, ignoreRoleId);
 	}
+	
+	@Override
+	public Result add(String roleName, String remark, List<RoleResourceAssign> roleResourceAssignList) {
+		Role role = new Role(roleName, remark);
+		roleDao.save(role);
+		roleResourceAssignList.stream().forEach(roleResourceAssign -> roleResourceAssign.setRoleId(role.getId()));
+		roleResourceAssignDao.saveBatch(roleResourceAssignList);
+		return Result.rightResult();
+	}
+	
+	@Override
+	public Result modify(Long roleId, String roleName, String remark, List<RoleResourceAssign> roleResourceAssignList) {
+		Role role = roleDao.findById(roleId);
+		role.setRoleName(roleName);
+		role.setRemark(remark);
+		roleDao.update(role);
+		roleResourceAssignDao.deleteByRoleId(roleId);
+		roleResourceAssignDao.saveBatch(roleResourceAssignList);
+		return Result.rightResult();
+	}
+	
+	@Override
+	public Result delete(Long roleId) {
+		roleDao.deleteById(roleId);
+		roleResourceAssignDao.deleteByRoleId(roleId);
+		return Result.rightResult();
+	}
+	
+	/*---------------------------------*/
+	
+
+
+	
+
+
+
+	
+
+	
 
 	@Override
 	public List<Role> getUserRoles(Long userId) {
@@ -76,9 +90,6 @@ public class RoleServiceImpl implements RoleService {
 		return roleDao.findAllRole();
 	}
 
-	@Override
-	public Long countNumberByRoleName(String roleName, Long id) {
-		return roleDao.countNumberByRoleName(roleName, id);
-	}
+	
 
 }

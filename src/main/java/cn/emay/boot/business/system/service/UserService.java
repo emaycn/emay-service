@@ -12,6 +12,8 @@ import cn.emay.utils.result.Result;
  */
 public interface UserService {
 
+	/*---------------------------------*/
+	
 	/**
 	 * 保存用户及角色
 	 */
@@ -25,27 +27,27 @@ public interface UserService {
 	/**
 	 * 修改用户密码
 	 */
-	public Result modifyPassword(Long userId, String newPassword);
+	Result modifyPassword(Long userId, String newPassword);
 
 	/**
 	 * 删除用户
 	 */
-	public Result delete(Long userId);
+	Result delete(Long userId);
 
 	/**
 	 * 启用用户
 	 */
-	public Result on(Long userId);
+	Result on(Long userId);
 
 	/**
 	 * 停用用户
 	 */
-	public Result off(Long userId);
+	Result off(Long userId);
 
 	/**
 	 * 按照ID查找用户
 	 */
-	public User findById(Long userId);
+	User findById(Long userId);
 
 	/**
 	 * 重置用户密码
@@ -55,12 +57,12 @@ public interface UserService {
 	/**
 	 * 按照用户名查找用户
 	 */
-	public User findByUserName(String username);
+	User findByUserName(String username);
 
 	/**
 	 * 分页查询用户
 	 */
-	public Page<UserDTO> findPage(int start, int limit, String username, String realname, String mobile);
+	Page<UserDTO> findPage(int start, int limit, String username, String realname, String mobile);
 
 	/**
 	 * 分页查询用户
