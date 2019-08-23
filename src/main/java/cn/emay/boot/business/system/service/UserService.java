@@ -130,12 +130,16 @@ public interface UserService {
 	 */
 	Result modifyPassword(Long userId, String newPassword);
 
-	/*---------------------------------*/
-
 	/**
 	 * 按照用户名查找用户
+	 * 
+	 * @param username
+	 *            用户名
+	 * @return
 	 */
 	User findByUserName(String username);
+
+	/*---------------------------------*/
 
 	/**
 	 * 分页查询用户

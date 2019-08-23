@@ -33,6 +33,8 @@ public class WebUtils {
 
 	/**
 	 * 获取当前线程的Request
+	 * 
+	 * @return
 	 */
 	public static HttpServletRequest getCurrentHttpRequest() {
 		return ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
@@ -40,6 +42,8 @@ public class WebUtils {
 
 	/**
 	 * 获取当前线程的Response
+	 * 
+	 * @return
 	 */
 	public static HttpServletResponse getCurrentHttpResponse() {
 		return ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getResponse();
@@ -47,6 +51,8 @@ public class WebUtils {
 
 	/**
 	 * 获取当前线程的Request
+	 * 
+	 * @return
 	 */
 	public static HttpSession getCurrentHttpSession() {
 		return ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest().getSession(true);
@@ -54,6 +60,12 @@ public class WebUtils {
 
 	/**
 	 * 登陆
+	 * 
+	 * @param user
+	 *            用户
+	 * @param resources
+	 *            用户权限资源
+	 * @return
 	 */
 	public static WebToken login(User user, List<Resource> resources) {
 		String sessionId = MessageFormat.format(RedisKeys.WEB_TOKEN, UUID.randomUUID().toString().replace("-", "").toUpperCase());
@@ -77,6 +89,8 @@ public class WebUtils {
 	/**
 	 * 获取当前登录用户<br/>
 	 * 每一次请求都要查询一次数据库来验证用户状态，后续可以把用户状态放到redis管理，状态的改变也随时更新redis
+	 * 
+	 * @return
 	 */
 	public static User getCurrentUser() {
 		User user = (User) getCurrentHttpRequest().getAttribute(WebConstant.REQUEST_USER);
@@ -104,6 +118,8 @@ public class WebUtils {
 
 	/**
 	 * 是否有用户登录
+	 * 
+	 * @return
 	 */
 	public static boolean isLogin() {
 		return getCurrentUser() != null;
@@ -111,6 +127,8 @@ public class WebUtils {
 
 	/**
 	 * 获取Token
+	 * 
+	 * @return
 	 */
 	public static WebToken getWebToken() {
 		WebToken token = (WebToken) getCurrentHttpRequest().getAttribute(WebConstant.REQUEST_TOKEN);
@@ -135,6 +153,8 @@ public class WebUtils {
 
 	/**
 	 * 获取SessionId
+	 * 
+	 * @return
 	 */
 	public static String getSessionId() {
 		return getCurrentHttpRequest().getHeader(WebConstant.HEAD_AUTH_TOKEN);

@@ -191,12 +191,12 @@ public class UserServiceImpl implements UserService {
 		return Result.rightResult();
 	}
 
-	/*---------------------------------*/
-
 	@Override
 	public User findByUserName(String username) {
 		return userDao.findByUserName(username);
 	}
+	
+	/*---------------------------------*/
 
 	@Override
 	public Page<UserDTO> findBycondition(String variableName, Long departmentId, int start, int limit) {

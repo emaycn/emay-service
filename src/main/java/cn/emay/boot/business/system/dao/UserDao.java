@@ -51,12 +51,18 @@ public interface UserDao extends BaseSuperDao<User> {
 	 */
 	void updateState(Long userId, int state);
 
-	/*---------------------------------*/
-
 	/**
-	 * 根据用户名查询用户
+	 * 按照用户名查找用户
+	 * 
+	 * @param username
+	 *            用户名
+	 * @return
 	 */
 	User findByUserName(String username);
+
+	/*---------------------------------*/
+
+
 
 	Page<User> findBycondition(String variableName, Long departmentId, int start, int limit);
 

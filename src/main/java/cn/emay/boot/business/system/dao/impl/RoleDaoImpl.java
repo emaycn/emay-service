@@ -62,14 +62,4 @@ public class RoleDaoImpl extends BasePojoSuperDaoImpl<Role> implements RoleDao {
 		return maps;
 	}
 
-	/*---------------------------------*/
-
-	@Override
-	public List<Role> getUserRoles(Long userId) {
-		String hql = " select r from UserRoleAssign ura , Role r where r.id = ura.roleId and ura.userId = :userId ";
-		Map<String, Object> params = new HashMap<String, Object>(4);
-		params.put("userId", userId);
-		return this.getListResult(Role.class, hql, params);
-	}
-
 }

@@ -1,6 +1,5 @@
 package cn.emay.boot.business.system.dao;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -46,12 +45,5 @@ public interface RoleDao extends BaseSuperDao<Role> {
 	 * @return
 	 */
 	Map<Long, String> findRoleNameByUserIds(Set<Long> userIds);
-
-	/*---------------------------------*/
-
-	/**
-	 * 获取用户的所有角色
-	 */
-	List<Role> getUserRoles(Long userId);
 
 }

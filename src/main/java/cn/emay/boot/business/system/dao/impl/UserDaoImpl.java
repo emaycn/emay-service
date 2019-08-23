@@ -33,7 +33,8 @@ public class UserDaoImpl extends BasePojoSuperDaoImpl<User> implements UserDao {
 			hql += " and mobile like :mobile ";
 			params.put("mobile", "%" + mobile + "%");
 		}
-		if (userState != null && (userState == 1 || userState == 0)) {
+		boolean isHasUserState = userState != null && (userState == 1 || userState == 0);
+		if (isHasUserState) {
 			hql += " and userState = :userState ";
 			params.put("userState", userState);
 		}
@@ -57,13 +58,13 @@ public class UserDaoImpl extends BasePojoSuperDaoImpl<User> implements UserDao {
 		params.put("id", userId);
 		this.execByHql(hql, params);
 	}
-
-	/*---------------------------------*/
-
+	
 	@Override
 	public User findByUserName(String username) {
 		return this.findByProperty("username", username);
 	}
+
+	/*---------------------------------*/
 
 	@Override
 	public Page<User> findBycondition(String variableName, Long departmentId, int start, int limit) {

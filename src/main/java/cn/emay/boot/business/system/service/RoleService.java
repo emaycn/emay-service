@@ -92,11 +92,4 @@ public interface RoleService {
 	 */
 	List<Role> findAll();
 
-	/*---------------------------------*/
-
-	/**
-	 * 获取用户的所有角色
-	 */
-	List<Role> getUserRoles(Long userId);
-
 }
