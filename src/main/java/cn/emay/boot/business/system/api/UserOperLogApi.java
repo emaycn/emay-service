@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiOperation;
  * @author lijunjian
  *
  */
-@RequestMapping(value = "/user/log", method = RequestMethod.POST)
+@RequestMapping(value = "/userlog", method = RequestMethod.POST)
 @RestController
 @Api(tags = { "日志管理" })
 public class UserOperLogApi {
@@ -39,10 +39,11 @@ public class UserOperLogApi {
 	@RequestMapping("/page")
 	@ApiOperation("分页查询日志列表")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "start", value = "起始数据位置", required = true, dataType = "int"), @ApiImplicitParam(name = "limit", value = "数据条数", required = true, dataType = "int"),
-			@ApiImplicitParam(name = "username", value = "操作用户", dataType = "String"), @ApiImplicitParam(name = "content", value = "内容", dataType = "String"),
-			@ApiImplicitParam(name = "startDate", value = "操作开始时间", dataType = "Date"), @ApiImplicitParam(name = "endDate", value = "操作结束时间", dataType = "Date"), })
-	public SuperResult<Page<UserOperLog>> page(String username, String content, Date startDate, Date endDate, int start, int limit) {
-		Page<UserOperLog> userpage = userOperLogService.findByPage(username, content, startDate, endDate, start, limit);
+			@ApiImplicitParam(name = "username", value = "操作用户", dataType = "String"), @ApiImplicitParam(name = "realname", value = "用户姓名", dataType = "String"),
+			@ApiImplicitParam(name = "content", value = "内容", dataType = "String"), @ApiImplicitParam(name = "startDate", value = "操作开始时间", dataType = "Date"),
+			@ApiImplicitParam(name = "endDate", value = "操作结束时间", dataType = "Date"), })
+	public SuperResult<Page<UserOperLog>> page(String username, String realname, String content, Date startDate, Date endDate, int start, int limit) {
+		Page<UserOperLog> userpage = userOperLogService.findByPage(username, realname, content, startDate, endDate, start, limit);
 		return SuperResult.rightResult(userpage);
 	}
 }

@@ -62,13 +62,13 @@ public class UserApi {
 	@Resource
 	private DepartmentService departmentService;
 	@Resource
-	private UserOperLogService userOperLogService;
-	@Resource
 	private UserRoleAssignService userRoleAssignService;
 	@Resource
 	private UserDepartmentAssignService userDepartmentAssignService;
 	@Resource
 	private RoleService roleService;
+	@Autowired
+	private UserOperLogService userOperLogService;
 
 	/**
 	 * 用户列表
@@ -101,7 +101,7 @@ public class UserApi {
 		List<UserRoleAssign> userRoles = userRoleAssignService.findByUserId(id);
 		UserDepartmentAssign userDepartmentAssign = userDepartmentAssignService.findByUserId(id);
 		UserDTO dto = new UserDTO(user, userRoles);
-		Map<String, Object> map = new HashMap<String, Object>(4);
+		Map<String, Object> map = new HashMap<String, Object>();
 		if (null != userDepartmentAssign) {
 			Department department = departmentService.findDepartmentById(userDepartmentAssign.getSystemDepartmentId());
 			map.put("department", department);
@@ -140,11 +140,9 @@ public class UserApi {
 		if (!result.getSuccess()) {
 			return result;
 		}
-		User currentUser = WebUtils.getCurrentUser();
 		String context = "修改用户{0}";
 		String module = "用户管理";
-		userOperLogService.saveLog(module, currentUser.getId(), currentUser.getUsername(), MessageFormat.format(context, new Object[] { username }), UserOperLog.OPERATE_MODIFY);
-		log.info("用户:" + currentUser.getUsername() + "修改用户,用户名称为:" + username);
+		userOperLogService.log(module, MessageFormat.format(context, new Object[] { username }), UserOperLog.OPERATE_MODIFY);
 		return Result.rightResult();
 	}
 
@@ -167,8 +165,7 @@ public class UserApi {
 		}
 		String context = "添加用户{0}";
 		String module = "用户管理";
-		userOperLogService.saveLog(module, currentUser.getId(), currentUser.getUsername(), MessageFormat.format(context, new Object[] { username }), UserOperLog.OPERATE_ADD);
-		log.info("用户:" + currentUser.getUsername() + "添加用户,用户名称为:" + username);
+		userOperLogService.log(module, MessageFormat.format(context, new Object[] { username }), UserOperLog.OPERATE_ADD);
 		return Result.rightResult(randomPwd);
 	}
 
@@ -190,11 +187,9 @@ public class UserApi {
 			return Result.badResult("不能操作ADMIN");
 		}
 		userService.delete(userId);
-		User currentUser = WebUtils.getCurrentUser();
 		String context = "删除用户:{0}";
 		String module = "用户管理";
-		userOperLogService.saveLog(module, currentUser.getId(), currentUser.getUsername(), MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_DELETE);
-		log.info("用户:" + currentUser.getUsername() + "删除用户,用户名称为:" + user.getUsername());
+		userOperLogService.log(module, MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_DELETE);
 		return Result.rightResult();
 	}
 
@@ -219,7 +214,7 @@ public class UserApi {
 		User currentUser = WebUtils.getCurrentUser();
 		String context = "启用用户:{0}";
 		String module = "用户管理";
-		userOperLogService.saveLog(module, currentUser.getId(), currentUser.getUsername(), MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_DELETE);
+		userOperLogService.log(module, MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_DELETE);
 		log.info("用户:" + currentUser.getUsername() + "启用用户,用户名称为:" + user.getUsername());
 		return Result.rightResult();
 	}
@@ -242,11 +237,9 @@ public class UserApi {
 			return Result.badResult("用户不存在");
 		}
 		userService.off(userId);
-		User currentUser = WebUtils.getCurrentUser();
 		String context = "停用用户:{0}";
 		String module = "用户管理";
-		userOperLogService.saveLog(module, currentUser.getId(), currentUser.getUsername(), MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_DELETE);
-		log.info("用户:" + currentUser.getUsername() + "停用用户,用户名称为:" + user.getUsername());
+		userOperLogService.log(module, MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_DELETE);
 		return Result.rightResult();
 	}
 
@@ -270,14 +263,15 @@ public class UserApi {
 		if (currentUser.getId().equals(userId)) {
 			return Result.badResult("不能重置自己");
 		}
-		Result result = userService.updateResetUserPassword(user);
+		String randomPwd = RandomUtils.randomCharset(6);
+		String newEnPassword = PasswordUtils.encrypt(randomPwd);
+		Result result = userService.resetPassword(userId, newEnPassword);
 		if (!result.getSuccess()) {
 			return result;
 		}
 		String context = "重置密码的用户:{0}";
 		String module = "用户管理";
-		userOperLogService.saveLog(module, currentUser.getId(), currentUser.getUsername(), MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_MODIFY);
-		log.info("用户:" + currentUser.getUsername() + "重置用户密码,用户名称为:" + user.getUsername());
+		userOperLogService.log(module, MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_MODIFY);
 		return Result.rightResult(result.getResult());
 	}
 

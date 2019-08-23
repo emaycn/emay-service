@@ -35,9 +35,9 @@ public class UserOperLog implements Serializable {
 	 */
 	public static final String OPERATE_MODIFY = "MODIFY";
 	/**
-	 * 操作类型
+	 * 查询类型
 	 */
-	public static final String OPERATE_DOWNLOAD = "DOWNLOAD";
+	public static final String OPERATE_SELECT = "SELECT";
 
 	/**
 	 * ID
@@ -54,8 +54,13 @@ public class UserOperLog implements Serializable {
 	/**
 	 * 用户名
 	 */
-	@Column(name = "user_name")
+	@Column(name = "username")
 	private String username; 
+	/**
+	 * 真实姓名
+	 */
+	@Column(name = "realname")
+	private String realname;
 	/**
 	 * 操作模块
 	 */
@@ -132,4 +137,14 @@ public class UserOperLog implements Serializable {
 	public void setOperType(String operType) {
 		this.operType = operType;
 	}
+
+	public String getRealname() {
+		return realname;
+	}
+
+	public void setRealname(String realname) {
+		this.realname = realname;
+	}
+	
+	
 }

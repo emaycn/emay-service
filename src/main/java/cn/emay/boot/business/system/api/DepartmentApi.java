@@ -5,14 +5,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,17 +19,20 @@ import cn.emay.boot.base.web.WebAuth;
 import cn.emay.boot.business.system.dto.DepartmentDTO;
 import cn.emay.boot.business.system.dto.UserDTO;
 import cn.emay.boot.business.system.pojo.Department;
-import cn.emay.boot.business.system.pojo.User;
 import cn.emay.boot.business.system.pojo.UserOperLog;
 import cn.emay.boot.business.system.service.DepartmentService;
 import cn.emay.boot.business.system.service.UserDepartmentAssignService;
 import cn.emay.boot.business.system.service.UserOperLogService;
 import cn.emay.boot.business.system.service.UserService;
 import cn.emay.boot.utils.CheckUtils;
-import cn.emay.boot.utils.WebUtils;
 import cn.emay.utils.db.common.Page;
 import cn.emay.utils.result.Result;
 import cn.emay.utils.result.SuperResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 /**
  * 部门API
@@ -51,11 +49,11 @@ public class DepartmentApi {
 	@Resource
 	private DepartmentService departmentService;
 	@Resource
-	private UserOperLogService userOperLogService;
-	@Resource
 	private UserDepartmentAssignService userDepartmentAssignService;
 	@Resource
 	private UserService userService;
+	@Autowired
+	private UserOperLogService userOperLogService;
 
 	/**
 	 * 部门列表
@@ -110,9 +108,7 @@ public class DepartmentApi {
 		departmentService.addDepartment(department);
 		String context = "添加部门:{0}";
 		String module = "部门管理";
-		User user = WebUtils.getCurrentUser();
-		userOperLogService.saveLog(module, user.getId(), user.getUsername(), MessageFormat.format(context, new Object[] { departmentName }), UserOperLog.OPERATE_ADD);
-		log.info("用户:" + user.getUsername() + "添加部门,部门名称为:" + departmentName);
+		userOperLogService.log(module, MessageFormat.format(context, new Object[] { departmentName }), UserOperLog.OPERATE_ADD);
 		return Result.rightResult();
 	}
 
@@ -139,11 +135,9 @@ public class DepartmentApi {
 			return Result.badResult("该部门下有用户存在，不能删除");
 		}
 		departmentService.deleteDepartment(id);
-		User user = WebUtils.getCurrentUser();
 		String context = "删除部门:{0}";
 		String module = "部门管理";
-		userOperLogService.saveLog(module, user.getId(), user.getUsername(), MessageFormat.format(context, new Object[] { department.getDepartmentName() }), UserOperLog.OPERATE_DELETE);
-		log.info("用户:" + user.getUsername() + "删除部门,部门名称为:" + department.getDepartmentName());
+		userOperLogService.log(module, MessageFormat.format(context, new Object[] { department.getDepartmentName() }), UserOperLog.OPERATE_DELETE);
 		return Result.rightResult();
 	}
 
@@ -186,7 +180,6 @@ public class DepartmentApi {
 	@ApiOperation("修改部门名称")
 	public Result modify(Long id, String departmentName) {
 		String errorMsg = "";
-		User user = WebUtils.getCurrentUser();
 		if (null == id) {
 			return Result.badResult("部门ID不能为空");
 		}
@@ -202,8 +195,7 @@ public class DepartmentApi {
 		departmentService.modifyDepartment(dept);
 		String context = "修改部门:{0}";
 		String module = "部门管理";
-		userOperLogService.saveLog(module, user.getId(), user.getUsername(), MessageFormat.format(context, new Object[] { departmentName }), UserOperLog.OPERATE_MODIFY);
-		log.info("用户:" + user.getUsername() + "修改部门,部门名称为:" + departmentName);
+		userOperLogService.log(module,  MessageFormat.format(context, new Object[] { departmentName }), UserOperLog.OPERATE_MODIFY);
 		return Result.rightResult();
 	}
 

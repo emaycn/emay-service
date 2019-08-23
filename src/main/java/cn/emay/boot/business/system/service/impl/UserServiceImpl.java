@@ -23,10 +23,7 @@ import cn.emay.boot.business.system.pojo.User;
 import cn.emay.boot.business.system.pojo.UserDepartmentAssign;
 import cn.emay.boot.business.system.pojo.UserRoleAssign;
 import cn.emay.boot.business.system.service.UserService;
-import cn.emay.boot.utils.PasswordUtils;
-import cn.emay.boot.utils.RandomUtils;
 import cn.emay.utils.db.common.Page;
-import cn.emay.utils.encryption.Md5;
 import cn.emay.utils.result.Result;
 
 /**
@@ -125,7 +122,7 @@ public class UserServiceImpl implements UserService {
 			roleIdSet.add(Long.valueOf(roleId));
 		}
 		List<Role> roles = roleDao.findAllRole();
-		Map<Long, Role> map = new HashMap<Long, Role>(roles.size());
+		Map<Long, Role> map = new HashMap<Long, Role>();
 		for (Role role : roles) {
 			map.put(role.getId(), role);
 		}
@@ -181,7 +178,7 @@ public class UserServiceImpl implements UserService {
 		if (user == null) {
 			return Result.badResult("用户不存在");
 		}
-		user.setPassword(Md5.md5(newPassword));
+		user.setPassword(newPassword);
 		userDao.update(user);
 		return Result.rightResult();
 	}
@@ -212,13 +209,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Result updateResetUserPassword(User user) {
-		String randomPwd = RandomUtils.randomCharset(6);
-		String newEnPassword = PasswordUtils.encrypt(randomPwd);
-		user.setPassword(newEnPassword);
+	public Result resetPassword(Long userId,String newPassword) {
+		User user = userDao.findById(userId);
+		if (user == null) {
+			return Result.badResult("用户不存在");
+		}
+		user.setPassword(newPassword);
 		user.setLastChangePasswordTime(null);
 		userDao.update(user);
-		return Result.rightResult(randomPwd);
+		return Result.rightResult();
 	}
 
 }

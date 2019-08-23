@@ -132,13 +132,14 @@ drop table if exists system_user_oper_log;
 CREATE TABLE `system_user_oper_log` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL COMMENT '用户ID',
-  `user_name` varchar(128) NOT NULL COMMENT '用户名',
+  `username` varchar(64) NOT NULL COMMENT '用户名',
+  `realname` varchar(64) NOT NULL COMMENT '姓名',
   `module` varchar(32) NOT NULL COMMENT '操作模块',
   `content` varchar(5120) NOT NULL COMMENT '操作内容',
   `oper_type` varchar(32) NOT NULL COMMENT '操作类型',
   `oper_time` datetime NOT NULL COMMENT '操作时间[ADD-增，DELETE-删，MODIFY-改，SELECT-查]',
   `last_update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   PRIMARY KEY (`id`),
-  KEY `suol_un` (`user_name`),
+  KEY `suol_un` (`username`),
   KEY `suol_ot` (`oper_type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='用户操作日志表';

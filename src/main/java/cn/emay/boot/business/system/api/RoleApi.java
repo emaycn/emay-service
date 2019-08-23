@@ -1,11 +1,5 @@
 package cn.emay.boot.business.system.api;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,17 +20,20 @@ import cn.emay.boot.base.web.WebAuth;
 import cn.emay.boot.business.system.pojo.Resource;
 import cn.emay.boot.business.system.pojo.Role;
 import cn.emay.boot.business.system.pojo.RoleResourceAssign;
-import cn.emay.boot.business.system.pojo.User;
 import cn.emay.boot.business.system.pojo.UserOperLog;
 import cn.emay.boot.business.system.service.ResourceService;
 import cn.emay.boot.business.system.service.RoleService;
 import cn.emay.boot.business.system.service.UserOperLogService;
 import cn.emay.boot.business.system.service.UserRoleAssignService;
 import cn.emay.boot.utils.CheckUtils;
-import cn.emay.boot.utils.WebUtils;
 import cn.emay.utils.db.common.Page;
 import cn.emay.utils.result.Result;
 import cn.emay.utils.result.SuperResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 /**
  * 角色API
@@ -56,9 +53,9 @@ public class RoleApi {
 	@Autowired
 	private ResourceService resourceService;
 	@Autowired
-	private UserOperLogService userOperLogService;
-	@Autowired
 	private UserRoleAssignService userRoleAssignService;
+	@Autowired
+	private UserOperLogService userOperLogService;
 
 	/**
 	 * 角色列表
@@ -89,11 +86,9 @@ public class RoleApi {
 			return Result.badResult(errorMsg);
 		}
 		roleService.add(roleName, remark, roleList);
-		User currentUser = WebUtils.getCurrentUser();
 		String context = "添加角色:{0}";
 		String module = "角色管理";
-		userOperLogService.saveLog(module, currentUser.getId(), currentUser.getUsername(), MessageFormat.format(context, new Object[] { roleName }), UserOperLog.OPERATE_ADD);
-		log.info("用户:" + currentUser.getUsername() + "添加角色,角色名称为:" + roleName);
+		userOperLogService.log(module,  MessageFormat.format(context, new Object[] { roleName }), UserOperLog.OPERATE_ADD);
 		return Result.rightResult();
 	}
 
@@ -118,11 +113,9 @@ public class RoleApi {
 			return Result.badResult(errorMsg);
 		}
 		roleService.modify(roleId, roleName, remark, roleList);
-		User currentUser = WebUtils.getCurrentUser();
 		String context = "修改角色:{0}";
 		String module = "角色管理";
-		userOperLogService.saveLog(module, currentUser.getId(), currentUser.getUsername(), MessageFormat.format(context, new Object[] { roleName }), UserOperLog.OPERATE_MODIFY);
-		log.info("用户:" + currentUser.getUsername() + "修改角色,角色名称为:" + roleName);
+		userOperLogService.log(module,  MessageFormat.format(context, new Object[] { roleName }), UserOperLog.OPERATE_MODIFY);
 		return Result.rightResult();
 	}
 
@@ -148,11 +141,9 @@ public class RoleApi {
 			return Result.badResult("角色已关联用户，无法删除.");
 		}
 		roleService.delete(roleId);
-		User currentUser = WebUtils.getCurrentUser();
 		String context = "删除角色:{0}";
 		String module = "角色管理";
-		userOperLogService.saveLog(module, currentUser.getId(), currentUser.getUsername(), MessageFormat.format(context, new Object[] { role.getRoleName() }), UserOperLog.OPERATE_DELETE);
-		log.info("用户:" + currentUser.getUsername() + "删除角色,角色名称为:" + role.getRoleName());
+		userOperLogService.log(module,  MessageFormat.format(context, new Object[] { role.getRoleName() }), UserOperLog.OPERATE_DELETE);
 		return Result.rightResult();
 	}
 
@@ -204,7 +195,7 @@ public class RoleApi {
 		}
 		// 校验权限
 		List<Resource> allResource = resourceService.getAll();
-		Map<String, Long> map = new HashMap<String, Long>(allResource.size());
+		Map<String, Long> map = new HashMap<String, Long>();
 		for (Resource resource : allResource) {
 			map.put(resource.getResourceCode(), resource.getId());
 		}

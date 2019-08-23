@@ -7,8 +7,10 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import cn.emay.boot.business.system.dao.UserOperLogDao;
+import cn.emay.boot.business.system.pojo.User;
 import cn.emay.boot.business.system.pojo.UserOperLog;
 import cn.emay.boot.business.system.service.UserOperLogService;
+import cn.emay.boot.utils.WebUtils;
 import cn.emay.utils.db.common.Page;
 import cn.emay.utils.string.StringUtils;
 
@@ -22,25 +24,35 @@ public class UserOperLogServiceImpl implements UserOperLogService {
 
 	@Resource
 	private UserOperLogDao userOperLogDao;
+	
+	@Override
+	public void log(String module, String content, String type) {
+		User user = WebUtils.getCurrentUser();
+		if(user == null) {
+			throw new IllegalArgumentException("no user login");
+		}
+		saveLog(module, user, content, type);
+	}
 
 	@Override
-	public void saveLog(String module, Long userId, String username, String content, String type) {
+	public void saveLog(String module, User user, String content, String type) {
 		UserOperLog log = new UserOperLog();
 		log.setContent(content);
 		log.setModule(module);
-		log.setUsername(username);
+		log.setUsername(user.getUsername());
 		log.setOperTime(new Date());
 		log.setOperType(type);
-		log.setUserId(userId);
+		log.setUserId(user.getId());
+		log.setRealname(user.getRealname());
 		userOperLogDao.save(log);
 	}
 
 	@Override
-	public Page<UserOperLog> findByPage(String username, String content, Date startDate, Date endDate, int start, int limit) {
-		if (!StringUtils.isEmpty(username)) {
-			username = username.toLowerCase();
-		}
-		return userOperLogDao.findByPage(username, content, startDate, endDate, start, limit);
+	public Page<UserOperLog> findByPage(String username, String realname, String content, Date startDate, Date endDate, int start, int limit) {
+		username = !StringUtils.isEmpty(username) ? username.toLowerCase() : username;
+		return userOperLogDao.findByPage(username, realname, content, startDate, endDate, start, limit);
 	}
+
+	
 
 }

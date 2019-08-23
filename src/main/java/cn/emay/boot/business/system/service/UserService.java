@@ -50,7 +50,7 @@ public interface UserService {
 	/**
 	 * 重置用户密码
 	 */
-	Result updateResetUserPassword(User user);
+	Result resetPassword(Long userId,String newPassword);
 
 	/**
 	 * 按照用户名查找用户

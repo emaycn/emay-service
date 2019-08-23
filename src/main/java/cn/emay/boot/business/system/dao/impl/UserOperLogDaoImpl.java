@@ -21,22 +21,26 @@ import cn.emay.utils.db.common.Page;
 public class UserOperLogDaoImpl extends BasePojoSuperDaoImpl<UserOperLog> implements UserOperLogDao {
 
 	@Override
-	public Page<UserOperLog> findByPage(String username, String content, Date startDate, Date endDate, int start, int limit) {
-		Map<String, Object> param = new HashMap<String, Object>(8);
+	public Page<UserOperLog> findByPage(String username, String realname, String content, Date startDate, Date endDate, int start, int limit) {
+		Map<String, Object> param = new HashMap<String, Object>();
 		String hql = "from UserOperLog m where 1=1";
 		if (!StringUtils.isEmpty(content)) {
 			hql += " and  m.content like :context ";
 			param.put("context", "%" + content + "%");
 		}
 		if (!StringUtils.isEmpty(username)) {
-			hql += " and  m.username = :username ";
-			param.put("username", username);
+			hql += " and  m.username like :username ";
+			param.put("username", "%" + username + "%");
 		}
-		if (!StringUtils.isEmpty(startDate)) {
+		if (!StringUtils.isEmpty(realname)) {
+			hql += " and  m.realname like :realname ";
+			param.put("realname", "%" + realname + "%");
+		}
+		if (startDate != null) {
 			hql += " and m.operTime >= :startDate";
 			param.put("startDate", startDate);
 		}
-		if (!StringUtils.isEmpty(endDate)) {
+		if (endDate != null) {
 			hql += " and m.operTime <= :endDate";
 			param.put("endDate", endDate);
 		}

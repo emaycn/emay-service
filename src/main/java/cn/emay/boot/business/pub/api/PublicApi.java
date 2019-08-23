@@ -1,5 +1,6 @@
 package cn.emay.boot.business.pub.api;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.emay.boot.base.constant.WebConstant;
+import cn.emay.boot.base.web.WebAuth;
 import cn.emay.boot.base.web.WebToken;
 import cn.emay.boot.business.system.pojo.Resource;
 import cn.emay.boot.business.system.pojo.User;
@@ -61,6 +63,7 @@ public class PublicApi {
 		if (StringUtils.isEmpty(username)) {
 			return Result.badResult("用户名不能为空");
 		}
+		username = username.toLowerCase();
 		if (StringUtils.isEmpty(password)) {
 			return Result.badResult("密码不能为空");
 		}
@@ -88,6 +91,28 @@ public class PublicApi {
 		List<Resource> userResource = resourceService.getUserResources(user.getId());
 		WebToken token = WebUtils.login(user, userResource);
 		return Result.rightResult(token);
+	}
+	
+	/**
+	 * 修改密码
+	 */
+	@WebAuth
+	@RequestMapping(value = "/changePassword")
+	public Result changepass(String password, String newpass) throws IOException {
+		if (password == null) {
+			return Result.badResult("原密码不能为空");
+		}
+		if (newpass == null) {
+			return Result.badResult("新密码不能为空");
+		}
+		User user = WebUtils.getCurrentUser();
+		String pass = PasswordUtils.encrypt(password);
+		if (!user.getPassword().equals(pass)) {
+			return Result.badResult("密码错误");
+		}
+		String newpass1 = PasswordUtils.encrypt(newpass);
+		userService.modifyPassword(user.getId(), newpass1);
+		return Result.rightResult();
 	}
 
 }
