@@ -13,8 +13,26 @@ import cn.emay.utils.db.common.Page;
  */
 public interface DepartmentService {
 
+	/**
+	 * 根据父类id查找部门
+	 * 
+	 * @param parentId
+	 *            父级部门ID
+	 * @return
+	 */
+	List<Department> findByParentId(Long parentId);
+
+	/**
+	 * 查询用户所属部门
+	 * 
+	 * @param userId
+	 *            用户ID
+	 * @return
+	 */
+	Department findByUserId(Long userId);
+
 	/*---------------------------------*/
-	
+
 	/**
 	 * 根据名称模糊查找部门
 	 */
@@ -44,11 +62,6 @@ public interface DepartmentService {
 	 * 修改部门
 	 */
 	void modifyDepartment(Department department);
-
-	/**
-	 * 根据父类id查找部门
-	 */
-	List<Department> findByParentId(Long parentId);
 
 	/**
 	 * 根据名称查找部门

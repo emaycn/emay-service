@@ -67,11 +67,6 @@ public class User implements java.io.Serializable {
 	@Column(name = "user_state")
 	private Integer userState;
 	/**
-	 * 说明
-	 */
-	@Column(name = "remark")
-	private String remark;
-	/**
 	 * 创建时间
 	 */
 	@Column(name = "create_time")
@@ -93,7 +88,7 @@ public class User implements java.io.Serializable {
 
 	}
 
-	public User(String username, String password, String realname, String mobile, String email, String remark, Long operatorId) {
+	public User(String username, String password, String realname, String mobile, String email, Long operatorId) {
 		this.username = username;
 		this.password = password;
 		this.realname = realname;
@@ -101,7 +96,6 @@ public class User implements java.io.Serializable {
 		this.email = email;
 		this.createTime = new Date();
 		this.userState = STATE_ON;
-		this.remark = remark;
 		this.operatorId = operatorId;
 	}
 
@@ -167,14 +161,6 @@ public class User implements java.io.Serializable {
 
 	public void setUserState(Integer userState) {
 		this.userState = userState;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
 	}
 
 	public Long getOperatorId() {

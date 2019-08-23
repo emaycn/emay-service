@@ -24,11 +24,11 @@ public class UserOperLogServiceImpl implements UserOperLogService {
 
 	@Resource
 	private UserOperLogDao userOperLogDao;
-	
+
 	@Override
 	public void saveLogByCurrentUser(String module, String content, String type) {
 		User user = WebUtils.getCurrentUser();
-		if(user == null) {
+		if (user == null) {
 			throw new IllegalArgumentException("no user login");
 		}
 		saveLog(module, user, content, type);
@@ -52,7 +52,5 @@ public class UserOperLogServiceImpl implements UserOperLogService {
 		username = !StringUtils.isEmpty(username) ? username.toLowerCase() : username;
 		return userOperLogDao.findByPage(username, realname, content, startDate, endDate, start, limit);
 	}
-
-	
 
 }

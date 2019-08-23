@@ -21,5 +21,5 @@ public class PasswordUtils {
 	public static String encrypt(String password) {
 		return Md5.md5(Aes.encrypt(password.getBytes(), "EMAYEUCPEMRPEBDP".getBytes(), "AES/ECB/PKCS5Padding"));
 	}
-	
+
 }

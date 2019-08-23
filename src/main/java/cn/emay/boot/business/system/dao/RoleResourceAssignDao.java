@@ -9,11 +9,12 @@ import cn.emay.orm.BaseSuperDao;
  *
  */
 public interface RoleResourceAssignDao extends BaseSuperDao<RoleResourceAssign> {
-	
+
 	/**
 	 * 删除角色的绑定关系
 	 * 
-	 * @param roleId 角色ID
+	 * @param roleId
+	 *            角色ID
 	 */
 	void deleteByRoleId(Long roleId);
 

@@ -17,24 +17,19 @@ import cn.emay.boot.business.system.pojo.UserDepartmentAssign;
 @Repository
 public class UserDepartmentAssignDaoImpl extends BasePojoSuperDaoImpl<UserDepartmentAssign> implements UserDepartmentAssignDao {
 
+	@Override
+	public void deleteByUserId(Long userId) {
+		this.deleteByProperty("systemUserId", userId);
+	}
+
 	/*---------------------------------*/
-	
+
 	@Override
 	public Long findByDepId(Long id) {
 		Map<String, Object> params = new HashMap<String, Object>(4);
 		String hql = "select count(*) from UserDepartmentAssign where systemDepartmentId=:id";
 		params.put("id", id);
 		return (Long) super.getUniqueResult(hql, params);
-	}
-
-	@Override
-	public void deleteDataByUserId(Long userId) {
-		this.deleteByProperty("systemUserId", userId);
-	}
-
-	@Override
-	public UserDepartmentAssign findByUserId(Long userId) {
-		return this.findByProperty("systemUserId", userId);
 	}
 
 }

@@ -72,7 +72,6 @@ CREATE TABLE `system_user` (
   `mobile` varchar(32) DEFAULT NULL COMMENT '手机',
   `email` varchar(128) DEFAULT NULL COMMENT '邮箱',
   `user_state` tinyint(4) NOT NULL COMMENT '状态[0-停用，1-启用]',
-  `remark` varchar(1024) DEFAULT NULL COMMENT '备注',
   `last_change_password_time` datetime DEFAULT NULL COMMENT '最后一次修改密码时间',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `operator_id` bigint(20) NOT NULL COMMENT '创建人',
@@ -83,7 +82,7 @@ CREATE TABLE `system_user` (
   KEY `su_us` (`user_state`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='系统用户';
 
-INSERT INTO `system_user` VALUES ('1', 'admin', '5BD43B195E015514A965C49B1F3BA448', '管理员', '13801000000', 'admin@emay.cn', '1', '', now(), now(), '1', now());
+INSERT INTO `system_user` VALUES (1, 'admin', '5BD43B195E015514A965C49B1F3BA448', '管理员', '13801000000', 'admin@emay.cn', 1, now(), now(), 1, now());
 
 
 drop table if exists system_user_role_assign;

@@ -7,12 +7,12 @@ package cn.emay.boot.base.constant;
  *
  */
 public class RedisKeys {
-	
+
 	/**
 	 * 图片验证码
 	 */
 	public static final String CAPTCHA = "CAPTCHA-{0}-{1}";
-	
+
 	/**
 	 * 登录Token
 	 */

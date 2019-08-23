@@ -12,7 +12,7 @@ import cn.emay.utils.db.common.Page;
  *
  */
 public interface UserOperLogService {
-	
+
 	/**
 	 * 存储日志<br/>
 	 * 自动获取当前用户,防止传入其他用户<br/>
@@ -25,7 +25,7 @@ public interface UserOperLogService {
 	 * @param type
 	 *            操作类型
 	 */
-	void saveLogByCurrentUser(String module,  String content, String type);
+	void saveLogByCurrentUser(String module, String content, String type);
 
 	/**
 	 * 存储日志

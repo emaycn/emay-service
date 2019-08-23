@@ -25,7 +25,7 @@ public class RoleServiceImpl implements RoleService {
 	private RoleDao roleDao;
 	@Autowired
 	private RoleResourceAssignDao roleResourceAssignDao;
-	
+
 	@Override
 	public Page<Role> findPage(int start, int limit, String roleName) {
 		return roleDao.findPage(start, limit, roleName);
@@ -35,12 +35,12 @@ public class RoleServiceImpl implements RoleService {
 	public Role findById(Long roleId) {
 		return roleDao.findById(roleId);
 	}
-	
+
 	@Override
 	public boolean hasSameRoleName(String roleName, Long ignoreRoleId) {
 		return roleDao.hasSameRoleName(roleName, ignoreRoleId);
 	}
-	
+
 	@Override
 	public Result add(String roleName, String remark, List<RoleResourceAssign> roleResourceAssignList) {
 		Role role = new Role(roleName, remark);
@@ -49,7 +49,7 @@ public class RoleServiceImpl implements RoleService {
 		roleResourceAssignDao.saveBatch(roleResourceAssignList);
 		return Result.rightResult();
 	}
-	
+
 	@Override
 	public Result modify(Long roleId, String roleName, String remark, List<RoleResourceAssign> roleResourceAssignList) {
 		Role role = roleDao.findById(roleId);
@@ -60,36 +60,24 @@ public class RoleServiceImpl implements RoleService {
 		roleResourceAssignDao.saveBatch(roleResourceAssignList);
 		return Result.rightResult();
 	}
-	
+
 	@Override
 	public Result delete(Long roleId) {
 		roleDao.deleteById(roleId);
 		roleResourceAssignDao.deleteByRoleId(roleId);
 		return Result.rightResult();
 	}
-	
+
+	@Override
+	public List<Role> findAll() {
+		return roleDao.findAll();
+	}
+
 	/*---------------------------------*/
-	
-
-
-	
-
-
-
-	
-
-	
 
 	@Override
 	public List<Role> getUserRoles(Long userId) {
 		return roleDao.getUserRoles(userId);
 	}
-
-	@Override
-	public List<Role> findAll() {
-		return roleDao.findAllRole();
-	}
-
-	
 
 }

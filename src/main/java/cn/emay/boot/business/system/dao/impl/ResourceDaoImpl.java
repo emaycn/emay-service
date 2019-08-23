@@ -25,9 +25,9 @@ public class ResourceDaoImpl extends BasePojoSuperDaoImpl<Resource> implements R
 		params.put("roleId", roleId);
 		return this.getListResult(Resource.class, hql, params);
 	}
-	
+
 	/*---------------------------------*/
-	
+
 	@Override
 	public List<Resource> getUserResources(Long userId) {
 		String hql = "select re from Resource re , RoleResourceAssign rra , Role r , UserRoleAssign ura where re.id = rra.resourceId and rra.roleId = r.id and r.id = ura.roleId and ura.userId = :userId ";
@@ -35,7 +35,5 @@ public class ResourceDaoImpl extends BasePojoSuperDaoImpl<Resource> implements R
 		params.put("userId", userId);
 		return this.getListResult(Resource.class, hql, params);
 	}
-
-
 
 }

@@ -30,13 +30,10 @@ public class UserRoleAssignServiceImpl implements UserRoleAssignService {
 		}
 		return isExists;
 	}
-	
-	/*---------------------------------*/
-	
+
 	@Override
 	public List<UserRoleAssign> findByUserId(Long userId) {
 		return userRoleAssignDao.findByUserId(userId);
 	}
 
-	
 }

@@ -38,6 +38,15 @@ public class UserDepartmentAssign implements Serializable {
 	@Column(name = "system_user_id")
 	private Long systemUserId;
 
+	public UserDepartmentAssign() {
+
+	}
+
+	public UserDepartmentAssign(Long systemUserId, Long systemDepartmentId) {
+		this.systemDepartmentId = systemDepartmentId;
+		this.systemUserId = systemUserId;
+	}
+
 	public Long getId() {
 		return id;
 	}

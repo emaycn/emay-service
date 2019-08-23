@@ -11,7 +11,7 @@ import cn.emay.orm.BaseSuperDao;
  *
  */
 public interface ResourceDao extends BaseSuperDao<Resource> {
-	
+
 	/**
 	 * 获取角色所有资源
 	 * 
@@ -22,12 +22,10 @@ public interface ResourceDao extends BaseSuperDao<Resource> {
 	List<Resource> getRoleResources(Long roleId);
 
 	/*---------------------------------*/
-	
+
 	/**
 	 * 获取用户所有的资源
 	 */
 	List<Resource> getUserResources(Long userId);
-
-
 
 }

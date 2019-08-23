@@ -55,7 +55,7 @@ public class UserOperLog implements Serializable {
 	 * 用户名
 	 */
 	@Column(name = "username")
-	private String username; 
+	private String username;
 	/**
 	 * 真实姓名
 	 */
@@ -65,7 +65,7 @@ public class UserOperLog implements Serializable {
 	 * 操作模块
 	 */
 	@Column(name = "module")
-	private String module; 
+	private String module;
 	/**
 	 * 内容
 	 */
@@ -80,7 +80,7 @@ public class UserOperLog implements Serializable {
 	 * 操作时间
 	 */
 	@Column(name = "oper_time")
-	private Date operTime; 
+	private Date operTime;
 
 	public Long getId() {
 		return id;
@@ -145,6 +145,5 @@ public class UserOperLog implements Serializable {
 	public void setRealname(String realname) {
 		this.realname = realname;
 	}
-	
-	
+
 }

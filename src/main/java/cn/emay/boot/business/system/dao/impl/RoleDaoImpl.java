@@ -3,6 +3,7 @@ package cn.emay.boot.business.system.dao.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 
@@ -29,21 +30,40 @@ public class RoleDaoImpl extends BasePojoSuperDaoImpl<Role> implements RoleDao {
 		hql += " order by createTime desc";
 		return this.getPageResult(hql, start, limit, params, Role.class);
 	}
-	
+
 	@Override
 	public boolean hasSameRoleName(String roleName, Long ignoreRoleId) {
 		Map<String, Object> parms = new HashMap<String, Object>(4);
 		String hql = "select count(*) from Role where roleName=:roleName ";
 		parms.put("roleName", roleName);
 		if (null != ignoreRoleId) {
-			hql += " and id <> :id";
+			hql += " and id != :id";
 			parms.put("id", ignoreRoleId);
 		}
 		return (Long) super.getUniqueResult(hql, parms) > 0;
 	}
-	
+
+	@Override
+	public Map<Long, String> findRoleNameByUserIds(Set<Long> userIds) {
+		String hql = "select r.roleName , ur.userId from Role r , UserRoleAssign ur where r.id = ur.roleId and ur.userId in (:userIds) ";
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("userIds", userIds);
+		List<Object[]> list = this.getListResult(Object[].class, hql, param);
+		Map<Long, String> maps = new HashMap<>();
+		for (Object[] oba : list) {
+			String name = (String) oba[0];
+			Long id = (Long) oba[1];
+			if (maps.containsKey(id)) {
+				maps.put(id, maps.get(id) + " , " + name);
+			} else {
+				maps.put(id, name);
+			}
+		}
+		return maps;
+	}
+
 	/*---------------------------------*/
-	
+
 	@Override
 	public List<Role> getUserRoles(Long userId) {
 		String hql = " select r from UserRoleAssign ura , Role r where r.id = ura.roleId and ura.userId = :userId ";
@@ -52,15 +72,4 @@ public class RoleDaoImpl extends BasePojoSuperDaoImpl<Role> implements RoleDao {
 		return this.getListResult(Role.class, hql, params);
 	}
 
-	
-
-	@Override
-	public List<Role> findAllRole() {
-		Map<String, Object> parms = new HashMap<String, Object>(4);
-		String hql = "from Role where isDelete=:isDelete";
-		parms.put("isDelete", false);
-		return this.getListResult(Role.class, hql, parms);
-	}
-
-	
 }

@@ -7,7 +7,6 @@ import java.util.List;
 
 import cn.emay.boot.business.system.pojo.Department;
 import cn.emay.boot.business.system.pojo.User;
-import cn.emay.boot.business.system.pojo.UserRoleAssign;
 
 /**
  * 用户DTO
@@ -26,72 +25,57 @@ public class UserDTO implements Serializable {
 	/**
 	 * 用户名
 	 */
-	private String username; 
+	private String username;
 	/**
 	 * 真实姓名
 	 */
-	private String realname; 
+	private String realname;
 	/**
 	 * 手机号
 	 */
-	private String mobile; 
+	private String mobile;
 	/**
 	 * 邮箱
 	 */
-	private String email; 
+	private String email;
 	/**
 	 * 创建时间
 	 */
-	private Date createTime; 
+	private Date createTime;
 	/**
 	 * 状态[0-删除，1-停用，2-启用]
 	 */
-	private Integer userState; 
-	/**
-	 * 说明
-	 */
-	private String remark; 
+	private Integer userState;
 	/**
 	 * 创建者
 	 */
-	private Long operatorId; 
+	private Long operatorId;
 	/**
 	 * 最后一次修改密码时间[用来判断登陆修改密码]
 	 */
-	private Date lastChangePasswordTime; 
+	private Date lastChangePasswordTime;
 	/**
 	 * 角色名
 	 */
-	private String rolename; 
+	private String rolename;
 	/**
 	 * 部门名
 	 */
-	private String department; 
+	private String department;
 	/**
 	 * 上级部门名
 	 */
-	private String parentDepartment; 
+	private String parentDepartment;
 	/**
 	 * 部门id
 	 */
-	private Long departmentId; 
+	private Long departmentId;
 	/**
 	 * 所有角色ID
 	 */
 	private List<Long> roles;
 
 	public UserDTO() {
-		this.roles = new ArrayList<Long>();
-	}
-
-	public UserDTO(User user) {
-		this.createTime = user.getCreateTime();
-		this.email = user.getEmail();
-		this.id = user.getId();
-		this.mobile = user.getMobile();
-		this.realname = user.getRealname();
-		this.userState = user.getUserState();
-		this.username = user.getUsername();
 		this.roles = new ArrayList<Long>();
 	}
 
@@ -103,7 +87,6 @@ public class UserDTO implements Serializable {
 		this.email = user.getEmail();
 		this.createTime = user.getCreateTime();
 		this.userState = user.getUserState();
-		this.remark = user.getRemark();
 		this.operatorId = user.getOperatorId();
 		this.lastChangePasswordTime = user.getLastChangePasswordTime();
 		this.department = department.getDepartmentName();
@@ -114,23 +97,6 @@ public class UserDTO implements Serializable {
 		}
 		this.departmentId = department.getId();
 		this.roles = new ArrayList<Long>();
-	}
-
-	public UserDTO(User user, List<UserRoleAssign> userroles) {
-		this.id = user.getId();
-		this.username = user.getUsername();
-		this.realname = user.getRealname();
-		this.mobile = user.getMobile();
-		this.email = user.getEmail();
-		this.createTime = user.getCreateTime();
-		this.userState = user.getUserState();
-		this.remark = user.getRemark();
-		this.operatorId = user.getOperatorId();
-		this.lastChangePasswordTime = user.getLastChangePasswordTime();
-		this.roles = new ArrayList<Long>();
-		for (UserRoleAssign ur : userroles) {
-			this.roles.add(ur.getRoleId());
-		}
 	}
 
 	public Long getId() {
@@ -189,14 +155,6 @@ public class UserDTO implements Serializable {
 		this.realname = realname;
 	}
 
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
 	public Long getOperatorId() {
 		return operatorId;
 	}
@@ -252,7 +210,7 @@ public class UserDTO implements Serializable {
 	public void setRoles(List<Long> roles) {
 		this.roles = roles;
 	}
-	
+
 	@Override
 	public String toString() {
 		return super.toString();

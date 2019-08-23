@@ -35,7 +35,7 @@ public class UserOperLogApi {
 	/**
 	 * 日志列表
 	 */
-	@WebAuth({ ResourceEnum.USER_VIEW })
+	@WebAuth({ ResourceEnum.LOG_VIEW })
 	@RequestMapping("/page")
 	@ApiOperation("分页查询日志列表")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "start", value = "起始数据位置", required = true, dataType = "int"), @ApiImplicitParam(name = "limit", value = "数据条数", required = true, dataType = "int"),

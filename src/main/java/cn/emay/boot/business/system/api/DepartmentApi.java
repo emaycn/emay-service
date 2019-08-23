@@ -56,6 +56,33 @@ public class DepartmentApi {
 	private UserOperLogService userOperLogService;
 
 	/**
+	 * 部门树形
+	 */
+	@WebAuth({ ResourceEnum.DEPARTMENT_VIEW, ResourceEnum.USER_ADD, ResourceEnum.USER_MODIFY })
+	@RequestMapping("/getTree")
+	@ApiOperation("部门树形")
+	public SuperResult<List<Department>> getTree() {
+		List<Department> list = departmentService.findByParentId(0L);
+		return SuperResult.rightResult(list);
+	}
+
+	/**
+	 * 展开子节点
+	 */
+	@WebAuth({ ResourceEnum.DEPARTMENT_VIEW, ResourceEnum.USER_ADD, ResourceEnum.USER_MODIFY })
+	@RequestMapping("/showChildrenNode")
+	@ApiOperation("树子节点")
+	public SuperResult<List<Department>> showChildrenNode(@ApiParam(name = "id", value = "部门ID", required = true) @RequestParam Long id) {
+		if (null == id) {
+			return SuperResult.badResult("请选择部门");
+		}
+		List<Department> childrenNode = departmentService.findByParentId(id);
+		return SuperResult.rightResult(childrenNode);
+	}
+
+	/*---------------------------------*/
+
+	/**
 	 * 部门列表
 	 *
 	 */
@@ -195,33 +222,8 @@ public class DepartmentApi {
 		departmentService.modifyDepartment(dept);
 		String context = "修改部门:{0}";
 		String module = "部门管理";
-		userOperLogService.saveLogByCurrentUser(module,  MessageFormat.format(context, new Object[] { departmentName }), UserOperLog.OPERATE_MODIFY);
+		userOperLogService.saveLogByCurrentUser(module, MessageFormat.format(context, new Object[] { departmentName }), UserOperLog.OPERATE_MODIFY);
 		return Result.rightResult();
-	}
-
-	/**
-	 * 部门树形
-	 */
-	@WebAuth({ ResourceEnum.DEPARTMENT_VIEW })
-	@RequestMapping("/getTree")
-	@ApiOperation("部门树形")
-	public SuperResult<List<Department>> getTree() {
-		List<Department> list = departmentService.findByParentId(0L);
-		return SuperResult.rightResult(list);
-	}
-
-	/**
-	 * 展开子节点
-	 */
-	@WebAuth({ ResourceEnum.DEPARTMENT_VIEW })
-	@RequestMapping("/showChildrenNode")
-	@ApiOperation("树子节点")
-	public SuperResult<List<Department>> showChildrenNode(@ApiParam(name = "id", value = "部门ID", required = true) @RequestParam Long id) {
-		if (null == id) {
-			return SuperResult.badResult("请选择部门");
-		}
-		List<Department> childrenNode = departmentService.findByParentId(id);
-		return SuperResult.rightResult(childrenNode);
 	}
 
 	/**

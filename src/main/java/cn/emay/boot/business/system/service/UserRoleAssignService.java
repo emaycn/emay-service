@@ -20,10 +20,12 @@ public interface UserRoleAssignService {
 	 */
 	Boolean findExistsByRoleId(Long roleId);
 
-	/*---------------------------------*/
-
 	/**
-	 * 查询用户的所有角色
+	 * 查询用户的所有角色关联
+	 * 
+	 * @param userId
+	 *            用户ID
+	 * @return
 	 */
 	List<UserRoleAssign> findByUserId(Long userId);
 

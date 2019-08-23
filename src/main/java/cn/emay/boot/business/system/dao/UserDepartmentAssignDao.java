@@ -10,11 +10,16 @@ import cn.emay.orm.BaseSuperDao;
  */
 public interface UserDepartmentAssignDao extends BaseSuperDao<UserDepartmentAssign> {
 
+	/**
+	 * 删除用户相关的部门关联
+	 * 
+	 * @param userId
+	 *            用户ID
+	 */
+	void deleteByUserId(Long userId);
+
 	/*---------------------------------*/
-	
+
 	Long findByDepId(Long id);
 
-	void deleteDataByUserId(Long userId);
-
-	UserDepartmentAssign findByUserId(Long userId);
 }

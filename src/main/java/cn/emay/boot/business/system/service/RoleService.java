@@ -85,16 +85,18 @@ public interface RoleService {
 	 */
 	Result delete(Long roleId);
 
+	/**
+	 * 获取所有角色
+	 * 
+	 * @return
+	 */
+	List<Role> findAll();
+
 	/*---------------------------------*/
 
 	/**
 	 * 获取用户的所有角色
 	 */
 	List<Role> getUserRoles(Long userId);
-
-	/**
-	 * 获取所有角色
-	 */
-	List<Role> findAll();
 
 }

@@ -3,6 +3,8 @@ package cn.emay.boot.business.pub.api;
 import java.io.IOException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +33,8 @@ import cn.emay.utils.result.Result;
 @RestController
 public class PublicApi {
 
+	private Logger log = LoggerFactory.getLogger(getClass());
+
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -51,6 +55,7 @@ public class PublicApi {
 	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public Result logout() {
+		log.info("user : " + WebUtils.getCurrentUser().getUsername() + " logout .");
 		WebUtils.logout();
 		return Result.rightResult();
 	}
@@ -90,9 +95,10 @@ public class PublicApi {
 		}
 		List<Resource> userResource = resourceService.getUserResources(user.getId());
 		WebToken token = WebUtils.login(user, userResource);
+		log.info("user : " + user.getUsername() + " login .");
 		return Result.rightResult(token);
 	}
-	
+
 	/**
 	 * 修改密码
 	 */
@@ -112,6 +118,7 @@ public class PublicApi {
 		}
 		String newpass1 = PasswordUtils.encrypt(newpass);
 		userService.modifyPassword(user.getId(), newpass1);
+		log.info("user : " + user.getUsername() + " change password .");
 		return Result.rightResult();
 	}
 

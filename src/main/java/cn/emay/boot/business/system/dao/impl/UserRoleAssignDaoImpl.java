@@ -20,9 +20,7 @@ public class UserRoleAssignDaoImpl extends BasePojoSuperDaoImpl<UserRoleAssign> 
 	public List<UserRoleAssign> findByRoleId(Long roleId) {
 		return this.findListByProperty("roleId", roleId);
 	}
-	
-	/*---------------------------------*/
-	
+
 	@Override
 	public void deleteByUserId(Long userId) {
 		this.deleteByProperty("userId", userId);
@@ -32,7 +30,5 @@ public class UserRoleAssignDaoImpl extends BasePojoSuperDaoImpl<UserRoleAssign> 
 	public List<UserRoleAssign> findByUserId(Long userId) {
 		return this.findListByProperty("userId", userId);
 	}
-
-	
 
 }

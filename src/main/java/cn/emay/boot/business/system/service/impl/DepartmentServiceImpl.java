@@ -26,8 +26,18 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Resource
 	DepartmentDao departmentDao;
 
+	@Override
+	public List<Department> findByParentId(Long parentId) {
+		return departmentDao.findByParentId(parentId);
+	}
+
+	@Override
+	public Department findByUserId(Long userId) {
+		return departmentDao.findByUserId(userId);
+	}
+
 	/*---------------------------------*/
-	
+
 	@Override
 	public Page<DepartmentDTO> findDepartmentByLikeName(Long id, String departmentName, int start, int limit) {
 		Page<Department> page = departmentDao.findDepartmentByLikeName(id, departmentName, start, limit);
@@ -82,11 +92,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	public void modifyDepartment(Department department) {
 		departmentDao.update(department);
-	}
-
-	@Override
-	public List<Department> findByParentId(Long parentId) {
-		return departmentDao.findByParentId(parentId);
 	}
 
 	@Override
