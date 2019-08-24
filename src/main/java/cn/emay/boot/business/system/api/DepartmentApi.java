@@ -99,8 +99,6 @@ public class DepartmentApi {
 		return SuperResult.rightResult(page);
 	}
 
-	/*---------------------------------*/
-
 	/**
 	 * 部门新增
 	 *
