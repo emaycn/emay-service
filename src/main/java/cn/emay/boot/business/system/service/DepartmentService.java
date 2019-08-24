@@ -31,40 +31,74 @@ public interface DepartmentService {
 	 */
 	Department findByUserId(Long userId);
 
-	/*---------------------------------*/
+	/**
+	 * 查询父级部门下的部门列表
+	 * 
+	 * @param parentId
+	 *            父级部门ID
+	 * @param departmentName
+	 *            部门名称
+	 * @param start
+	 *            起始
+	 * @param limit
+	 *            数据条数
+	 * @return
+	 */
+	Page<DepartmentDTO> findPage(Long parentId, String departmentName, int start, int limit);
 
 	/**
-	 * 根据名称模糊查找部门
+	 * 查找同级是否有相同的部门名
+	 * 
+	 * @param departmentName
+	 *            部门名称
+	 * @param parentId
+	 *            父级ID
+	 * @param ignoreId
+	 *            忽略对比的ID
+	 * @return
 	 */
-	Page<DepartmentDTO> findDepartmentByLikeName(Long id, String departmentName, int start, int limit);
+	Boolean hasSameDepartmentNameAtParent(String departmentName, Long parentId, Long ignoreId);
 
 	/**
 	 * 根据部门ID查找部门
+	 * 
+	 * @param departmentId
+	 *            部门ID
+	 * @return
 	 */
 	Department findDepartmentById(Long departmentId);
 
 	/**
 	 * 添加部门
+	 * 
+	 * @param department
+	 *            部门
 	 */
 	void addDepartment(Department department);
 
 	/**
-	 * 根据父类id查找部门数量
+	 * 查找子部门数量
+	 * 
+	 * @param parentId
+	 *            父级部门ID
+	 * @return
 	 */
 	Long findCountByParentId(Long parentId);
 
 	/**
 	 * 删除部门
+	 * 
+	 * @param departmentId
+	 *            部门ID
 	 */
 	void deleteDepartment(Long departmentId);
 
 	/**
 	 * 修改部门
+	 * 
+	 * @param department
+	 *            部门
 	 */
 	void modifyDepartment(Department department);
 
-	/**
-	 * 根据名称查找部门
-	 */
-	Long findDepartmentByName(String departmentName, Long id);
 }

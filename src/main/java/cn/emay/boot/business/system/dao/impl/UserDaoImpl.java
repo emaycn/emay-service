@@ -43,6 +43,20 @@ public class UserDaoImpl extends BasePojoSuperDaoImpl<User> implements UserDao {
 	}
 
 	@Override
+	public Page<User> findBycondition(String variableName, Long departmentId, int start, int limit) {
+		Map<String, Object> param = new HashMap<String, Object>(8);
+		String hql = "select u from User u,UserDepartmentAssign ud where u.id=ud.systemUserId and ud.systemDepartmentId=:departmentId";
+		param.put("departmentId", departmentId);
+		if (!StringUtils.isEmpty(variableName)) {
+			hql += " and (u.username like :variableName or u.realname like :variableName or u.mobile like :variableName)";
+			param.put("variableName", "%" + variableName + "%");
+		}
+		hql += " order by u.id desc ";
+		Page<User> page = this.getPageResult(hql, start, limit, param, User.class);
+		return page;
+	}
+
+	@Override
 	public Boolean hasSameUserName(String username) {
 		String hql = "select count(*) from User where username =:username";
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -58,26 +72,10 @@ public class UserDaoImpl extends BasePojoSuperDaoImpl<User> implements UserDao {
 		params.put("id", userId);
 		this.execByHql(hql, params);
 	}
-	
+
 	@Override
 	public User findByUserName(String username) {
 		return this.findByProperty("username", username);
-	}
-
-	/*---------------------------------*/
-
-	@Override
-	public Page<User> findBycondition(String variableName, Long departmentId, int start, int limit) {
-		Map<String, Object> param = new HashMap<String, Object>(8);
-		String hql = "select u from User u,UserDepartmentAssign ud where u.id=ud.systemUserId and ud.systemDepartmentId=:departmentId";
-		param.put("departmentId", departmentId);
-		if (!StringUtils.isEmpty(variableName)) {
-			hql += " and (u.username like :variableName or u.realname like :variableName or u.mobile like :variableName)";
-			param.put("variableName", "%" + variableName + "%");
-		}
-		hql += " order by u.createTime desc ";
-		Page<User> page = this.getPageResult(hql, start, limit, param, User.class);
-		return page;
 	}
 
 }

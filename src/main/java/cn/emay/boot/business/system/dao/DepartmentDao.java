@@ -42,16 +42,50 @@ public interface DepartmentDao extends BaseSuperDao<Department> {
 	 */
 	Department findByUserId(Long userId);
 
-	/*---------------------------------*/
+	/**
+	 * 查询父级部门下的部门列表
+	 * 
+	 * @param id
+	 *            部门ID
+	 * @param departmentName
+	 *            部门名称
+	 * @param start
+	 *            起始
+	 * @param limit
+	 *            数据条数
+	 * @return
+	 */
+	Page<Department> findPage(Long id, String departmentName, int start, int limit);
 
-	Page<Department> findDepartmentByLikeName(Long id, String departmentName, int start, int limit);
+	/**
+	 * 根据ID批量查询部门
+	 * 
+	 * @param ids
+	 *            id集合
+	 * @return
+	 */
+	List<Department> findByIds(List<Long> ids);
 
-	List<Department> findByIds(List<Long> list);
+	/**
+	 * 查找同级是否有相同的部门名
+	 * 
+	 * @param departmentName
+	 *            部门名称
+	 * @param parentId
+	 *            父级ID
+	 * @param ignoreId
+	 *            忽略对比的ID
+	 * @return
+	 */
+	Boolean hasSameDepartmentNameAtParent(String departmentName, Long parentId, Long ignoreId);
 
+	/**
+	 * 查找子部门数量
+	 * 
+	 * @param parentId
+	 *            父级部门ID
+	 * @return
+	 */
 	Long findCountByParentId(Long parentId);
-
-	void deleteDepartment(Long departmentId);
-
-	Long findDepartmentByName(String departmentName, Long id);
 
 }

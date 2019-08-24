@@ -36,37 +36,25 @@ public class DepartmentServiceImpl implements DepartmentService {
 		return departmentDao.findByUserId(userId);
 	}
 
-	/*---------------------------------*/
+	@Override
+	public Page<DepartmentDTO> findPage(Long parentId, String departmentName, int start, int limit) {
+		Page<Department> page = departmentDao.findPage(parentId, departmentName, start, limit);
+		Page<DepartmentDTO> pagedto = Page.createByStartAndLimit(start, limit, page.getTotalCount(), new ArrayList<DepartmentDTO>());
+		if (page.getTotalCount() == 0) {
+			return pagedto;
+		}
+		List<Long> list = new ArrayList<Long>();
+		page.getList().stream().forEach(dep -> list.add(dep.getParentDepartmentId()));
+		List<Department> depList = departmentDao.findByIds(list);
+		Map<Long, String> map = new HashMap<Long, String>();
+		depList.stream().forEach(depPar -> map.put(depPar.getId(), depPar.getDepartmentName()));
+		page.getList().stream().forEach(dep -> pagedto.getList().add(new DepartmentDTO(dep, map.get(dep.getParentDepartmentId()))));
+		return pagedto;
+	}
 
 	@Override
-	public Page<DepartmentDTO> findDepartmentByLikeName(Long id, String departmentName, int start, int limit) {
-		Page<Department> page = departmentDao.findDepartmentByLikeName(id, departmentName, start, limit);
-		Page<DepartmentDTO> pagedto = new Page<DepartmentDTO>();
-		List<DepartmentDTO> listdto = new ArrayList<DepartmentDTO>();
-		List<Long> list = new ArrayList<Long>();
-		if (page.getList().size() > 0) {
-			for (Department dep : page.getList()) {
-				list.add(dep.getParentDepartmentId());
-			}
-			List<Department> depList = departmentDao.findByIds(list);
-			Map<Long, String> map = new HashMap<Long, String>();
-			for (Department depPar : depList) {
-				map.put(depPar.getId(), depPar.getDepartmentName());
-			}
-			for (Department dep : page.getList()) {
-				DepartmentDTO departmentDTO = new DepartmentDTO(dep, map.get(dep.getParentDepartmentId()));
-				listdto.add(departmentDTO);
-			}
-			pagedto.setList(listdto);
-		} else {
-			pagedto.setList(null);
-		}
-		pagedto.setCurrentPageNum(page.getCurrentPageNum());
-		pagedto.setLimit(page.getLimit());
-		pagedto.setStart(page.getStart());
-		pagedto.setTotalCount(page.getTotalCount());
-		pagedto.setTotalPage(page.getTotalPage());
-		return pagedto;
+	public Boolean hasSameDepartmentNameAtParent(String departmentName, Long parentId, Long ignoreId) {
+		return departmentDao.hasSameDepartmentNameAtParent(departmentName, parentId, ignoreId);
 	}
 
 	@Override
@@ -86,17 +74,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	public void deleteDepartment(Long departmentId) {
-		departmentDao.deleteDepartment(departmentId);
+		departmentDao.deleteById(departmentId);
 	}
 
 	@Override
 	public void modifyDepartment(Department department) {
 		departmentDao.update(department);
-	}
-
-	@Override
-	public Long findDepartmentByName(String departmentName, Long id) {
-		return departmentDao.findDepartmentByName(departmentName, id);
 	}
 
 }

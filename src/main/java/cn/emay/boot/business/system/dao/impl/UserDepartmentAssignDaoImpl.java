@@ -22,13 +22,11 @@ public class UserDepartmentAssignDaoImpl extends BasePojoSuperDaoImpl<UserDepart
 		this.deleteByProperty("systemUserId", userId);
 	}
 
-	/*---------------------------------*/
-
 	@Override
-	public Long findByDepId(Long id) {
-		Map<String, Object> params = new HashMap<String, Object>(4);
+	public Long findByDepId(Long departmentId) {
+		Map<String, Object> params = new HashMap<String, Object>();
 		String hql = "select count(*) from UserDepartmentAssign where systemDepartmentId=:id";
-		params.put("id", id);
+		params.put("id", departmentId);
 		return (Long) super.getUniqueResult(hql, params);
 	}
 

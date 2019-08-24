@@ -18,11 +18,9 @@ public class UserDepartmentAssignServiceImpl implements UserDepartmentAssignServ
 	@Resource
 	private UserDepartmentAssignDao userDepartmentAssignDao;
 
-	/*---------------------------------*/
-
 	@Override
-	public Long findByDepId(Long id) {
-		return userDepartmentAssignDao.findByDepId(id);
+	public Long findByDepId(Long departmentId) {
+		return userDepartmentAssignDao.findByDepId(departmentId);
 	}
 
 }

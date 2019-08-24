@@ -18,8 +18,13 @@ public interface UserDepartmentAssignDao extends BaseSuperDao<UserDepartmentAssi
 	 */
 	void deleteByUserId(Long userId);
 
-	/*---------------------------------*/
-
-	Long findByDepId(Long id);
+	/**
+	 * 查询部门下用户数量
+	 * 
+	 * @param departmentId
+	 *            部门ID
+	 * @return
+	 */
+	Long findByDepId(Long departmentId);
 
 }

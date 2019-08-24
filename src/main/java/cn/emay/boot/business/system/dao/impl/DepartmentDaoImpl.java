@@ -49,13 +49,10 @@ public class DepartmentDaoImpl extends BasePojoSuperDaoImpl<Department> implemen
 		return this.getUniqueResult(Department.class, hql, param);
 	}
 
-	/*---------------------------------*/
-
 	@Override
-	public Page<Department> findDepartmentByLikeName(Long id, String departmentName, int start, int limit) {
-		Map<String, Object> param = new HashMap<String, Object>(4);
-		String hql = "from Department where isDelete=:isDelete and parentDepartmentId =:id ";
-		param.put("isDelete", false);
+	public Page<Department> findPage(Long id, String departmentName, int start, int limit) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		String hql = "from Department where  parentDepartmentId =:id ";
 		param.put("id", id);
 		if (!StringUtils.isEmpty(departmentName)) {
 			hql = hql + " and departmentName like:departmentName";
@@ -67,41 +64,31 @@ public class DepartmentDaoImpl extends BasePojoSuperDaoImpl<Department> implemen
 	}
 
 	@Override
-	public List<Department> findByIds(List<Long> list) {
-		Map<String, Object> param = new HashMap<String, Object>(4);
-		String hql = "from Department where isDelete=:isDelete and id in(:ids)";
-		param.put("isDelete", false);
-		param.put("ids", list);
+	public List<Department> findByIds(List<Long> ids) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		String hql = "from Department where  id in(:ids)";
+		param.put("ids", ids);
 		return this.getListResult(Department.class, hql, param);
 	}
 
 	@Override
-	public Long findCountByParentId(Long parentId) {
-		Map<String, Object> param = new HashMap<String, Object>(4);
-		String hql = "select count(*) from Department where isDelete=:isDelete and parentDepartmentId = :parentId";
-		param.put("isDelete", false);
-		param.put("parentId", parentId);
-		return (Long) super.getUniqueResult(hql, param);
-	}
-
-	@Override
-	public void deleteDepartment(Long departmentId) {
-		Map<String, Object> params = new HashMap<String, Object>(4);
-		String hql = "update Department set isDelete=1 where id=:id";
-		params.put("id", departmentId);
-		this.execByHql(hql, params);
-	}
-
-	@Override
-	public Long findDepartmentByName(String departmentName, Long id) {
-		Map<String, Object> param = new HashMap<String, Object>(4);
-		String hql = "SELECT count(*) from Department where departmentName=:departmentName and isDelete =:isDelete";
-		if (id != null) {
-			hql = hql + " and id <>:id";
-			param.put("id", id);
-		}
+	public Boolean hasSameDepartmentNameAtParent(String departmentName, Long parentId, Long ignoreId) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		String hql = "SELECT count(*) from Department where departmentName=:departmentName and parentDepartmentId = :parentId ";
 		param.put("departmentName", departmentName);
-		param.put("isDelete", false);
+		param.put("parentId", parentId);
+		if (ignoreId != null) {
+			hql = hql + " and id <>:id";
+			param.put("id", ignoreId);
+		}
+		return (Long) super.getUniqueResult(hql, param) > 0;
+	}
+
+	@Override
+	public Long findCountByParentId(Long parentId) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		String hql = "select count(*) from Department where  parentDepartmentId = :parentId";
+		param.put("parentId", parentId);
 		return (Long) super.getUniqueResult(hql, param);
 	}
 

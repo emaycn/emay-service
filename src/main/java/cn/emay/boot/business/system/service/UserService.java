@@ -1,6 +1,5 @@
 package cn.emay.boot.business.system.service;
 
-import cn.emay.boot.business.system.dto.UserDTO;
 import cn.emay.boot.business.system.dto.UserItemDTO;
 import cn.emay.boot.business.system.pojo.User;
 import cn.emay.utils.db.common.Page;
@@ -139,11 +138,19 @@ public interface UserService {
 	 */
 	User findByUserName(String username);
 
-	/*---------------------------------*/
-
 	/**
-	 * 分页查询用户
+	 * 按照部门及同一条件分页查询
+	 * 
+	 * @param variableName
+	 *            手机/用户名/姓名 综合查询条件
+	 * @param departmentId
+	 *            部门ID
+	 * @param start
+	 *            起始
+	 * @param limit
+	 *            条数
+	 * @return
 	 */
-	Page<UserDTO> findBycondition(String variableName, Long departmentId, int start, int limit);
+	Page<UserItemDTO> findBycondition(String variableName, Long departmentId, int start, int limit);
 
 }

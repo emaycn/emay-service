@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.emay.boot.base.constant.ResourceEnum;
 import cn.emay.boot.base.web.WebAuth;
 import cn.emay.boot.business.system.dto.DepartmentDTO;
-import cn.emay.boot.business.system.dto.UserDTO;
+import cn.emay.boot.business.system.dto.UserItemDTO;
 import cn.emay.boot.business.system.pojo.Department;
 import cn.emay.boot.business.system.pojo.UserOperLog;
 import cn.emay.boot.business.system.service.DepartmentService;
@@ -80,8 +80,6 @@ public class DepartmentApi {
 		return SuperResult.rightResult(childrenNode);
 	}
 
-	/*---------------------------------*/
-
 	/**
 	 * 部门列表
 	 *
@@ -97,9 +95,11 @@ public class DepartmentApi {
 		if (null == id) {
 			return SuperResult.badResult("请选择部门");
 		}
-		Page<DepartmentDTO> page = departmentService.findDepartmentByLikeName(id, departmentName, start, limit);
+		Page<DepartmentDTO> page = departmentService.findPage(id, departmentName, start, limit);
 		return SuperResult.rightResult(page);
 	}
+
+	/*---------------------------------*/
 
 	/**
 	 * 部门新增
@@ -113,14 +113,14 @@ public class DepartmentApi {
 	})
 	@ApiOperation("部门新增")
 	public Result add(String departmentName, Long parentId) {
-		Department department = new Department();
-		String errorMsg = checkInfo(departmentName, null);
-		if (!StringUtils.isEmpty(errorMsg)) {
-			return Result.badResult(errorMsg);
-		}
 		if (null == parentId) {
 			return Result.badResult("上级部门不存在");
 		}
+		String errorMsg = checkInfo(departmentName, parentId, null);
+		if (!StringUtils.isEmpty(errorMsg)) {
+			return Result.badResult(errorMsg);
+		}
+		Department department = new Department();
 		if (parentId == 0L) {
 			department.setFullPath(0 + ",");
 		} else {
@@ -155,46 +155,17 @@ public class DepartmentApi {
 		}
 		Long depCount = departmentService.findCountByParentId(id);
 		if (depCount > 0) {
-			return Result.badResult("该部门下有子部门，请先删除子部门");
+			return Result.badResult("该部门下有子部门，不能删除");
 		}
 		Long userCount = userDepartmentAssignService.findByDepId(id);
 		if (userCount > 0) {
-			return Result.badResult("该部门下有用户存在，不能删除");
+			return Result.badResult("该部门下有用户，不能删除");
 		}
 		departmentService.deleteDepartment(id);
 		String context = "删除部门:{0}";
 		String module = "部门管理";
 		userOperLogService.saveLogByCurrentUser(module, MessageFormat.format(context, new Object[] { department.getDepartmentName() }), UserOperLog.OPERATE_DELETE);
 		return Result.rightResult();
-	}
-
-	/**
-	 * 部门详情
-	 */
-	@WebAuth({ ResourceEnum.DEPARTMENT_VIEW })
-	@RequestMapping("/detail")
-	@ApiOperation("部门详情")
-	public SuperResult<DepartmentDTO> detail(@ApiParam(name = "deptId", value = "部门ID", required = true) @RequestParam Long deptId) {
-		if (null == deptId) {
-			return SuperResult.badResult("请选择部门");
-		}
-		Department department = departmentService.findDepartmentById(deptId);
-		if (department == null) {
-			return SuperResult.badResult("部门不存在");
-		}
-		Department parentDepartment = null;
-		if (department.getParentDepartmentId() != 0L) {
-			parentDepartment = departmentService.findDepartmentById(department.getParentDepartmentId());
-			if (parentDepartment == null) {
-				return SuperResult.badResult("该部门信息有误");
-			}
-		}
-		String departmentName = "";
-		if (department.getParentDepartmentId() != 0L) {
-			departmentName = parentDepartment.getDepartmentName();
-		}
-		DepartmentDTO dto = new DepartmentDTO(department, departmentName);
-		return SuperResult.rightResult(dto);
 	}
 
 	/**
@@ -206,7 +177,6 @@ public class DepartmentApi {
 			@ApiImplicitParam(name = "departmentName", value = "部门名称", required = true, dataType = "string"), })
 	@ApiOperation("修改部门名称")
 	public Result modify(Long id, String departmentName) {
-		String errorMsg = "";
 		if (null == id) {
 			return Result.badResult("部门ID不能为空");
 		}
@@ -214,7 +184,7 @@ public class DepartmentApi {
 		if (dept == null) {
 			return Result.badResult("该部门不存在");
 		}
-		errorMsg = checkInfo(departmentName, id);
+		String errorMsg = checkInfo(departmentName, dept.getParentDepartmentId(), id);
 		if (!StringUtils.isEmpty(errorMsg)) {
 			return Result.badResult(errorMsg);
 		}
@@ -234,7 +204,7 @@ public class DepartmentApi {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "start", value = "起始数据位置", required = true, dataType = "int"), @ApiImplicitParam(name = "limit", value = "数据条数", required = true, dataType = "int"),
 			@ApiImplicitParam(name = "deptId", value = "部门ID", dataType = "Long"), @ApiImplicitParam(name = "variableName", value = "用户名/姓名/手机号", dataType = "string"), })
 	@ApiOperation("部门员工列表")
-	public SuperResult<Page<UserDTO>> list(int start, int limit, Long deptId, String variableName) {
+	public SuperResult<Page<UserItemDTO>> list(int start, int limit, Long deptId, String variableName) {
 		if (null == deptId) {
 			return SuperResult.badResult("请选择部门");
 		}
@@ -242,46 +212,38 @@ public class DepartmentApi {
 		if (dept == null) {
 			return SuperResult.badResult("部门不存在");
 		}
-		Page<UserDTO> userList = userService.findBycondition(variableName, deptId, start, limit);
+		Page<UserItemDTO> userList = userService.findBycondition(variableName, deptId, start, limit);
 		return SuperResult.rightResult(userList);
-	}
-
-	public Result check(Long depId) {
-		if (depId > 0L) {
-			Department department = departmentService.findDepartmentById(depId);
-			if (null == department) {
-				return Result.badResult("部门不存在");
-			}
-		}
-		return Result.rightResult();
 	}
 
 	/**
 	 * 校验信息
+	 * 
+	 * @param name
+	 *            部门名称
+	 * @param parentId
+	 *            上级部门ID
+	 * @param ignoreId
+	 *            忽略对比的部门ID
+	 * @return
 	 */
-	public String checkInfo(String name, Long id) {
-		String errorMsg = "";
+	public String checkInfo(String name, Long parentId, Long ignoreId) {
 		if (StringUtils.isEmpty(name)) {
-			errorMsg = "部门名称不能为空";
-			return errorMsg;
+			return "部门名称不能为空";
 		}
 		if (name.length() > 20) {
-			errorMsg = "部门名称长度不能超过20个字符";
-			return errorMsg;
+			return "部门名称长度不能超过20个字符";
 		}
 		if (!CheckUtils.isChineseOrEnglish(name)) {
-			errorMsg = "请输入中文和英文";
-			return errorMsg;
+			return "请输入中文和英文";
 		}
 		if (CheckUtils.existSpecial(name)) {
-			errorMsg = "名称不能包含特殊字符";
-			return errorMsg;
+			return "名称不能包含特殊字符";
 		}
-		Long count = departmentService.findDepartmentByName(name, id);
-		if (count > 0L) {
-			errorMsg = "部门名称已存在";
-			return errorMsg;
+		Boolean has = departmentService.hasSameDepartmentNameAtParent(name, parentId, ignoreId);
+		if (has) {
+			return "同一级已有相同的部门名称";
 		}
-		return errorMsg;
+		return null;
 	}
 }

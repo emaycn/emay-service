@@ -15,7 +15,6 @@ import cn.emay.boot.business.system.dao.RoleDao;
 import cn.emay.boot.business.system.dao.UserDao;
 import cn.emay.boot.business.system.dao.UserDepartmentAssignDao;
 import cn.emay.boot.business.system.dao.UserRoleAssignDao;
-import cn.emay.boot.business.system.dto.UserDTO;
 import cn.emay.boot.business.system.dto.UserItemDTO;
 import cn.emay.boot.business.system.pojo.Department;
 import cn.emay.boot.business.system.pojo.Role;
@@ -195,27 +194,20 @@ public class UserServiceImpl implements UserService {
 	public User findByUserName(String username) {
 		return userDao.findByUserName(username);
 	}
-	
-	/*---------------------------------*/
 
 	@Override
-	public Page<UserDTO> findBycondition(String variableName, Long departmentId, int start, int limit) {
+	public Page<UserItemDTO> findBycondition(String variableName, Long departmentId, int start, int limit) {
 		Page<User> page = userDao.findBycondition(variableName, departmentId, start, limit);
-		Page<UserDTO> pagedto = new Page<UserDTO>();
-		List<UserDTO> listdto = new ArrayList<UserDTO>();
-		Department department = departmentDao.findById(departmentId);
-		Department parentDepartment = departmentDao.findById(department.getParentDepartmentId());
-		for (User user : page.getList()) {
-			UserDTO dto = new UserDTO(user, department, parentDepartment);
-			listdto.add(dto);
+		Page<UserItemDTO> result = Page.createByStartAndLimit(start, limit, page.getTotalCount(), new ArrayList<UserItemDTO>());
+		if (result.getTotalCount() == 0) {
+			return result;
 		}
-		pagedto.setList(listdto);
-		pagedto.setCurrentPageNum(page.getCurrentPageNum());
-		pagedto.setLimit(page.getLimit());
-		pagedto.setStart(page.getStart());
-		pagedto.setTotalCount(page.getTotalCount());
-		pagedto.setTotalPage(page.getTotalPage());
-		return pagedto;
+		page.getList().stream().forEach(user -> result.getList().add(new UserItemDTO(user)));
+		Set<Long> userIds = new HashSet<>();
+		page.getList().stream().forEach(user -> userIds.add(user.getId()));
+		Map<Long, String> roleNameByUserIds = roleDao.findRoleNameByUserIds(userIds);
+		result.getList().stream().forEach(userItem -> userItem.setRolename(roleNameByUserIds.get(userItem.getId())));
+		return result;
 	}
 
 }

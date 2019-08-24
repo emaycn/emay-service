@@ -60,10 +60,19 @@ public interface UserDao extends BaseSuperDao<User> {
 	 */
 	User findByUserName(String username);
 
-	/*---------------------------------*/
-
-
-
+	/**
+	 * 按照部门及同一条件分页查询
+	 * 
+	 * @param variableName
+	 *            手机/用户名/姓名 综合查询条件
+	 * @param departmentId
+	 *            部门ID
+	 * @param start
+	 *            起始
+	 * @param limit
+	 *            条数
+	 * @return
+	 */
 	Page<User> findBycondition(String variableName, Long departmentId, int start, int limit);
 
 }
