@@ -2,6 +2,7 @@ package cn.emay.boot.business.system.service.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -156,6 +157,7 @@ public class UserServiceImpl implements UserService {
 			return Result.badResult("用户不存在");
 		}
 		user.setPassword(newPassword);
+		user.setLastChangePasswordTime(new Date());
 		userDao.update(user);
 		return Result.rightResult();
 	}

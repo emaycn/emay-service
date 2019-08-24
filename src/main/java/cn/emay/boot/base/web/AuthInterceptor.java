@@ -60,8 +60,15 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				WebUtils.toNoLogin();
 				return false;
 			}
+			// 首次登陆没有修改密码，并且不是访问修改密码的拦截
+			String uri = request.getRequestURI().replace(request.getContextPath(), "");
+			if (user.getLastChangePasswordTime() == null && !uri.equals("/changePassword")) {
+				WebUtils.toError("首次登陆，未修改密码");
+				return false;
+			}
 			ResourceEnum[] codes = auth.value();
-			// 仅需要登录权限的，通过--有注解无Code即视为仅需要登录
+			// 仅需要登录权限的，通过
+			//ps:有注解无Code即视为仅需要登录
 			if (codes == null || codes.length == 0) {
 				return true;
 			}

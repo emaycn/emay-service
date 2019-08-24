@@ -1,6 +1,7 @@
 package cn.emay.boot.business.system.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import cn.emay.boot.business.system.pojo.User;
 
@@ -29,6 +30,11 @@ public class SimpleUserDTO implements Serializable {
 	 */
 	private String username;
 
+	/**
+	 * 最后一次修改密码时间
+	 */
+	private Date lastChangePasswordTime;
+
 	public SimpleUserDTO() {
 
 	}
@@ -37,6 +43,7 @@ public class SimpleUserDTO implements Serializable {
 		this.id = user.getId();
 		this.realname = user.getRealname();
 		this.username = user.getUsername();
+		this.lastChangePasswordTime = user.getLastChangePasswordTime();
 	}
 
 	public Long getId() {
@@ -66,6 +73,14 @@ public class SimpleUserDTO implements Serializable {
 	@Override
 	public String toString() {
 		return super.toString();
+	}
+
+	public Date getLastChangePasswordTime() {
+		return lastChangePasswordTime;
+	}
+
+	public void setLastChangePasswordTime(Date lastChangePasswordTime) {
+		this.lastChangePasswordTime = lastChangePasswordTime;
 	}
 
 }
