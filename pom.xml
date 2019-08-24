@@ -13,7 +13,7 @@
 	<name>emay-spring-boot</name>
 	<groupId>cn.emay</groupId>
 	<artifactId>emay-spring-boot</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<packaging>jar</packaging>
 
 	<properties>
