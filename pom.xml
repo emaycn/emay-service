@@ -146,7 +146,7 @@
 							<password>Qwer1234</password>
 						</auth>
 					</to>
-					<allowInsecureRegistries>true</allowInsecureRegistries><!-- 允许不安全的库
+					<allowInsecureRegistries>true</allowInsecureRegistries>允许不安全的库
 				</configuration>
 			</plugin>
 			-->
