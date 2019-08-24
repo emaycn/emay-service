@@ -10,9 +10,9 @@
 		<version>2.1.4.RELEASE</version>
 	</parent>
 
-	<name>emay-spring-boot</name>
+	<name>emay-service</name>
 	<groupId>cn.emay</groupId>
-	<artifactId>emay-spring-boot</artifactId>
+	<artifactId>emay-service</artifactId>
 	<version>1.1.0</version>
 	<packaging>jar</packaging>
 
@@ -130,6 +130,26 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<!-- 可以开启直接将工程打包为docker镜像
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>1.0.2</version>
+				<configuration>
+					<from>
+						<image>5vv14fv3.mirror.aliyuncs.com/library/java:8u111-jdk</image>
+					</from>
+					<to>
+						<image>172.16.11.190/dev/${project.artifactId}:${project.version}</image>
+						<auth>
+							<username>pingtai</username>
+							<password>Qwer1234</password>
+						</auth>
+					</to>
+					<allowInsecureRegistries>true</allowInsecureRegistries><!-- 允许不安全的库
+				</configuration>
+			</plugin>
+			-->
 		</plugins>
 	</build>
 
