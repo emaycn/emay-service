@@ -26,6 +26,7 @@ import cn.emay.boot.business.system.service.RoleService;
 import cn.emay.boot.business.system.service.UserOperLogService;
 import cn.emay.boot.business.system.service.UserRoleAssignService;
 import cn.emay.boot.utils.CheckUtils;
+import cn.emay.boot.utils.WebUtils;
 import cn.emay.utils.db.common.Page;
 import cn.emay.utils.result.Result;
 import cn.emay.utils.result.SuperResult;
@@ -154,6 +155,19 @@ public class RoleApi {
 		String module = "角色管理";
 		userOperLogService.saveLogByCurrentUser(module, MessageFormat.format(context, new Object[] { role.getRoleName() }), UserOperLog.OPERATE_DELETE);
 		return Result.rightResult();
+	}
+	
+
+	/**
+	 * 系统所有角色
+	 */
+	@WebAuth({ ResourceEnum.USER_ADD, ResourceEnum.USER_MODIFY })
+	@RequestMapping("/allRole")
+	@ApiOperation("系统所有角色")
+	public SuperResult<List<Role>> allRoles() {
+		List<Role> roles = roleService.findAll();
+		log.info("user : " + WebUtils.getCurrentUser().getUsername() + " select all roles.");
+		return SuperResult.rightResult(roles);
 	}
 
 	/**

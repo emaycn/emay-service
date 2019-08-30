@@ -22,12 +22,10 @@ import cn.emay.boot.base.web.WebAuth;
 import cn.emay.boot.business.system.dto.UserInfoDTO;
 import cn.emay.boot.business.system.dto.UserItemDTO;
 import cn.emay.boot.business.system.pojo.Department;
-import cn.emay.boot.business.system.pojo.Role;
 import cn.emay.boot.business.system.pojo.User;
 import cn.emay.boot.business.system.pojo.UserOperLog;
 import cn.emay.boot.business.system.pojo.UserRoleAssign;
 import cn.emay.boot.business.system.service.DepartmentService;
-import cn.emay.boot.business.system.service.RoleService;
 import cn.emay.boot.business.system.service.UserOperLogService;
 import cn.emay.boot.business.system.service.UserRoleAssignService;
 import cn.emay.boot.business.system.service.UserService;
@@ -63,8 +61,6 @@ public class UserApi {
 	private DepartmentService departmentService;
 	@Resource
 	private UserRoleAssignService userRoleAssignService;
-	@Resource
-	private RoleService roleService;
 	@Autowired
 	private UserOperLogService userOperLogService;
 
@@ -81,6 +77,27 @@ public class UserApi {
 		Page<UserItemDTO> userpage = userService.findPage(start, limit, username, realname, mobile, userState);
 		log.info("user : " + WebUtils.getCurrentUser().getUsername() + " select user page.");
 		return SuperResult.rightResult(userpage);
+	}
+	
+
+	/**
+	 * 部门员工列表
+	 */
+	@WebAuth({ ResourceEnum.DEPARTMENT_VIEW })
+	@RequestMapping("/childlist")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "start", value = "起始数据位置", required = true, dataType = "int"), @ApiImplicitParam(name = "limit", value = "数据条数", required = true, dataType = "int"),
+			@ApiImplicitParam(name = "deptId", value = "部门ID", dataType = "Long"), @ApiImplicitParam(name = "variableName", value = "用户名/姓名/手机号", dataType = "string"), })
+	@ApiOperation("部门员工列表")
+	public SuperResult<Page<UserItemDTO>> list(int start, int limit, Long deptId, String variableName) {
+		if (null == deptId) {
+			return SuperResult.badResult("请选择部门");
+		}
+		Department dept = departmentService.findDepartmentById(deptId);
+		if (dept == null) {
+			return SuperResult.badResult("部门不存在");
+		}
+		Page<UserItemDTO> userList = userService.findBycondition(variableName, deptId, start, limit);
+		return SuperResult.rightResult(userList);
 	}
 
 	/**
@@ -189,18 +206,6 @@ public class UserApi {
 		String module = "用户管理";
 		userOperLogService.saveLogByCurrentUser(module, MessageFormat.format(context, new Object[] { user.getUsername() }), UserOperLog.OPERATE_DELETE);
 		return Result.rightResult();
-	}
-
-	/**
-	 * 系统所有角色
-	 */
-	@WebAuth({ ResourceEnum.USER_ADD, ResourceEnum.USER_MODIFY })
-	@RequestMapping("/allRole")
-	@ApiOperation("系统所有角色")
-	public SuperResult<List<Role>> allRoles() {
-		List<Role> roles = roleService.findAll();
-		log.info("user : " + WebUtils.getCurrentUser().getUsername() + " select all roles.");
-		return SuperResult.rightResult(roles);
 	}
 
 	/**

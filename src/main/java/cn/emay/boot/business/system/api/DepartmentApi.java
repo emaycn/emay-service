@@ -17,13 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.emay.boot.base.constant.ResourceEnum;
 import cn.emay.boot.base.web.WebAuth;
 import cn.emay.boot.business.system.dto.DepartmentDTO;
-import cn.emay.boot.business.system.dto.UserItemDTO;
 import cn.emay.boot.business.system.pojo.Department;
 import cn.emay.boot.business.system.pojo.UserOperLog;
 import cn.emay.boot.business.system.service.DepartmentService;
 import cn.emay.boot.business.system.service.UserDepartmentAssignService;
 import cn.emay.boot.business.system.service.UserOperLogService;
-import cn.emay.boot.business.system.service.UserService;
 import cn.emay.boot.utils.CheckUtils;
 import cn.emay.utils.db.common.Page;
 import cn.emay.utils.result.Result;
@@ -50,8 +48,6 @@ public class DepartmentApi {
 	private DepartmentService departmentService;
 	@Resource
 	private UserDepartmentAssignService userDepartmentAssignService;
-	@Resource
-	private UserService userService;
 	@Autowired
 	private UserOperLogService userOperLogService;
 
@@ -192,26 +188,6 @@ public class DepartmentApi {
 		String module = "部门管理";
 		userOperLogService.saveLogByCurrentUser(module, MessageFormat.format(context, new Object[] { departmentName }), UserOperLog.OPERATE_MODIFY);
 		return Result.rightResult();
-	}
-
-	/**
-	 * 部门员工列表
-	 */
-	@WebAuth({ ResourceEnum.DEPARTMENT_VIEW })
-	@RequestMapping("/childlist")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "start", value = "起始数据位置", required = true, dataType = "int"), @ApiImplicitParam(name = "limit", value = "数据条数", required = true, dataType = "int"),
-			@ApiImplicitParam(name = "deptId", value = "部门ID", dataType = "Long"), @ApiImplicitParam(name = "variableName", value = "用户名/姓名/手机号", dataType = "string"), })
-	@ApiOperation("部门员工列表")
-	public SuperResult<Page<UserItemDTO>> list(int start, int limit, Long deptId, String variableName) {
-		if (null == deptId) {
-			return SuperResult.badResult("请选择部门");
-		}
-		Department dept = departmentService.findDepartmentById(deptId);
-		if (dept == null) {
-			return SuperResult.badResult("部门不存在");
-		}
-		Page<UserItemDTO> userList = userService.findBycondition(variableName, deptId, start, limit);
-		return SuperResult.rightResult(userList);
 	}
 
 	/**
