@@ -146,7 +146,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			int count = values.length;
 			String[] encodedValues = new String[count];
 			for (int i = 0; i < count; i++) {
-				encodedValues[i] = cleanXSS(values[i]);
+				encodedValues[i] = cleanXss(values[i]);
 			}
 			return encodedValues;
 		}
@@ -157,7 +157,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			if (value == null) {
 				return null;
 			}
-			return cleanXSS(value);
+			return cleanXss(value);
 		}
 
 		@Override
@@ -166,10 +166,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			if (value == null) {
 				return null;
 			}
-			return cleanXSS(value);
+			return cleanXss(value);
 		}
 
-		private String cleanXSS(String value) {
+		private String cleanXss(String value) {
 			if (value == null || value.length() == 0) {
 				return value;
 			}

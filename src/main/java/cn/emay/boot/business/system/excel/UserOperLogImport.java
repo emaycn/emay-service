@@ -56,13 +56,13 @@ public class UserOperLogImport {
 
 	private String handleOperType(String operType) {
 		String operTypeCode = "";
-		if (operType.equals("新增")) {
+		if ("新增".equals(operType)) {
 			operTypeCode = UserOperLog.OPERATE_ADD;
-		} else if (operType.equals("修改")) {
+		} else if ("修改".equals(operType)) {
 			operTypeCode = UserOperLog.OPERATE_MODIFY;
-		} else if (operType.equals("删除")) {
+		} else if ("删除".equals(operType)) {
 			operTypeCode = UserOperLog.OPERATE_DELETE;
-		} else if (operType.equals("查询")) {
+		} else if ("查询".equals(operType)) {
 			operTypeCode = UserOperLog.OPERATE_SELECT;
 		} else {
 			operTypeCode = UserOperLog.OPERATE_SELECT;

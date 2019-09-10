@@ -61,7 +61,9 @@ public class UserOperLogExport {
 
 	private String handleOperType(String operType) {
 		String type = "";
-		if (operType.equals(UserOperLog.OPERATE_ADD)) {
+		if(operType == null) {
+			type = "查询";
+		}else if (operType.equals(UserOperLog.OPERATE_ADD)) {
 			type = "新增";
 		} else if (operType.equals(UserOperLog.OPERATE_MODIFY)) {
 			type = "修改";
