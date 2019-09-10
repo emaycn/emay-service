@@ -52,6 +52,8 @@ public class LogExportWriter implements SheetWriter{
 	public void beginRow(int rowIndex) {
 		if (rowIndex > 0) {
 			curr = datas.get(rowIndex - 1);
+			String operType = handleOperType(curr.getOperType());
+			curr.setOperType(operType);
 		}
 	}
 
@@ -99,6 +101,20 @@ public class LogExportWriter implements SheetWriter{
 	@Override
 	public void end(int sheetIndex) {
 		
+	}
+	
+	private String handleOperType(String operType) {
+		String type= "";
+		if(operType.equals(UserOperLog.OPERATE_ADD)) {
+			type = "新增";
+		} else if(operType.equals(UserOperLog.OPERATE_MODIFY)) {
+			type = "修改";
+		} else if(operType.equals(UserOperLog.OPERATE_DELETE)) {
+			type = "删除";
+		} else if(operType.equals(UserOperLog.OPERATE_SELECT)) {
+			type = "查询";
+		}
+		return type;
 	}
 
 }

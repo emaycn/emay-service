@@ -114,7 +114,8 @@ public class LogDataHandler implements SheetReader {
 			String[] array = { userOperLog.getUsername(), userOperLog.getModule(), userOperLog.getContent(), userOperLog.getOperType() };
 			errors.add(CheckUtils.copyOfRange(array, checkData));
 		} else {
-			list.add(new Object[] { userOperLog.getUserId(), userOperLog.getUsername(), userOperLog.getRealname(), userOperLog.getModule(), userOperLog.getContent(), userOperLog.getOperType() });
+			String operType = handleOperType(userOperLog.getOperType());
+			list.add(new Object[] { userOperLog.getUserId(), userOperLog.getUsername(), userOperLog.getRealname(), userOperLog.getModule(), userOperLog.getContent(), operType});
 			succInsertLength++;
 		}
 		if ((rowIndex + 1) % size == 0) {
@@ -168,5 +169,19 @@ public class LogDataHandler implements SheetReader {
 		map.put("fail", (errors.size()));
 		map.put("success", succInsertLength);
 		return map;
+	}
+	
+	private String handleOperType(String operType) {
+		String operTypeCode = "";
+		if(operType.equals("新增")) {
+			operTypeCode = UserOperLog.OPERATE_ADD;
+		} else if(operType.equals("修改")) {
+			operTypeCode = UserOperLog.OPERATE_MODIFY;
+		} else if(operType.equals("删除")) {
+			operTypeCode = UserOperLog.OPERATE_DELETE;
+		} else if(operType.equals("查询")) {
+			operTypeCode = UserOperLog.OPERATE_SELECT;
+		}
+		return operTypeCode;
 	}
 }
