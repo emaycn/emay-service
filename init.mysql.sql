@@ -35,7 +35,7 @@ INSERT INTO `system_resource` VALUES (11, 'DEPARTMENT_ADD', '部门添加', now(
 INSERT INTO `system_resource` VALUES (12, 'DEPARTMENT_DELETE', '部门删除', now());
 INSERT INTO `system_resource` VALUES (13, 'DEPARTMENT_MODIFY', '部门修改', now());
 INSERT INTO `system_resource` VALUES (14, 'LOG_VIEW', '日志管理', now());
-
+INSERT INTO `system_resource` VALUES (15, 'LOG_ADD', '日志添加', now());
 
 drop table if exists system_role_resource_assign;
 CREATE TABLE `system_role_resource_assign` (
@@ -61,6 +61,7 @@ INSERT INTO `system_role_resource_assign` VALUES (11, 11, 1, now());
 INSERT INTO `system_role_resource_assign` VALUES (12, 12, 1, now());
 INSERT INTO `system_role_resource_assign` VALUES (13, 13, 1, now());
 INSERT INTO `system_role_resource_assign` VALUES (14, 14, 1, now());
+INSERT INTO `system_role_resource_assign` VALUES (15, 15, 1, now());
 
 
 drop table if exists system_user;

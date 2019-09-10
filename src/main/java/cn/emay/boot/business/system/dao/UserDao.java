@@ -1,5 +1,7 @@
 package cn.emay.boot.business.system.dao;
 
+import java.util.List;
+
 import cn.emay.boot.business.system.pojo.User;
 import cn.emay.orm.BaseSuperDao;
 import cn.emay.utils.db.common.Page;
@@ -74,5 +76,12 @@ public interface UserDao extends BaseSuperDao<User> {
 	 * @return
 	 */
 	Page<User> findBycondition(String variableName, Long departmentId, int start, int limit);
+
+	/**
+	 * @param start
+	 * @param limit
+	 * @return
+	 */
+	List<User> findAllByPage(int start, int limit);
 
 }

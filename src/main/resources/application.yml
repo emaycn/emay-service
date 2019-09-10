@@ -113,3 +113,5 @@ properties :
    excludeUrlXss :
       - /swagger-ui.html
       - /webjars/**
+   # 导入文件临时存放路径
+   uploadFilePath : D:/fileImport/

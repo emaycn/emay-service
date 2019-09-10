@@ -90,6 +90,12 @@
 			<artifactId>emay-utils</artifactId>
 			<version>1.0.6</version>
 		</dependency>
+		<!-- excel -->
+		<dependency>
+			<groupId>cn.emay</groupId>
+			<artifactId>emay-excel</artifactId>
+			<version>1.0.4</version>
+		</dependency>
 		<!-- captcha -->
 		<dependency>
 			<groupId>com.github.penggle</groupId>

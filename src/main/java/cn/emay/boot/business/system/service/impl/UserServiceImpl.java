@@ -211,5 +211,10 @@ public class UserServiceImpl implements UserService {
 		result.getList().stream().forEach(userItem -> userItem.setRolename(roleNameByUserIds.get(userItem.getId())));
 		return result;
 	}
+	
+	@Override
+	public List<User> findAllByPage(int start,int limit){
+		return userDao.findAllByPage(start, limit);
+	}
 
 }
