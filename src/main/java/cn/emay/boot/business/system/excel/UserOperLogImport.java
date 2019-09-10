@@ -39,7 +39,7 @@ public class UserOperLogImport {
 	/**
 	 * 操作时间
 	 */
-	@ExcelColumn(index = 4, title = "操作时间")
+	@ExcelColumn(index = 4, title = "操作时间", express = "yyyy-MM-dd HH:mm:ss")
 	private Date operTime;
 
 	public UserOperLog toUserOperLog(User user) {

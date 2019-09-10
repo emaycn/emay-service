@@ -12,7 +12,7 @@ import cn.emay.excel.common.schema.annotation.ExcelSheet;
  * @author lijunjian
  *
  */
-@ExcelSheet(writeSheetName = "日志")
+@ExcelSheet(writeSheetName = "日志", isNeedBorder = true, contentRgbColor = { 220, 230, 241 }, titleRgbColor = { 250, 191, 143 })
 public class UserOperLogExport {
 
 	/**
@@ -38,7 +38,7 @@ public class UserOperLogExport {
 	/**
 	 * 操作时间
 	 */
-	@ExcelColumn(index = 4, title = "操作时间")
+	@ExcelColumn(index = 4, title = "操作时间", express = "yyyy-MM-dd HH:mm:ss")
 	private Date operTime;
 	/**
 	 * 真实姓名
@@ -61,9 +61,9 @@ public class UserOperLogExport {
 
 	private String handleOperType(String operType) {
 		String type = "";
-		if(operType == null) {
+		if (operType == null) {
 			type = "查询";
-		}else if (operType.equals(UserOperLog.OPERATE_ADD)) {
+		} else if (operType.equals(UserOperLog.OPERATE_ADD)) {
 			type = "新增";
 		} else if (operType.equals(UserOperLog.OPERATE_MODIFY)) {
 			type = "修改";

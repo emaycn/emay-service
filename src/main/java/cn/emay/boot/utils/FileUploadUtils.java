@@ -56,7 +56,7 @@ public class FileUploadUtils {
 		String end = pointIndex > 0 ? fileName.substring(pointIndex) : "";
 		String newFileName = UUID.randomUUID().toString().replace("-", "") + end;
 		String fullPath = (saveDirPath.endsWith(File.separator) ? saveDirPath : saveDirPath + File.separator) + newFileName;
-		File targetFile = new File(saveDirPath + newFileName);
+		File targetFile = new File(fullPath);
 		try {
 			if (!targetFile.getParentFile().exists()) {
 				targetFile.getParentFile().mkdirs();

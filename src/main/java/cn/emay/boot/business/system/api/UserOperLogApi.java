@@ -89,9 +89,9 @@ public class UserOperLogApi {
 	@RequestMapping(value = "/import", headers = "content-type=multipart/form-data")
 	@ApiOperation("日志导入")
 	public Result logImport(@ApiParam(value = "日志导入文件", required = true) MultipartFile file) throws Exception {
-		String logDir = File.separator + "log" + File.separator + DateUtils.toString(new Date(), "yyyyMMdd");
+		String logDir = File.separator + "log" + File.separator + DateUtils.toString(new Date(), "yyyyMMdd") ;
 		PropertiesConfig propertiesConfig = ApplicationContextUtils.getBean(PropertiesConfig.class);
-		FileUpLoadResult result = FileUploadUtils.uploadFile(file, propertiesConfig.getUploadDirPath() + logDir, 5, ".xlxs", ".xlx");
+		FileUpLoadResult result = FileUploadUtils.uploadFile(file, propertiesConfig.getUploadDirPath() + logDir, 5, ".xlsx", ".xlx");
 		if (!result.isSuccess()) {
 			return Result.badResult(result.getErrorMessage());
 		}
