@@ -21,8 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.gson.reflect.TypeToken;
-
+import com.google.gson.reflect.TypeToken; 
 import cn.emay.boot.base.constant.CommonConstant;
 import cn.emay.boot.base.constant.ResourceEnum;
 import cn.emay.boot.base.web.WebAuth;
@@ -181,7 +180,7 @@ public class UserOperLogApi {
 	 * 日志导出
 	 */
 	@WebAuth({ ResourceEnum.LOG_VIEW })
-	@RequestMapping("/export")
+	@RequestMapping(value = "/export", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE, method = RequestMethod.GET)
 	@ApiOperation("日志导出")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "username", value = "操作用户", dataType = "String"), @ApiImplicitParam(name = "realname", value = "用户姓名", dataType = "String"),
 			@ApiImplicitParam(name = "content", value = "内容", dataType = "String"), @ApiImplicitParam(name = "startDate", value = "操作开始时间", dataType = "Date"),
