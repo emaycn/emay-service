@@ -13,7 +13,7 @@
 	<name>emay-service</name>
 	<groupId>cn.emay</groupId>
 	<artifactId>emay-service</artifactId>
-	<version>1.1.1</version>
+	<version>1.1.2</version>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -89,6 +89,12 @@
 			<groupId>cn.emay</groupId>
 			<artifactId>emay-utils</artifactId>
 			<version>1.0.6</version>
+		</dependency>
+		<!-- excel -->
+		<dependency>
+			<groupId>cn.emay</groupId>
+			<artifactId>emay-excel</artifactId>
+			<version>1.0.5</version>
 		</dependency>
 		<!-- captcha -->
 		<dependency>

@@ -1,6 +1,7 @@
 package cn.emay.boot.business.system.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -51,6 +52,17 @@ public class UserOperLogServiceImpl implements UserOperLogService {
 	public Page<UserOperLog> findByPage(String username, String realname, String content, Date startDate, Date endDate, int start, int limit) {
 		username = !StringUtils.isEmpty(username) ? username.toLowerCase() : username;
 		return userOperLogDao.findByPage(username, realname, content, startDate, endDate, start, limit);
+	}
+
+	@Override
+	public void savelogBatch(List<UserOperLog> logs) {
+		userOperLogDao.savelogBatch(logs);
+	}
+
+	@Override
+	public List<UserOperLog> findList(String username, String realname, String content, Date startDate, Date endDate, int start, int limit) {
+		username = !StringUtils.isEmpty(username) ? username.toLowerCase() : username;
+		return userOperLogDao.findList(username, realname, content, startDate, endDate, start, limit);
 	}
 
 }

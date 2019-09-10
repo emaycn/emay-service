@@ -157,7 +157,11 @@ public class WebUtils {
 	 * @return
 	 */
 	public static String getSessionId() {
-		return getCurrentHttpRequest().getHeader(WebConstant.HEAD_AUTH_TOKEN);
+		String sessionId = getCurrentHttpRequest().getHeader(WebConstant.HEAD_AUTH_TOKEN);
+		if(null==sessionId){
+			sessionId = getCurrentHttpRequest().getParameter(WebConstant.HEAD_AUTH_TOKEN);
+		}
+		return sessionId;
 	}
 
 	/**

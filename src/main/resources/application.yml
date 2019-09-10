@@ -58,7 +58,7 @@ redis :
 db : 
    datasource : 
       driverClassName : com.mysql.cj.jdbc.Driver
-      url : jdbc:mysql://100.100.10.91:3306/emay-boot-vue?characterEncoding=UTF-8&autoReconnect=true&rewriteBatchedStatements=true
+      url : jdbc:mysql://100.100.10.91:3306/emay-boot-vue?characterEncoding=UTF-8&autoReconnect=true&rewriteBatchedStatements=true&serverTimezone=GMT%2B8
       username : root
       password : root
       maxActive : 32
@@ -113,3 +113,5 @@ properties :
    excludeUrlXss :
       - /swagger-ui.html
       - /webjars/**
+   # 导入文件临时存放路径
+   uploadDirPath : D:\fileImport

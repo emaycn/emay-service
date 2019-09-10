@@ -66,7 +66,11 @@ public enum ResourceEnum {
 	/**
 	 * 日志查询
 	 */
-	LOG_VIEW("LOG_VIEW", "日志查询"),;
+	LOG_VIEW("LOG_VIEW", "日志查询"),
+	/**
+	 * 日志添加
+	 */
+	LOG_ADD("LOG_ADD", "日志添加"),;
 
 	/**
 	 * 编码

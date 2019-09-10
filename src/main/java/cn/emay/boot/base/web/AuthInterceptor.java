@@ -62,7 +62,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			}
 			// 首次登陆没有修改密码，并且不是访问修改密码的拦截
 			String uri = request.getRequestURI().replace(request.getContextPath(), "");
-			if (user.getLastChangePasswordTime() == null && !uri.equals("/changePassword")) {
+			if (user.getLastChangePasswordTime() == null && !"/changePassword".equals(uri)) {
 				WebUtils.toError("首次登陆，未修改密码");
 				return false;
 			}
