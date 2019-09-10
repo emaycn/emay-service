@@ -156,10 +156,9 @@ public interface UserService {
 	Page<UserItemDTO> findBycondition(String variableName, Long departmentId, int start, int limit);
 
 	/**
-	 * @param start
-	 * @param limit
+	 * 查询所有用户
 	 * @return
 	 */
-	List<User> findAllByPage(int start, int limit);
+	List<User> findAll();
 
 }

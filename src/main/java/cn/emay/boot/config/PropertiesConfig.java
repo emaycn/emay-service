@@ -27,8 +27,10 @@ public class PropertiesConfig {
 	 * 是否开发环境
 	 */
 	private boolean dev;
-	
-	private String uploadFilePath;
+	/**
+	 * 上传文件存储目录
+	 */
+	private String uploadDirPath;
 
 	public String[] getExcludeUrlAuth() {
 		return excludeUrlAuth;
@@ -54,12 +56,12 @@ public class PropertiesConfig {
 		this.dev = dev;
 	}
 
-	public String getUploadFilePath() {
-		return uploadFilePath;
+	public String getUploadDirPath() {
+		return uploadDirPath;
 	}
 
-	public void setUploadFilePath(String uploadFilePath) {
-		this.uploadFilePath = uploadFilePath;
+	public void setUploadDirPath(String uploadDirPath) {
+		this.uploadDirPath = uploadDirPath;
 	}
 
 }

@@ -213,8 +213,8 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public List<User> findAllByPage(int start,int limit){
-		return userDao.findAllByPage(start, limit);
+	public List<User> findAll(){
+		return userDao.findAll();
 	}
 
 }

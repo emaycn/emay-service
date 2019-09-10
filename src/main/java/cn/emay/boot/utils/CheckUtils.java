@@ -1,6 +1,5 @@
 package cn.emay.boot.utils;
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -103,16 +102,6 @@ public class CheckUtils {
 		Pattern p = Pattern.compile(regExp);
 		Matcher m = p.matcher(value);
 		return !m.matches();
-	}
-	
-	/**
-	 * Excel导入的错误信息数组
-	 * 
-	 */
-	public static String[] copyOfRange(String[] obj, String errorMessage) {
-		String[] error = Arrays.copyOfRange(obj, 0, obj.length + 1);
-		error[obj.length] = errorMessage;
-		return error;
 	}
 
 }

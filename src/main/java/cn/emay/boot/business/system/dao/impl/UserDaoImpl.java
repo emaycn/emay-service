@@ -1,7 +1,6 @@
 package cn.emay.boot.business.system.dao.impl;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
@@ -77,12 +76,6 @@ public class UserDaoImpl extends BasePojoSuperDaoImpl<User> implements UserDao {
 	@Override
 	public User findByUserName(String username) {
 		return this.findByProperty("username", username);
-	}
-	
-	@Override
-	public List<User> findAllByPage(int start,int limit){
-		String hql = "from User where 1=1";
-		return this.getPageListResult(User.class, hql, start, limit, null);
 	}
 
 }
