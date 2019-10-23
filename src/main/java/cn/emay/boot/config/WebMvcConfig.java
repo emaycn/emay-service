@@ -1,7 +1,10 @@
 package cn.emay.boot.config;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.Filter;
@@ -18,6 +21,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
@@ -104,12 +108,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 		private Set<String> excludedPageArray;
 
+		private Map<String, Set<String>> excludedParams;
+
 		@Override
 		public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 			if (excludedPageArray != null && excludedPageArray.contains(((HttpServletRequest) request).getServletPath())) {
 				chain.doFilter(request, response);
 			} else {
-				chain.doFilter(new XssHttpServletRequestWrapper((HttpServletRequest) request), response);
+				chain.doFilter(new XssHttpServletRequestWrapper((HttpServletRequest) request, excludedParams),response);
 			}
 		}
 
@@ -118,11 +124,25 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				return;
 			}
 			excludedPageArray = new HashSet<>();
+			excludedParams = new HashMap<String, Set<String>>();
 			for (String url : excludeXssCheck) {
-				excludedPageArray.add(url);
+				if (StringUtils.isEmpty(url)) {
+					continue;
+				}
+				if (url.indexOf("?") > 0) {
+					String[] urlAndParams = url.split("?");
+					String realUrl = urlAndParams[0].trim();
+					excludedPageArray.add(realUrl);
+					String params = urlAndParams[1];
+					String[] paramArray = params.replace("excludeParams=", "").split(",");
+					Set<String> paramset = new HashSet<>();
+					Arrays.stream(paramArray).forEach(param -> paramset.add(param.trim()));
+					excludedParams.put(realUrl, paramset);
+				} else {
+					excludedPageArray.add(url);
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -132,9 +152,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	 *
 	 */
 	public static class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
+		
+		private Map<String, Set<String>> excludedParams;
 
-		public XssHttpServletRequestWrapper(HttpServletRequest servletRequest) {
+		public XssHttpServletRequestWrapper(HttpServletRequest servletRequest, Map<String, Set<String>> excludedParams) {
 			super(servletRequest);
+			this.excludedParams = excludedParams;
 		}
 
 		@Override
@@ -146,7 +169,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			int count = values.length;
 			String[] encodedValues = new String[count];
 			for (int i = 0; i < count; i++) {
-				encodedValues[i] = cleanXss(values[i]);
+				encodedValues[i] = cleanXss(parameter, values[i]);
 			}
 			return encodedValues;
 		}
@@ -157,7 +180,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			if (value == null) {
 				return null;
 			}
-			return cleanXss(value);
+			return cleanXss(parameter, value);
 		}
 
 		@Override
@@ -166,11 +189,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			if (value == null) {
 				return null;
 			}
-			return cleanXss(value);
+			return cleanXss(name, value);
 		}
 
-		private String cleanXss(String value) {
+		private String cleanXss(String name, String value) {
 			if (value == null || value.length() == 0) {
+				return value;
+			}
+			if(excludedParams.containsKey(name)) {
 				return value;
 			}
 			StringBuffer buffer = new StringBuffer();

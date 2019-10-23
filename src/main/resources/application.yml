@@ -109,9 +109,9 @@ properties :
    excludeUrlAuth :
       - /swagger-ui.html
       - /webjars/**
-   # XSS防御例外
+   # XSS防御例外,以?分割为两部分：如果只有url，则表示此URL所有参数(参数包含header和parameter)全部防御，如果?后面excludeParams不为空，则不防御此参数
    excludeUrlXss :
-      - /swagger-ui.html
+      - /swagger-ui.html?excludeParams=content,appscript
       - /webjars/**
    # 导入文件临时存放路径
    uploadDirPath : D:\fileImport
