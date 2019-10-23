@@ -106,16 +106,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	 */
 	public static class XssFilter implements Filter {
 
-		private Set<String> excludedPageArray;
+		private Set<String> excludedPageArray = new HashSet<>();
 
-		private Map<String, Set<String>> excludedParams;
+		private Map<String, Set<String>> excludedParams = new HashMap<String, Set<String>>();
 
 		@Override
 		public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-			if (excludedPageArray != null && excludedPageArray.contains(((HttpServletRequest) request).getServletPath())) {
+			String url = ((HttpServletRequest) request).getServletPath();
+			// 全URL例外，排除参数例外
+			if (excludedPageArray.contains(url) && !excludedParams.containsKey(url)) {
 				chain.doFilter(request, response);
 			} else {
-				chain.doFilter(new XssHttpServletRequestWrapper((HttpServletRequest) request, excludedParams),response);
+				chain.doFilter(new XssHttpServletRequestWrapper((HttpServletRequest) request, excludedParams.get(url)), response);
 			}
 		}
 
@@ -123,14 +125,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			if (excludeXssCheck == null || excludeXssCheck.length == 0) {
 				return;
 			}
-			excludedPageArray = new HashSet<>();
-			excludedParams = new HashMap<String, Set<String>>();
 			for (String url : excludeXssCheck) {
 				if (StringUtils.isEmpty(url)) {
 					continue;
 				}
-				if (url.indexOf("?") > 0) {
-					String[] urlAndParams = url.split("?");
+				if (url.contains("?")) {
+					String[] urlAndParams = url.split("\\?");
 					String realUrl = urlAndParams[0].trim();
 					excludedPageArray.add(realUrl);
 					String params = urlAndParams[1];
@@ -152,12 +152,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	 *
 	 */
 	public static class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
-		
-		private Map<String, Set<String>> excludedParams;
 
-		public XssHttpServletRequestWrapper(HttpServletRequest servletRequest, Map<String, Set<String>> excludedParams) {
+		private Set<String> excludedParams;
+
+		public XssHttpServletRequestWrapper(HttpServletRequest servletRequest, Set<String> excludedParams) {
 			super(servletRequest);
-			this.excludedParams = excludedParams;
+			this.excludedParams = excludedParams == null ? new HashSet<>() : excludedParams;
 		}
 
 		@Override
@@ -196,7 +196,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			if (value == null || value.length() == 0) {
 				return value;
 			}
-			if(excludedParams.containsKey(name)) {
+			if (excludedParams.contains(name)) {
 				return value;
 			}
 			StringBuffer buffer = new StringBuffer();
