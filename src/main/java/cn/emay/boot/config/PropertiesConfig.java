@@ -16,14 +16,6 @@ import org.springframework.core.annotation.Order;
 public class PropertiesConfig {
 
 	/**
-	 * 排除的权限URL
-	 */
-	private String[] excludeUrlAuth;
-	/**
-	 * 排除的XSS防御URL
-	 */
-	private String[] excludeUrlXss;
-	/**
 	 * 是否开发环境
 	 */
 	private boolean dev;
@@ -31,22 +23,6 @@ public class PropertiesConfig {
 	 * 上传文件存储目录
 	 */
 	private String uploadDirPath;
-
-	public String[] getExcludeUrlAuth() {
-		return excludeUrlAuth;
-	}
-
-	public void setExcludeUrlAuth(String[] excludeUrlAuth) {
-		this.excludeUrlAuth = excludeUrlAuth;
-	}
-
-	public String[] getExcludeUrlXss() {
-		return excludeUrlXss;
-	}
-
-	public void setExcludeUrlXss(String[] excludeUrlXss) {
-		this.excludeUrlXss = excludeUrlXss;
-	}
 
 	public boolean isDev() {
 		return dev;
