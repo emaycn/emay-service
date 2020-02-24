@@ -1,18 +1,30 @@
+#加载配置文件 dev test prod
+spring.profiles.active: "@profile.active@"
+
 # debug
 debug : false
 
 # log file
 logging.config : classpath:log4j2-spring.xml
 
+#spring 文件上传大小
+spring:
+   servlet:
+      multipart:
+         enabled: true
+         max-file-size: 100000000
+         max-request-size: 100000000
+
 # tomcat
 server:
    port: 8081
+   max-http-header-size: 3145728
    tomcat:
       uri-encoding: UTF-8
       max-threads: 2000
-   session:
-      timeout: 7200
    servlet:
+      session:
+         timeout: 7200
       context-path: /api
    compression:
       enabled: true
@@ -27,82 +39,14 @@ captcha :
    width : 195
    height : 50
 
-
-# redis [单点、分片、集群，三选一使用]
-redis :
-   timeoutMillis : 2000
-   maxIdle : 4
-   maxTotal : 16
-   minIdle : 1
-   maxWaitMillis : 2000
-   datePattern : yyyy-MM-dd HH:mm:ss SSS
-   single :
-      host : 127.0.0.1
-      port : 6379
-#   sharded :
-#      hosts : 
-#         - 127.0.0.1:6379
-#         - 100.100.10.92:6379
-#   cluster :
-#      maxRedirections : 6
-#      hosts : 
-#         - 100.100.10.90:16179
-#         - 100.100.10.90:16279
-#         - 100.100.10.90:16379
-#         - 100.100.10.93:16479
-#         - 100.100.10.93:16579
-#         - 100.100.10.93:16679
-
-# 数据库
-# Hibernate packageScan mappingResources都可以逗号分隔传多个
-db : 
-   datasource : 
-      driverClassName : com.mysql.cj.jdbc.Driver
-      url : jdbc:mysql://100.100.10.91:3306/emay-boot-vue?characterEncoding=UTF-8&autoReconnect=true&rewriteBatchedStatements=true&serverTimezone=GMT%2B8
-      username : root
-      password : root
-      maxActive : 32
-      maxIdle : 4
-      minIdle : 1
-      initialSize : 1
-      timeBetweenEvictionRunsMillis : 60000
-      numTestsPerEvictionRun : 100
-      logAbandoned : true
-   hibernate : 
-      dialect : org.hibernate.dialect.MySQLInnoDBDialect
-      hbm2ddl_auto : none
-      show_sql : false
-      format_sql : false
-      jdbc_batchSize : 50
-      enable_lazy_load_no_trans : false
-      current_session_context_class : org.springframework.orm.hibernate5.SpringSessionContext
-      packageScan : cn.emay
-      mappingResources : classpath*:hbm/**/*.hbm.xml       
-         
-# 定时任务 
-scheduler :
-   tasks :
-#      -
-#         name : 单线程任务
-#         className : cn.emay.boot.project.task.NormalTask0
-#      -
-#         name : 短信转移到Redis任务
-#         className : cn.emay.boot.task.CacheFiletoRedisTask
-#         cron : "*/5 * * * * ?"
-#      -
-#         name : 多线程任务
-#         className : cn.emay.boot.project.task.ConcurrentTask0
-#         minThread : 1
-#         maxThread : 3
-#         resizeIntervalSecond : 10
-#         start : false 
-#      -
-#         name : 绑定参数的线程任务
-#         className : cn.emay.boot.project.task.ConcurrentBindTask0
-#         maxThreadEvery : 3
-#         resizeIntervalSecond : 10
-
+# 自定义参数
 properties :  
-   # 开发模式--Swagger页面是否开启\是否开启全局跨域
-   dev : true
-   uploadDirPath : D:\fileImport
+   interfaceCode : "@interface.code@"
+   # XSS防御例外，两种：
+   # 1. 无参数URL ，直接例外此URL；
+   # 2. 有参数URL，仅例外此URL的这些参数；
+   excludeUrlXss :
+      - /swagger-ui.html
+      - /webjars/**
+      - /o/message/list?content,reportCode #代码中去空格处理
+      - /c/clientmessage/list?content,reportCode #代码中去空格处理

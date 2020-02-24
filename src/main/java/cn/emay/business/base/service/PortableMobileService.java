@@ -1,0 +1,35 @@
+package cn.emay.business.base.service;
+
+import java.util.List;
+
+import cn.emay.business.base.pojo.PortableMobile;
+import cn.emay.utils.db.common.Page;
+
+/**
+ * cn.emay.common.pojo.base.PortableMobile Service Super
+ * 
+ * @author frank
+ */
+public interface PortableMobileService {
+    /**
+     * 分页查询
+     *
+     * @param mobile 手机号
+     * @param start  从第几条开始查
+     * @param limit  查几条
+     * @return
+     */
+    Page<PortableMobile> findPage(int start, int limit, String mobile);
+
+    void save(PortableMobile portableMobile);
+
+    PortableMobile findbyId(Long id);
+
+    void update(PortableMobile portableMobile);
+
+    void delete(PortableMobile portableMobile);
+
+    void saveBatch(List<PortableMobile> portableMobiles);
+
+    PortableMobile findByMobile(String mobile);
+}

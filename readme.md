@@ -1,14 +1,28 @@
-# 工程说明
-emay-service 是以spring-boot为基础搭建的基础服务框架；
-emay-service 作为api项目独立部署，未集成web模块；
-emay-service 可以与 [emay-web](http://172.16.11.138/component/future/emay-web) 配合搭建完整的前后端分离web体系；
+# web接口服务
 
-# 启动说明
-1. 在IDE里面能直接Run EmayApplication
-2. 打为jar包后，使用 java -jar emay-service 启动
-3. 打为docker image 后，使用docker 命令启动
-4. 工程必须搭配redis、mysql使用
+## 1. 编译
 
-# 其他
-1. 系统账号密码 admin/qwe123
-2. TODO 自身优雅关机以及在docker中优雅关机
+采用spring profile + maven profile 来区分开发环境(dev)、测试环境(test)、生产环境(prod)。    
+使用maven进行编译、打包、安装时，需要使用-P+环境名来确保打包正确的环境配置文件。    
+例如：mvn clean package -Ptest
+
+## 2. 部署
+
+采用jib直接打包成docker image。    
+命令如下(注意-P是1.编译中提到的环境参数)：    
+- 打包成镜像，并部署到本地镜像库： mvn compile jib:dockerBuild -Ptest
+- 打包成镜像，并提交到远程镜像库： mvn compile jib:build -Ptest
+
+## 3. 集群
+
+本服务有一个参数  interface.code 默认为01 ， 必须保证全局唯一。    
+所以如果集群部署，需要在编译时假如参数interface.code=xx（数字）,保证全局唯一。    
+例如：mvn clean install -Ptest -Dinterface.code=01
+
+## 4. 打包总结
+
+参数说明： -P 默认为dev，可选参数； -Dinterface.code默认为01，可选参数；
+
+- 打jar包：mvn clean install -Ptest -Dinterface.code=07
+- 打包成镜像，并部署到本地镜像库： mvn compile jib:dockerBuild -Ptest  -Dinterface.code=07
+- 打包成镜像，并提交到远程镜像库： mvn compile jib:build -Ptest  -Dinterface.code=07
