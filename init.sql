@@ -18,7 +18,7 @@ CREATE TABLE `system_user` (
   KEY `su_us` (`user_state`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统用户';
 INSERT INTO `system_user` VALUES 
-(1,'admin','8CB691B84841370D1AC8158B0CCD91B4','管理员','12311111111','admin@admin.cn',1,now(),now(),1,now(),'OPER');
+(1,'admin','628428B3268757508CE9071594E9F6B3','管理员','12311111111','admin@admin.cn',1,now(),now(),1,now(),'OPER');
 
 
 DROP TABLE IF EXISTS `system_role`;
