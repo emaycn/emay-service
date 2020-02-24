@@ -158,33 +158,9 @@ public class SmsMessageOperDto implements Serializable {
      */
     private BigDecimal charge;
     /**
-     * 是否过审核
-     */
-    private Boolean isAuditing;
-    /**
-     * 审核人ID
-     */
-    private Long auditingUserId;
-    /**
-     * 是否校正
-     */
-    private Boolean isRegulate;
-    /**
-     * 定时时间
-     */
-    private Date timerTime;
-    /**
      * 应用单价
      */
     private BigDecimal price;
-    /**
-     * 通道单价
-     */
-    private BigDecimal channelPrice;
-    /**
-     * 优先级(1-高，2-低)
-     */
-    private Integer priority;
     /**
      * 客户ID
      */
@@ -197,10 +173,6 @@ public class SmsMessageOperDto implements Serializable {
      * 通道状态报告Id
      */
     private String channelReportId;
-    /**
-     * 进入通道队列的时间
-     */
-    private Date pushChannelQueueTime;
 
     public Long getId() {
         return id;
@@ -394,38 +366,6 @@ public class SmsMessageOperDto implements Serializable {
         this.charge = charge;
     }
 
-    public Boolean getIsAuditing() {
-        return isAuditing;
-    }
-
-    public void setIsAuditing(Boolean isAuditing) {
-        this.isAuditing = isAuditing;
-    }
-
-    public Long getAuditingUserId() {
-        return auditingUserId;
-    }
-
-    public void setAuditingUserId(Long auditingUserId) {
-        this.auditingUserId = auditingUserId;
-    }
-
-    public Boolean getIsRegulate() {
-        return isRegulate;
-    }
-
-    public void setIsRegulate(Boolean isRegulate) {
-        this.isRegulate = isRegulate;
-    }
-
-    public Date getTimerTime() {
-        return timerTime;
-    }
-
-    public void setTimerTime(Date timerTime) {
-        this.timerTime = timerTime;
-    }
-
     public BigDecimal getPrice() {
         return price;
     }
@@ -440,22 +380,6 @@ public class SmsMessageOperDto implements Serializable {
 
     public void setInterfaceServiceNo(String interfaceServiceNo) {
         this.interfaceServiceNo = interfaceServiceNo;
-    }
-
-    public BigDecimal getChannelPrice() {
-        return channelPrice;
-    }
-
-    public void setChannelPrice(BigDecimal channelPrice) {
-        this.channelPrice = channelPrice;
-    }
-
-    public Integer getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Integer priority) {
-        this.priority = priority;
     }
 
     public String getResultCode() {
@@ -488,14 +412,6 @@ public class SmsMessageOperDto implements Serializable {
 
     public void setChannelReportId(String channelReportId) {
         this.channelReportId = channelReportId;
-    }
-
-    public Date getPushChannelQueueTime() {
-        return pushChannelQueueTime;
-    }
-
-    public void setPushChannelQueueTime(Date pushChannelQueueTime) {
-        this.pushChannelQueueTime = pushChannelQueueTime;
     }
 
     public String getClientName() {

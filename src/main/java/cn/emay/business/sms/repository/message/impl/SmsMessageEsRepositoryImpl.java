@@ -57,7 +57,6 @@ public class SmsMessageEsRepositoryImpl extends BasePojoEsRepository<SmsMessage>
 		if (StringUtils.isNotEmpty(endTime)) {
 			sql.append(" and submitTime <= '" + endTime.trim() + "' ");
 		}
-		sql.append(" and isReissue != true");
 		sql.append(" order by id desc ");
 		String[] indexs = findBetweenDate(startTime, endTime, this.getIndexName());
 		int count = 0;
@@ -123,8 +122,6 @@ public class SmsMessageEsRepositoryImpl extends BasePojoEsRepository<SmsMessage>
 		if (StringUtils.isNotEmpty(endDate)) {
 			sql.append(" and submitTime <= '" + endDate + "' ");
 		}
-		// v1.1 判断是否被补发状态
-		sql.append(" and isReissue != true");
 		sql.append(" order by id desc ");
 
 		String[] indexs = findBetweenDate(startDate, endDate, this.getIndexName());

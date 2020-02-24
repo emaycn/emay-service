@@ -1,7 +1,7 @@
 # es
 es:
-   ip : 127.0.0.1
-   port : 9200
+   ip : 100.100.10.84
+   port : 9800
    #user : elastic
    #password : elastic
    
@@ -15,15 +15,15 @@ redis :
    datePattern : yyyy-MM-dd HH:mm:ss SSS
    #password : redispass
    single :
-      host : 127.0.0.1
-      port : 6379
+      host : 100.100.10.84
+      port : 6400
 
 # 数据库
 # Hibernate packageScan mappingResources都可以逗号分隔传多个
 db : 
    datasource : 
       driverClassName : com.mysql.cj.jdbc.Driver
-      url : jdbc:mysql://127.0.0.1:3306/cation?characterEncoding=UTF-8&autoReconnect=true&rewriteBatchedStatements=true&serverTimezone=GMT%2B8
+      url : jdbc:mysql://100.100.10.91:3306/emay-service-db?characterEncoding=UTF-8&autoReconnect=true&rewriteBatchedStatements=true&serverTimezone=GMT%2B8
       username : root
       password : root
       maxActive : 32

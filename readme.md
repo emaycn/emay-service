@@ -26,3 +26,11 @@
 - 打jar包：mvn clean install -Ptest -Dinterface.code=07
 - 打包成镜像，并部署到本地镜像库： mvn compile jib:dockerBuild -Ptest  -Dinterface.code=07
 - 打包成镜像，并提交到远程镜像库： mvn compile jib:build -Ptest  -Dinterface.code=07
+
+## 5. docker启动注意
+
+因为docker文件都在容器内，所以比如log文件、上传文件等都需要挂在到宿主机，或者干脆使用文件系统，具体请参考docker使用方式。
+
+
+docker run --name emay-service -p 8081:8081 -v /nfsdata:/nfsdata -v /opt/logs/$APP:/logs  --log-opt max-size=5g --log-opt max-file=3 -d emay-service:1.2.0-01
+

@@ -179,45 +179,10 @@ public class SmsMessage implements Serializable {
 	@EsField(type = EsFieldType.DOUBLE)
 	private BigDecimal charge;
 	/**
-	 * 通道消费
-	 */
-	@EsField(type = EsFieldType.DOUBLE)
-	private BigDecimal channelCharge;
-	/**
-	 * 是否过审核
-	 */
-	@EsField(type = EsFieldType.BOOLEAN)
-	private Boolean isAuditing;
-	/**
-	 * 审核人ID
-	 */
-	@EsField(type = EsFieldType.LONG)
-	private Long auditingUserId;
-	/**
-	 * 是否校正
-	 */
-	@EsField(type = EsFieldType.BOOLEAN)
-	private Boolean isRegulate;
-	/**
-	 * 定时时间
-	 */
-	@EsField(type = EsFieldType.DATE)
-	private Date timerTime;
-	/**
 	 * 应用单价
 	 */
 	@EsField(type = EsFieldType.DOUBLE)
 	private BigDecimal price;
-	/**
-	 * 通道单价
-	 */
-	@EsField(type = EsFieldType.DOUBLE)
-	private BigDecimal channelPrice;
-	/**
-	 * 优先级(1-高，2-低)
-	 */
-	@EsField(type = EsFieldType.INTEGER)
-	private Integer priority;
 	/**
 	 * 客户ID
 	 */
@@ -233,28 +198,6 @@ public class SmsMessage implements Serializable {
 	 */
 	@EsField(type = EsFieldType.KEYWORD)
 	private String channelReportId;
-	/**
-	 * 进入通道队列的时间
-	 */
-	@EsField(type = EsFieldType.DATE)
-	private Date pushChannelQueueTime;
-	/**
-	 * 入库时间，后续状态报告回来以后知道更新哪个库
-	 */
-	@EsField(type = EsFieldType.DATE)
-	private Date saveTime;
-	/**
-	 * 是否发送到通道
-	 */
-	@EsField(type = EsFieldType.BOOLEAN)
-	private Boolean isRealSend;
-
-	/**
-	 * 是否被补发<br/>
-	 * 放弃统计、退款、导出、再次补发
-	 */
-	@EsField(type = EsFieldType.BOOLEAN)
-	private Boolean isReissue;
 
 	public Long getId() {
 		return id;
@@ -448,38 +391,6 @@ public class SmsMessage implements Serializable {
 		this.charge = charge;
 	}
 
-	public Boolean getIsAuditing() {
-		return isAuditing;
-	}
-
-	public void setIsAuditing(Boolean isAuditing) {
-		this.isAuditing = isAuditing;
-	}
-
-	public Long getAuditingUserId() {
-		return auditingUserId;
-	}
-
-	public void setAuditingUserId(Long auditingUserId) {
-		this.auditingUserId = auditingUserId;
-	}
-
-	public Boolean getIsRegulate() {
-		return isRegulate;
-	}
-
-	public void setIsRegulate(Boolean isRegulate) {
-		this.isRegulate = isRegulate;
-	}
-
-	public Date getTimerTime() {
-		return timerTime;
-	}
-
-	public void setTimerTime(Date timerTime) {
-		this.timerTime = timerTime;
-	}
-
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -494,22 +405,6 @@ public class SmsMessage implements Serializable {
 
 	public void setInterfaceServiceNo(String interfaceServiceNo) {
 		this.interfaceServiceNo = interfaceServiceNo;
-	}
-
-	public BigDecimal getChannelPrice() {
-		return channelPrice;
-	}
-
-	public void setChannelPrice(BigDecimal channelPrice) {
-		this.channelPrice = channelPrice;
-	}
-
-	public Integer getPriority() {
-		return priority;
-	}
-
-	public void setPriority(Integer priority) {
-		this.priority = priority;
 	}
 
 	public String getResultCode() {
@@ -542,45 +437,5 @@ public class SmsMessage implements Serializable {
 
 	public void setChannelReportId(String channelReportId) {
 		this.channelReportId = channelReportId;
-	}
-
-	public Date getPushChannelQueueTime() {
-		return pushChannelQueueTime;
-	}
-
-	public void setPushChannelQueueTime(Date pushChannelQueueTime) {
-		this.pushChannelQueueTime = pushChannelQueueTime;
-	}
-
-	public Date getSaveTime() {
-		return saveTime;
-	}
-
-	public void setSaveTime(Date saveTime) {
-		this.saveTime = saveTime;
-	}
-
-	public BigDecimal getChannelCharge() {
-		return channelCharge;
-	}
-
-	public void setChannelCharge(BigDecimal channelCharge) {
-		this.channelCharge = channelCharge;
-	}
-
-	public Boolean getIsRealSend() {
-		return isRealSend;
-	}
-
-	public void setIsRealSend(Boolean isRealSend) {
-		this.isRealSend = isRealSend;
-	}
-
-	public Boolean getIsReissue() {
-		return isReissue;
-	}
-
-	public void setIsReissue(Boolean isReissue) {
-		this.isReissue = isReissue;
 	}
 }

@@ -103,13 +103,10 @@ public class SmsMessageApi {
 			clientIdList.add(message.getClientId());
 		});
 		Map<Long, Client> clientMap = getClientMap(clientIdList.toArray(new Long[clientIdList.size()]));
-		List<Long> channelIdList = new ArrayList<Long>();
-		page.getList().forEach(report -> {
-			channelIdList.add(report.getChannelId());
-		});
-
 		page.getList().forEach(message -> {
-			message.setClientName(clientMap.get(message.getClientId()).getClientName());
+			if(clientMap.containsKey(message.getClientId())) {
+				message.setClientName(clientMap.get(message.getClientId()).getClientName());
+			}
 		});
 
 		return SuperResult.rightResult(page);
