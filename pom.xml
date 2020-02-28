@@ -211,11 +211,11 @@
 						<image>5vv14fv3.mirror.aliyuncs.com/library/java:8u111-jdk</image>
 					</from>
 					<to>
-						<!--172.16.11.190/dev/ 是公司的镜像库 -->
-						<image>172.16.11.190/dev/${project.artifactId}:${project.version}-${interface.code}</image>
+						<!--ip/dev/ 镜像库 -->
+						<image>${project.artifactId}:${project.version}-${interface.code}</image>
 						<auth>
-							<username>pingtai</username>
-							<password>Qwer1234</password>
+							<username>*</username>
+							<password>*</password>
 						</auth>
 					</to>
 					<container>
