@@ -416,3 +416,13 @@ CREATE TABLE `sms_app` (
   PRIMARY KEY (`id`),
   KEY `sms_black_dictionary_last_update_time` (`last_update_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='应用';
+
+ALTER TABLE `system_resource` ADD INDEX `sres_rt` (`resource_type` ASC) ;
+ALTER TABLE `system_role` ADD INDEX `ST_RT` (`role_type` ASC) ;
+ALTER TABLE `client_user_assign` ADD INDEX `sura_ci` (`client_id` ASC) ;
+ALTER TABLE `client_charge_record`
+  DROP INDEX `I_CLIENT_CHARGE_RECORD_USER_ID` ,
+  ADD INDEX `I_CLIENT_CHARGE_RECORD_CLIENT_ID` (`client_id` ASC) ;
+ALTER TABLE `system_role_resource_assign` ADD INDEX `srrea_rei` (`resource_id` ASC) ;
+ALTER TABLE `system_user` ADD INDEX `su_type` (`user_for` ASC) ;
+ALTER TABLE `system_user_role_assign` ADD INDEX `sura_ri` (`role_id` ASC) ;
