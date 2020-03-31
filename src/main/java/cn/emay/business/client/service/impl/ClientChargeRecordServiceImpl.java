@@ -2,8 +2,7 @@ package cn.emay.business.client.service.impl;
 
 import java.util.Date;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.emay.business.client.dao.ClientChargeRecordDao;
@@ -21,7 +20,7 @@ import cn.emay.utils.result.Result;
 @Service
 public class ClientChargeRecordServiceImpl implements ClientChargeRecordService {
 
-	@Resource
+	@Autowired
 	private ClientChargeRecordDao clientChargeRecordDao;
 
 	@Override

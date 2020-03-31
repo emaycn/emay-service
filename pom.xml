@@ -24,6 +24,8 @@
 		<skipTests>true</skipTests>
 
 		<elasticsearch.version>7.2.1</elasticsearch.version>
+		<netty.version>4.1.42.Final</netty.version>
+		<jedis.version>2.10.2</jedis.version>
 
 		<!-- 业务参数 -->
 		<interface.code>01</interface.code>

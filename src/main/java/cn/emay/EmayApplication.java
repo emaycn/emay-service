@@ -35,7 +35,7 @@ public class EmayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EmayApplication.class, args);
 	}
-	
+
 	@Component
 	public class CheckParamsApplicationRunner implements ApplicationRunner {
 
@@ -60,14 +60,16 @@ public class EmayApplication {
 			try {
 				taskSchedulerSpring.start();
 			} catch (Exception e) {
-				log.error("error",e);
+				log.error("error", e);
 				SpringApplication.exit(ApplicationContextUtils.getApplicationContext(), new ExitCodeGenerator() {
+
 					@Override
 					public int getExitCode() {
 						return -999;
 					}
 				});
 			}
+
 		}
 
 		private boolean iSoK() {

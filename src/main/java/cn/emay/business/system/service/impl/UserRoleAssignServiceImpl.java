@@ -2,8 +2,7 @@ package cn.emay.business.system.service.impl;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.emay.business.system.dao.UserRoleAssignDao;
@@ -18,7 +17,7 @@ import cn.emay.business.system.service.UserRoleAssignService;
 @Service
 public class UserRoleAssignServiceImpl implements UserRoleAssignService {
 
-	@Resource
+	@Autowired
 	private UserRoleAssignDao userRoleAssignDao;
 
 	@Override

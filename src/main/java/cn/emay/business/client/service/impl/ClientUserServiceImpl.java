@@ -1,7 +1,5 @@
 package cn.emay.business.client.service.impl;
 
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
 
 import cn.emay.business.client.service.ClientUserService;
@@ -13,8 +11,5 @@ import cn.emay.business.client.service.ClientUserService;
  */
 @Service
 public class ClientUserServiceImpl implements ClientUserService {
-
-    @Resource
-    private ClientUserService clientUserService;
 
 }
