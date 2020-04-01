@@ -7,6 +7,7 @@ import org.springframework.core.annotation.Order;
 
 import cn.emay.redis.RedisClient;
 import cn.emay.redis.impl.RedisClusterClient;
+import cn.emay.redis.impl.RedisSentinelClient;
 import cn.emay.redis.impl.RedisShardedClient;
 import cn.emay.redis.impl.RedisSingleClient;
 
@@ -33,6 +34,10 @@ public class RedisConfig {
 	 * 集群Redis参数
 	 */
 	private ClusterInfo cluster;
+	/**
+	 * 哨兵Redis参数
+	 */
+	private SentinelInfo sentinelInfo;
 	/**
 	 * 超时时间
 	 */
@@ -81,6 +86,14 @@ public class RedisConfig {
 			}
 			hosts = hosts.substring(0, hosts.length() - 1);
 			redis = new RedisClusterClient(hosts, timeoutMillis, cluster.getMaxRedirections(), maxIdle, maxTotal, minIdle, maxWaitMillis, datePattern,
+					password);
+		} else if (sentinelInfo != null) {
+			String sentinels = "";
+			for (String host : sentinelInfo.getSentinels()) {
+				sentinels += host + ",";
+			}
+			sentinels = sentinels.substring(0, sentinels.length() - 1);
+			redis = new RedisSentinelClient(sentinelInfo.getMasterName(), sentinels, timeoutMillis, maxIdle, maxTotal, minIdle, maxWaitMillis, datePattern,
 					password);
 		}
 		return redis;
@@ -164,6 +177,14 @@ public class RedisConfig {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public SentinelInfo getSentinelInfo() {
+		return sentinelInfo;
+	}
+
+	public void setSentinelInfo(SentinelInfo sentinelInfo) {
+		this.sentinelInfo = sentinelInfo;
 	}
 
 	/**
@@ -258,6 +279,35 @@ public class RedisConfig {
 			this.port = port;
 		}
 
+	}
+
+	/**
+	 * 哨兵参数
+	 * 
+	 * @author frank
+	 *
+	 */
+	public static class SentinelInfo {
+
+		private String masterName;
+
+		private String[] sentinels;
+
+		public String getMasterName() {
+			return masterName;
+		}
+
+		public void setMasterName(String masterName) {
+			this.masterName = masterName;
+		}
+
+		public String[] getSentinels() {
+			return sentinels;
+		}
+
+		public void setSentinels(String[] sentinels) {
+			this.sentinels = sentinels;
+		}
 	}
 
 }
