@@ -17,7 +17,7 @@ spring:
 
 # tomcat
 server:
-   port: 8082
+   port: 8081
    max-http-header-size: 3145728
    tomcat:
       uri-encoding: UTF-8

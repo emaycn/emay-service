@@ -73,6 +73,7 @@ public class EmayApplication {
 		public void run(ApplicationArguments args) throws Exception {
 			try {
 				OnlyBusinessCode.occpy(redis);
+				log.info("BUSINESS_CODE:[{}]", OnlyBusinessCode.getCode());
 				taskSchedulerSpring.start();
 			} catch (Exception e) {
 				log.error("error", e);
