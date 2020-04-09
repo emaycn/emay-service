@@ -24,10 +24,6 @@ public class PropertiesConfig {
 	 */
 	private String fileDirPath;
 	/**
-	 * 接口编码[必填参数]
-	 */
-	private String interfaceCode;
-	/**
 	 * 排除的XSS防御URL
 	 */
 	private String[] excludeUrlXss;
@@ -38,14 +34,6 @@ public class PropertiesConfig {
 
 	public void setDev(boolean dev) {
 		this.dev = dev;
-	}
-
-	public String getInterfaceCode() {
-		return interfaceCode;
-	}
-
-	public void setInterfaceCode(String interfaceCode) {
-		this.interfaceCode = interfaceCode;
 	}
 
 	public String getFileDirPath() {

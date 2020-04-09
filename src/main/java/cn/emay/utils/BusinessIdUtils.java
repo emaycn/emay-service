@@ -10,8 +10,6 @@ public class BusinessIdUtils {
 
 	private static long LAST_MILLIS_INDEX;
 
-	private static final long RESET_TIME = 1000L * 1000L * 1L;
-
 	static {
 		resetMillis();
 	}
@@ -21,7 +19,8 @@ public class BusinessIdUtils {
 	 * 每毫秒最多生成1000个<br/>
 	 * 如果每毫秒的请求生成数多余1000个，允许超当前时间生成
 	 * 
-	 * @param serverCode 唯一编码，两位
+	 * @param serverCode
+	 *            唯一编码，两位
 	 * @return
 	 */
 	public synchronized static String genId(String serverCode) {
@@ -29,11 +28,19 @@ public class BusinessIdUtils {
 		return (LAST_MILLIS_INDEX++) + serverCode;
 	}
 
+	/**
+	 * 基于业务编码生成唯一id 必须启动时初始化业务编码，否则会导致id重复
+	 * 
+	 * @return
+	 */
+	public synchronized static String genId() {
+		return genId(OnlyBusinessCode.getCode());
+	}
+
 	private static void resetMillis() {
 		long now = System.currentTimeMillis() * 1000L;
-		if (RESET_TIME + LAST_MILLIS_INDEX < now) {
+		if (LAST_MILLIS_INDEX < now) {
 			LAST_MILLIS_INDEX = now;
 		}
 	}
-
 }

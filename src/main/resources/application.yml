@@ -17,7 +17,7 @@ spring:
 
 # tomcat
 server:
-   port: 8081
+   port: 8082
    max-http-header-size: 3145728
    tomcat:
       uri-encoding: UTF-8
@@ -47,7 +47,6 @@ captcha :
 
 # 自定义参数
 properties :  
-   interfaceCode : "@interface.code@"
    # XSS防御例外，两种：
    # 1. 无参数URL ，直接例外此URL；
    # 2. 有参数URL，仅例外此URL的这些参数；
