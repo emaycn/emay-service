@@ -29,7 +29,7 @@ public class SchedulerConfig {
 	 * 
 	 * @return
 	 */
-	@Bean(name = "TaskSchedulerSpring",destroyMethod = "stop")
+	@Bean(name = "TaskSchedulerSpring")
 	public TaskSchedulerSpring taskScheduler() {
 		return new TaskSchedulerSpring(tasks);
 	}

@@ -14,7 +14,7 @@
 	<name>emay-service</name>
 	<groupId>cn.emay</groupId>
 	<artifactId>emay-service</artifactId>
-	<version>1.2.0</version>
+	<version>1.2.1</version>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -24,6 +24,8 @@
 		<skipTests>true</skipTests>
 
 		<elasticsearch.version>7.2.1</elasticsearch.version>
+		<netty.version>4.1.42.Final</netty.version>
+		<jedis.version>2.10.2</jedis.version>
 
 	</properties>
 
@@ -80,7 +82,7 @@
 		<dependency>
 			<groupId>cn.emay</groupId>
 			<artifactId>emay-redis</artifactId>
-			<version>1.1.1</version>
+			<version>1.1.2</version>
 		</dependency>
 		<!-- store -->
 		<dependency>
@@ -98,7 +100,7 @@
 		<dependency>
 			<groupId>cn.emay</groupId>
 			<artifactId>emay-elasticsearch</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 		</dependency>
 		<!-- utils -->
 		<dependency>
@@ -110,7 +112,7 @@
 		<dependency>
 			<groupId>cn.emay</groupId>
 			<artifactId>emay-excel</artifactId>
-			<version>1.0.9</version>
+			<version>1.1.0</version>
 		</dependency>
 		<!-- captcha -->
 		<dependency>

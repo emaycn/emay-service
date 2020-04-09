@@ -2,8 +2,7 @@ package cn.emay.business.sms.service.impl;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.emay.business.sms.dao.SmsAppDao;
@@ -20,7 +19,7 @@ import cn.emay.utils.db.common.Page;
 @Service
 public class SmsAppServiceImpl implements SmsAppService {
 
-    @Resource
+	@Autowired
     private SmsAppDao appDao;
 
     @Override

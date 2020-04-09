@@ -34,7 +34,7 @@ server:
 # 定时任务(注解形式定义任务类型和执行时间)
 scheduler :
    tasks :
-       # - cn.emay.task.TestTask
+       - cn.emay.business.task.CacheTask
        
  
 # 图片验证码
@@ -51,7 +51,5 @@ properties :
    # 1. 无参数URL ，直接例外此URL；
    # 2. 有参数URL，仅例外此URL的这些参数；
    excludeUrlXss :
-      - /swagger-ui.html
-      - /webjars/**
       - /o/message/list?content,reportCode #代码中去空格处理
       - /c/clientmessage/list?content,reportCode #代码中去空格处理

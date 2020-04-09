@@ -77,12 +77,14 @@ public class EmayApplication {
 			} catch (Exception e) {
 				log.error("error", e);
 				SpringApplication.exit(ApplicationContextUtils.getApplicationContext(), new ExitCodeGenerator() {
+
 					@Override
 					public int getExitCode() {
 						return -999;
 					}
 				});
 			}
+
 		}
 
 	}

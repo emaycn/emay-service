@@ -3,8 +3,6 @@ package cn.emay.business.system.api.oper;
 import java.text.MessageFormat;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +42,9 @@ import io.swagger.annotations.ApiParam;
 public class DepartmentApi {
 	Logger log = LoggerFactory.getLogger(getClass());
 
-	@Resource
+	@Autowired
 	private DepartmentService departmentService;
-	@Resource
+	@Autowired
 	private UserDepartmentAssignService userDepartmentAssignService;
 	@Autowired
 	private UserOperLogService userOperLogService;

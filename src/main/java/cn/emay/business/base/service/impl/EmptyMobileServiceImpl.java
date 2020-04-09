@@ -3,8 +3,7 @@ package cn.emay.business.base.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.emay.business.base.dao.EmptyMobileDao;
@@ -20,7 +19,7 @@ import cn.emay.utils.db.common.Page;
 @Service
 public class EmptyMobileServiceImpl implements EmptyMobileService {
 
-    @Resource
+	@Autowired
     private EmptyMobileDao emptyMobileDao;
 
     @Override

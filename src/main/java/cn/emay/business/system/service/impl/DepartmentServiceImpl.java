@@ -5,8 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.emay.business.system.dao.DepartmentDao;
@@ -23,7 +22,7 @@ import cn.emay.utils.db.common.Page;
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
-	@Resource
+	@Autowired
 	DepartmentDao departmentDao;
 
 	@Override

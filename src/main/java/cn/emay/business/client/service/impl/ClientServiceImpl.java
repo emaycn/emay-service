@@ -3,8 +3,7 @@ package cn.emay.business.client.service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.emay.business.client.dao.ClientDao;
@@ -24,9 +23,9 @@ import cn.emay.utils.result.Result;
 @Service
 public class ClientServiceImpl implements ClientService {
 
-	@Resource
+	@Autowired
 	private ClientDao clientDao;
-	@Resource
+	@Autowired
 	private RedisClient redis;
 
 	@Override

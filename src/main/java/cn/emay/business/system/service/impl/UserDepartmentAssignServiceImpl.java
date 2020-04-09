@@ -1,7 +1,6 @@
 package cn.emay.business.system.service.impl;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.emay.business.system.dao.UserDepartmentAssignDao;
@@ -15,7 +14,7 @@ import cn.emay.business.system.service.UserDepartmentAssignService;
 @Service
 public class UserDepartmentAssignServiceImpl implements UserDepartmentAssignService {
 
-	@Resource
+	@Autowired
 	private UserDepartmentAssignDao userDepartmentAssignDao;
 
 	@Override
