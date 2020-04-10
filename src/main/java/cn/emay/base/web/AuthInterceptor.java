@@ -14,6 +14,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import cn.emay.business.system.pojo.User;
 import cn.emay.constant.web.ResourceEnum;
+import cn.emay.constant.web.SystemType;
 import cn.emay.constant.web.WebAuth;
 import cn.emay.constant.web.WebToken;
 import cn.emay.utils.WebUtils;
@@ -38,7 +39,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			}
 			Method method = ((HandlerMethod) handler).getMethod();
 			WebAuth auth = method.getAnnotation(WebAuth.class);
-			// 资源没有要求权限的，通过---有注解即视为需要登录
+			// 资源没有要求权限的，通过
 			if (auth == null) {
 				return true;
 			}
@@ -69,10 +70,26 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				return false;
 			}
 			ResourceEnum[] codes = auth.value();
-			// 仅需要登录权限的，通过
-			// ps:有注解无Code即视为仅需要登录
+			// 不需要资源权限，仅需要登录权限的
 			if (codes == null || codes.length == 0) {
-				return true;
+				boolean isHasLoginAuth = false;
+				if (auth.system() != null) {
+					for (SystemType st : auth.system()) {
+						if (st.getType().equalsIgnoreCase(user.getUserFor())) {
+							isHasLoginAuth = true;
+							break;
+						}
+					}
+				}
+				if (isHasLoginAuth) {
+					// 用户所属系统允许访问
+					return true;
+				} else {
+					// 用户所需系统不允许访问
+					WebUtils.logout();
+					WebUtils.toNoLogin();
+					return false;
+				}
 			}
 			// 有资源权限的，通过
 			for (ResourceEnum code : codes) {

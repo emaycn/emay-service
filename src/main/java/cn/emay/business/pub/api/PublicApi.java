@@ -139,7 +139,7 @@ public class PublicApi {
 	/**
 	 * 修改密码
 	 */
-	@WebAuth
+	@WebAuth({  })
 	@RequestMapping(value = "/changePassword")
 	public Result changepass(String password, String newpass) throws IOException {
 		if (password == null) {
