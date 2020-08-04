@@ -73,27 +73,27 @@ public class RedisConfig {
 		if (single != null) {
 			redis = new RedisSingleClient(single.getHost(), single.getPort(), timeoutMillis, maxIdle, maxTotal, minIdle, maxWaitMillis, datePattern, password);
 		} else if (sharded != null) {
-			String hosts = "";
+			StringBuilder hosts = new StringBuilder();
 			for (String host : sharded.getHosts()) {
-				hosts += host + ",";
+				hosts.append(host).append(",");
 			}
-			hosts = hosts.substring(0, hosts.length() - 1);
-			redis = new RedisShardedClient(hosts, timeoutMillis, maxIdle, maxTotal, minIdle, maxWaitMillis, datePattern, password);
+			hosts = new StringBuilder(hosts.substring(0, hosts.length() - 1));
+			redis = new RedisShardedClient(hosts.toString(), timeoutMillis, maxIdle, maxTotal, minIdle, maxWaitMillis, datePattern, password);
 		} else if (cluster != null) {
-			String hosts = "";
+			StringBuilder hosts = new StringBuilder();
 			for (String host : cluster.getHosts()) {
-				hosts += host + ",";
+				hosts.append(host).append(",");
 			}
-			hosts = hosts.substring(0, hosts.length() - 1);
-			redis = new RedisClusterClient(hosts, timeoutMillis, cluster.getMaxRedirections(), maxIdle, maxTotal, minIdle, maxWaitMillis, datePattern,
+			hosts = new StringBuilder(hosts.substring(0, hosts.length() - 1));
+			redis = new RedisClusterClient(hosts.toString(), timeoutMillis, cluster.getMaxRedirections(), maxIdle, maxTotal, minIdle, maxWaitMillis, datePattern,
 					password);
 		} else if (sentinelInfo != null) {
-			String sentinels = "";
+			StringBuilder sentinels = new StringBuilder();
 			for (String host : sentinelInfo.getSentinels()) {
-				sentinels += host + ",";
+				sentinels.append(host).append(",");
 			}
-			sentinels = sentinels.substring(0, sentinels.length() - 1);
-			redis = new RedisSentinelClient(sentinelInfo.getMasterName(), sentinels, timeoutMillis, maxIdle, maxTotal, minIdle, maxWaitMillis, datePattern,
+			sentinels = new StringBuilder(sentinels.substring(0, sentinels.length() - 1));
+			redis = new RedisSentinelClient(sentinelInfo.getMasterName(), sentinels.toString(), timeoutMillis, maxIdle, maxTotal, minIdle, maxWaitMillis, datePattern,
 					password);
 		}
 		return redis;

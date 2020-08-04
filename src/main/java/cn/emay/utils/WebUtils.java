@@ -238,7 +238,6 @@ public class WebUtils {
 	/**
 	 * 到处报表
 	 * 
-	 * @param <T>
 	 * @param list
 	 */
 	public static void exportExcel(ExcelVersion version, List<?> list) {

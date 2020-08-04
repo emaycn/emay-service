@@ -1,0 +1,19 @@
+{
+  "groups": [
+    {
+      "name": "es"
+    },
+    {
+      "name": "redis"
+    },
+    {
+      "name": "db.datasource"
+    },
+    {
+      "name": "db.hibernate"
+    },
+    {
+      "name": "captcha"
+    }
+  ]
+}

@@ -27,7 +27,6 @@ public class SchedulerConfig {
 	 * 通过配置文件读取任务<br/>
 	 * 需要自己启动
 	 * 
-	 * @return
 	 */
 	@Bean(name = "TaskSchedulerSpring")
 	public TaskSchedulerSpring taskScheduler() {

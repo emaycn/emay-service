@@ -27,8 +27,6 @@ public class FileUploadUtils {
 	 * 
 	 * @param file
 	 *            文件
-	 * @param uploadType
-	 *            上传文件类型，以类型创建文件夹
 	 * @param fileMaxSizeMbLimit
 	 *            文件限制大小[单位Mb](为空则不限制)
 	 * @param suffixLimits

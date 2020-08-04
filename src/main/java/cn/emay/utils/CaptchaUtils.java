@@ -46,7 +46,6 @@ public class CaptchaUtils {
 	 * 写入Redis
 	 * 
 	 * @param redis
-	 * @param response
 	 * @param sessionId
 	 * @param tag
 	 * @param timeout
@@ -81,7 +80,6 @@ public class CaptchaUtils {
 	/**
 	 * 写入Session
 	 * 
-	 * @param response
 	 * @param tag
 	 * @throws IOException
 	 */

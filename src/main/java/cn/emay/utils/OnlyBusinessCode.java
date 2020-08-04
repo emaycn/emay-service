@@ -52,7 +52,6 @@ public class OnlyBusinessCode {
 	 * 续租
 	 * 
 	 * @param redis
-	 * @param numberStr
 	 */
 	public static void renew(RedisClient redis) {
 		redis.set(BusinessCacheKeys.KV_BUSINESS_CODE_LOCK + BUSINESS_CODE, "0", 60);
@@ -62,7 +61,6 @@ public class OnlyBusinessCode {
 	 * 退订
 	 * 
 	 * @param redis
-	 * @param numberStr
 	 */
 	public static void unsubscribe(RedisClient redis) {
 		redis.del(BusinessCacheKeys.KV_BUSINESS_CODE_LOCK + BUSINESS_CODE);
