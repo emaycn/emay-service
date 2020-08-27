@@ -66,7 +66,7 @@ public enum ResourceEnum {
      * 日志查询
      */
     LOG_VIEW("LOG_VIEW", "日志查询", SystemType.OPER),
-    
+
     /**
      * 客户管理
      */
@@ -87,7 +87,7 @@ public enum ResourceEnum {
      * 充值扣费
      */
     RECHARGE_CHARGE("RECHARGE_CHARGE", "充值扣费", SystemType.OPER),
-    
+
     /**
      * 空号管理
      */
@@ -160,7 +160,7 @@ public enum ResourceEnum {
      * 详细号段导入
      */
     NUMBER_IMPORT("NUMBER_IMPORT", "详细号段导入", SystemType.OPER),
-    
+
 
     /**
      * 应用列表
@@ -179,12 +179,12 @@ public enum ResourceEnum {
      */
     APP_ONOFF("APP_ONOFF", "应用起停", SystemType.OPER),
 
-    
+
     /**
      * 短信详情列表
      */
     MESSAGE_VIEW("MESSAGE_VIEW", "短信详情列表", SystemType.OPER),
-    
+
     /**
      * 角色查询
      */
@@ -222,8 +222,8 @@ public enum ResourceEnum {
      * 客户用户操作
      */
     CLIENTUSER_OPER("CLIENTUSER_OPER", "客户用户操作", SystemType.OPER),
-    
-    
+
+
     /**
      * 客户端-用户查询
      */
@@ -240,7 +240,7 @@ public enum ResourceEnum {
      * 客户端-短信详情列表
      */
     CLIENT_MESSAGE_VIEW("CLIENT_MESSAGE_VIEW", "短信详情列表", SystemType.CLIENT),
-    
+
     ;
 
     /**
@@ -256,7 +256,7 @@ public enum ResourceEnum {
      */
     private SystemType system;
 
-    private ResourceEnum(String code, String desc, SystemType system) {
+    ResourceEnum(String code, String desc, SystemType system) {
         this.code = code;
         this.desc = desc;
         this.system = system;

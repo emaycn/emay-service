@@ -14,7 +14,7 @@
 	<name>emay-service</name>
 	<groupId>cn.emay</groupId>
 	<artifactId>emay-service</artifactId>
-	<version>1.2.4</version>
+	<version>1.2.5</version>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -95,12 +95,6 @@
 			<groupId>cn.emay</groupId>
 			<artifactId>emay-store</artifactId>
 			<version>1.0.1</version>
-		</dependency>
-		<!-- scheduler -->
-		<dependency>
-			<groupId>cn.emay</groupId>
-			<artifactId>emay-scheduler</artifactId>
-			<version>1.0.4</version>
 		</dependency>
 		<!-- es -->
 		<dependency>

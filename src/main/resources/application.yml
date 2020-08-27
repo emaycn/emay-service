@@ -31,10 +31,11 @@ server:
       mime-types: application/json,application/xml,text/html,text/xml,text/plain
       min-response-size: 2048
       
-# 定时任务(注解形式定义任务类型和执行时间)
-scheduler :
-   tasks :
-       - cn.emay.business.task.CacheTask
+# 定时任务
+scheduler:
+   poolSize: 32
+   threadNamePrefix: "stp-"
+   awaitTerminationSeconds: 60
        
  
 # 图片验证码

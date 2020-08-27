@@ -1,7 +1,6 @@
 package cn.emay;
 
 import cn.emay.redis.RedisClient;
-import cn.emay.task.spring.TaskSchedulerSpring;
 import cn.emay.utils.ApplicationContextUtils;
 import cn.emay.utils.OnlyBusinessCode;
 import org.slf4j.Logger;
@@ -48,8 +47,6 @@ public class EmayApplication {
 
     @EventListener
     public void closed(ContextClosedEvent event) {
-        TaskSchedulerSpring taskSchedulerSpring = ApplicationContextUtils.getBean(TaskSchedulerSpring.class);
-        taskSchedulerSpring.stop();
         RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
         OnlyBusinessCode.unsubscribe(redis);
     }
@@ -60,8 +57,6 @@ public class EmayApplication {
         Logger log = LoggerFactory.getLogger(getClass());
 
         @Resource
-        private TaskSchedulerSpring taskSchedulerSpring;
-        @Resource
         private RedisClient redis;
 
         @Override
@@ -69,7 +64,6 @@ public class EmayApplication {
             try {
                 OnlyBusinessCode.occpy(redis);
                 log.info("BUSINESS_CODE:[{}]", OnlyBusinessCode.getCode());
-                taskSchedulerSpring.start();
             } catch (Exception e) {
                 log.error("error", e);
                 SpringApplication.exit(ApplicationContextUtils.getApplicationContext(), () -> -999);
