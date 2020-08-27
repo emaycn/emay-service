@@ -4,8 +4,7 @@ package cn.emay.task;
 import cn.emay.constant.task.ConcurrentComputer;
 import cn.emay.constant.task.ConcurrentFieldComputer;
 import cn.emay.constant.task.SuperScheduled;
-import cn.emay.http.client.HttpClient;
-import cn.emay.http.client.request.impl.HttpRequestDataMap;
+import cn.emay.http.apache.HttpClientUtils;
 import cn.emay.json.JsonHelper;
 import cn.emay.utils.date.DateUtils;
 import org.springframework.context.annotation.Bean;
@@ -28,14 +27,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SpringTaskTest {
 
     /**
-     * 模拟长事务任务，测试停止应用不会造成业务中断<br/>
+     * 模拟长事务，测试停止应用不会造成业务中断<br/>
      */
     private void testLongTime() {
         for (int i = 0; i < 10; i++) {
             Map<String, String> map = new HashMap<>();
             map.put("page_id", "4845534524194232");
             map.put("_item_pwd", "191919");
-            HttpClient.post("https://www.showdoc.cc/server/index.php?s=/api/page/info", new HttpRequestDataMap(map));
+            HttpClientUtils.post("https://www.showdoc.cc/server/index.php?s=/api/page/info", map);
         }
     }
 
