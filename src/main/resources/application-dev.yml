@@ -1,22 +1,22 @@
 # es
 es:
-   ip : 100.100.10.84
-   port : 9800
-   #user : elastic
-   #password : elastic
-   
+  ip: 100.100.10.84
+  port: 9800
+  #user : elastic
+  #password : elastic
+
 # redis [单点、分片、集群，三选一使用]
-redis :
-   timeoutMillis : 2000
-   maxIdle : 4
-   maxTotal : 16
-   minIdle : 1
-   maxWaitMillis : 2000
-   datePattern : yyyy-MM-dd HH:mm:ss SSS
-   #password : redispass
-   single :
-      host : 100.100.10.84
-      port : 6400
+redis:
+  timeoutMillis: 2000
+  maxIdle: 4
+  maxTotal: 16
+  minIdle: 1
+  maxWaitMillis: 2000
+  datePattern: yyyy-MM-dd HH:mm:ss SSS
+  #password : redispass
+  single:
+    host: 100.100.10.84
+    port: 6400
 #   sentinelInfo:
 #    masterName: mymaster
 #    sentinels:
@@ -26,30 +26,30 @@ redis :
 
 # 数据库
 # Hibernate packageScan mappingResources都可以逗号分隔传多个
-db : 
-   datasource : 
-      driverClassName : com.mysql.cj.jdbc.Driver
-      url : jdbc:mysql://100.100.10.91:3306/emay-service-db?characterEncoding=UTF-8&autoReconnect=true&rewriteBatchedStatements=true&serverTimezone=GMT%2B8
-      username : root
-      password : root
-      maxActive : 32
-      maxIdle : 4
-      minIdle : 1
-      initialSize : 1
-      timeBetweenEvictionRunsMillis : 60000
-      numTestsPerEvictionRun : 100
-      logAbandoned : true
-   hibernate : 
-      dialect : org.hibernate.dialect.MySQLInnoDBDialect
-      hbm2ddl_auto : none
-      show_sql : false
-      format_sql : false
-      jdbc_batchSize : 50
-      enable_lazy_load_no_trans : false
-      current_session_context_class : org.springframework.orm.hibernate5.SpringSessionContext
-      packageScan : cn.emay
-      mappingResources : classpath*:hbm/**/*.hbm.xml   
+db:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://100.100.10.91:3306/emay-service-db?characterEncoding=UTF-8&autoReconnect=true&rewriteBatchedStatements=true&serverTimezone=GMT%2B8
+    username: root
+    password: root
+    maxActive: 32
+    maxIdle: 4
+    minIdle: 1
+    initialSize: 1
+    timeBetweenEvictionRunsMillis: 60000
+    numTestsPerEvictionRun: 100
+    logAbandoned: true
+  hibernate:
+    dialect: org.hibernate.dialect.MySQLInnoDBDialect
+    hbm2ddl_auto: none
+    show_sql: false
+    format_sql: false
+    jdbc_batchSize: 50
+    enable_lazy_load_no_trans: false
+    current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+    packageScan: cn.emay
+    mappingResources: classpath*:hbm/**/*.hbm.xml
 
-properties :  
-   dev : true
-   fileDirPath : ${HOME}/nfsdata # ${HOME}是当前用户目录
+properties:
+  dev: true
+  fileDirPath: ${HOME}/nfsdata # ${HOME}是当前用户目录

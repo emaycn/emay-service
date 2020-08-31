@@ -1,10 +1,10 @@
 package cn.emay.constant.web;
 
-import cn.emay.business.client.dto.ClientDTO;
-import cn.emay.business.client.pojo.Client;
-import cn.emay.business.system.dto.SimpleUserDTO;
-import cn.emay.business.system.pojo.Resource;
-import cn.emay.business.system.pojo.User;
+import cn.emay.core.client.dto.ClientDTO;
+import cn.emay.core.client.pojo.Client;
+import cn.emay.core.system.dto.SimpleUserDTO;
+import cn.emay.core.system.pojo.Resource;
+import cn.emay.core.system.pojo.User;
 
 import java.io.Serializable;
 import java.util.Date;

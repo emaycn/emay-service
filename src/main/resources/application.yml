@@ -2,55 +2,57 @@
 spring.profiles.active: "@profile.active@"
 
 # debug
-debug : false
+debug: false
 
 # log file
-logging.config : classpath:log4j2-spring.xml
+logging.config: classpath:log4j2-spring.xml
 
 #spring 文件上传大小
 spring:
-   servlet:
-      multipart:
-         enabled: true
-         max-file-size: 100000000
-         max-request-size: 100000000
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100000000
+      max-request-size: 100000000
 
 # tomcat
 server:
-   port: 8081
-   max-http-header-size: 3145728
-   tomcat:
-      uri-encoding: UTF-8
-      max-threads: 2000
-   servlet:
-      session:
-         timeout: 7200
-      context-path: /api
-   compression:
-      enabled: true
-      mime-types: application/json,application/xml,text/html,text/xml,text/plain
-      min-response-size: 2048
-      
+  port: 8081
+  max-http-header-size: 3145728
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 2000
+  servlet:
+    session:
+      timeout: 7200
+    context-path: /api
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+    min-response-size: 2048
+
 # 定时任务
 scheduler:
-   poolSize: 32
-   threadNamePrefix: "stp-"
-   awaitTerminationSeconds: 60
-       
- 
+  poolSize: 4
+  threadNamePrefix: "stp-"
+  awaitTerminationSeconds: 60
+  redisBeanName: "RedisClient"
+  onlyLockName: "emay-lock-only-sim111"
+
+
 # 图片验证码
-captcha :
-   noise : com.google.code.kaptcha.impl.NoNoise
-   chars : !!str 0123456789
-   length : 4
-   width : 195
-   height : 50
+captcha:
+  noise: com.google.code.kaptcha.impl.NoNoise
+  chars: !!str 0123456789
+  length: 4
+  width: 195
+  height: 50
 
 # 自定义参数
-properties :  
-   # XSS防御例外，两种：
-   # 1. 无参数URL ，直接例外此URL；
-   # 2. 有参数URL，仅例外此URL的这些参数；
-   excludeUrlXss :
-      - /o/message/list?content,reportCode #代码中去空格处理
-      - /c/clientmessage/list?content,reportCode #代码中去空格处理
+properties:
+  # XSS防御例外，两种：
+  # 1. 无参数URL ，直接例外此URL；
+  # 2. 有参数URL，仅例外此URL的这些参数；
+  excludeUrlXss:
+    - /o/message/list?content,reportCode #代码中去空格处理
+    - /c/clientmessage/list?content,reportCode #代码中去空格处理

@@ -1,13 +1,13 @@
 package cn.emay.utils;
 
-import cn.emay.business.client.pojo.Client;
-import cn.emay.business.client.service.ClientService;
-import cn.emay.business.system.pojo.Resource;
-import cn.emay.business.system.pojo.User;
-import cn.emay.business.system.service.UserService;
-import cn.emay.config.PropertiesConfig;
+import cn.emay.configuration.PropertiesConfiguration;
 import cn.emay.constant.web.WebConstant;
 import cn.emay.constant.web.WebToken;
+import cn.emay.core.client.pojo.Client;
+import cn.emay.core.client.service.ClientService;
+import cn.emay.core.system.pojo.Resource;
+import cn.emay.core.system.pojo.User;
+import cn.emay.core.system.service.UserService;
 import cn.emay.excel.common.ExcelVersion;
 import cn.emay.excel.write.ExcelWriter;
 import cn.emay.json.support.JsonServletSupport;
@@ -172,7 +172,7 @@ public class WebUtils {
      */
     public static void toError(String errorMassage) {
         HttpServletResponse response = getCurrentHttpResponse();
-        PropertiesConfig propertiesConfig = ApplicationContextUtils.getBean(PropertiesConfig.class);
+        PropertiesConfiguration propertiesConfig = ApplicationContextUtils.getBean(PropertiesConfiguration.class);
         if (propertiesConfig.isDev()) {
             String origin = getCurrentHttpRequest().getHeader("Origin");
             response.setHeader("Access-Control-Allow-Origin", origin);
@@ -188,7 +188,7 @@ public class WebUtils {
      */
     public static void toNoLogin() {
         HttpServletResponse response = getCurrentHttpResponse();
-        PropertiesConfig propertiesConfig = ApplicationContextUtils.getBean(PropertiesConfig.class);
+        PropertiesConfiguration propertiesConfig = ApplicationContextUtils.getBean(PropertiesConfiguration.class);
         if (propertiesConfig.isDev()) {
             String origin = getCurrentHttpRequest().getHeader("Origin");
             response.setHeader("Access-Control-Allow-Origin", origin);
@@ -204,7 +204,7 @@ public class WebUtils {
      */
     public static void toNoChangePass() {
         HttpServletResponse response = getCurrentHttpResponse();
-        PropertiesConfig propertiesConfig = ApplicationContextUtils.getBean(PropertiesConfig.class);
+        PropertiesConfiguration propertiesConfig = ApplicationContextUtils.getBean(PropertiesConfiguration.class);
         if (propertiesConfig.isDev()) {
             String origin = getCurrentHttpRequest().getHeader("Origin");
             response.setHeader("Access-Control-Allow-Origin", origin);

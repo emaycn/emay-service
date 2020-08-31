@@ -1,16 +1,14 @@
 package cn.emay.task;
 
 
-import cn.emay.constant.task.ConcurrentComputer;
-import cn.emay.constant.task.ConcurrentFieldComputer;
-import cn.emay.constant.task.SuperScheduled;
-import cn.emay.http.apache.HttpClientUtils;
 import cn.emay.json.JsonHelper;
-import cn.emay.utils.date.DateUtils;
+import cn.emay.superscheduler.core.ConcurrentComputer;
+import cn.emay.superscheduler.core.ShardedConcurrentComputer;
+import cn.emay.superscheduler.core.SuperScheduled;
 import org.springframework.context.annotation.Bean;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,95 +17,82 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 配置文件中<br/>
+ * scheduler.redisBeanName redis spring 注册名<br/>
  * scheduler.poolSize 核心线程数<br/>
  * scheduler.threadNamePrefix 线程名前缀<br/>
- * scheduler.awaitTerminationSeconds 停止时等待当前线程业务执行完毕时间
+ * scheduler.awaitTerminationSeconds 停止时等待当前线程业务执行完毕时间<br/>
+ * scheduler.onlyLockName 但节点锁的名字
+ * <p>
+ * 任务类型和并发类型可以任意组合：
+ * 任务类型：cron,fixedDelay,fixedRate,dynamicDelay
+ * 并发类型：fixedConcurrent,dynamicConcurrent*
  */
 @Component
 public class SpringTaskTest {
 
     /**
-     * 模拟长事务，测试停止应用不会造成业务中断<br/>
+     * 1. 固定间隔时间执行,并发1,初始延迟1秒执行
      */
-    private void testLongTime() {
-        for (int i = 0; i < 10; i++) {
-            Map<String, String> map = new HashMap<>();
-            map.put("page_id", "4845534524194232");
-            map.put("_item_pwd", "191919");
-            HttpClientUtils.post("https://www.showdoc.cc/server/index.php?s=/api/page/info", map);
-        }
-    }
-
-    /**
-     * Spring @Scheduled
-     * 1. 间隔固定n秒执行
-     */
-    @Scheduled(fixedDelay = 1000)
-    public void t3() {
-        // spring 原生支持，不再示例
-    }
-
-    /**
-     * Spring @Scheduled
-     * 2. 固定频率n秒执行
-     */
-    @Scheduled(fixedRate = 5000)
-    public void t2() {
-        // spring 原生支持，不再示例
-    }
-
-    /**
-     * Spring @Scheduled
-     * 3. cron执行
-     */
-    @Scheduled(cron = "0 0/5 * * * ?")
+    @SuperScheduled(fixedDelay = 1000L, initialDelay = 1000L, only = true, fixedConcurrent = 2)
     public void t1() {
-        // spring 原生支持，不再示例
+        String now = toString(new Date(), "HH:mm:ss");
+        System.out.println(now + " : " + Thread.currentThread().getName() + " : 开始执行");
+        testLongTime(5000L);
+        now = toString(new Date(), "HH:mm:ss");
+        System.out.println(now + " : " + Thread.currentThread().getName() + " : 执行完成，1秒后再次执行");
     }
 
+    /**
+     * 2. 固定频率执行,并发2
+     */
+    @SuperScheduled(initialDelay = 1000L, fixedRate = 1000L, fixedConcurrent = 2)
+    public void t2() {
+        String now = toString(new Date(), "HH:mm:ss");
+        System.out.println(now + " : " + Thread.currentThread().getName() + " : 开始执行");
+        testLongTime(3000L);
+        now = toString(new Date(), "HH:mm:ss");
+        System.out.println(now + " : " + Thread.currentThread().getName() + " : 执行完成，0秒后再次执行");
+    }
 
     /**
-     * Spring 增强 @SuperScheduled
-     * 4. 支持动态执行间隔时间
+     * 3. cron执行,并发1,集群单节点执行
      */
-    @SuperScheduled
+    @SuperScheduled(cron = "0/3 * * * * ?", fixedConcurrent = 2)
+    public void t3() {
+        String now = toString(new Date(), "HH:mm:ss");
+        System.out.println(now + " : " + Thread.currentThread().getName() + " : 开始执行");
+        testLongTime(2000L);
+        now = toString(new Date(), "HH:mm:ss");
+        System.out.println(now + " : " + Thread.currentThread().getName() + " : 执行完成，1秒后再次执行");
+    }
+
+    /**
+     * 4. 动态间隔时间执行,并发1
+     */
+    @SuperScheduled(dynamicDelay = true, fixedConcurrent = 2, only = true)
     public long t4() {
-        String now = DateUtils.toString(new Date(), "HH:mm:ss");
+        String now = toString(new Date(), "HH:mm:ss");
         System.out.println(now + " : " + Thread.currentThread().getName() + " : 开始执行");
-        testLongTime();
-        now = DateUtils.toString(new Date(), "HH:mm:ss");
-        int next = new Random().nextInt(5);
-        System.out.println(now + " : " + Thread.currentThread().getName() + " : 执行完成，" + next + "秒后再次执行");
-        return next * 1000L;
-    }
-
-    /**
-     * 5. 并发
-     */
-    @SuperScheduled(concurrent = 4, initialDelay = 1000L)
-    public long t5() {
-        String now = DateUtils.toString(new Date(), "HH:mm:ss");
-        System.out.println(now + " : " + Thread.currentThread().getName() + " : 开始执行");
-        testLongTime();
-        now = DateUtils.toString(new Date(), "HH:mm:ss");
+        testLongTime(2000L);
+        now = toString(new Date(), "HH:mm:ss");
         int next = new Random().nextInt(4);
         System.out.println(now + " : " + Thread.currentThread().getName() + " : 执行完成，" + next + "秒后再次执行");
         return next * 1000L;
     }
 
     /**
-     * 6. 动态调配并发数量
+     * 6. 动态间隔时间执行,动态并发<br/>
      */
-    @SuperScheduled(dynamicConcurrentDelay = 10000L, dynamicConcurrentBean = "t6ComputeBean", dynamicConcurrentMax = 4)
+    @SuperScheduled(dynamicDelay = true, dynamicConcurrentComputeDelay = 10L * 1000L, dynamicConcurrentComputeBean = "t6ComputeBean", dynamicConcurrentMax = 4)
     public long t6() {
-        String now = DateUtils.toString(new Date(), "HH:mm:ss");
+        String now = toString(new Date(), "HH:mm:ss");
         System.out.println(now + " : " + Thread.currentThread().getName() + " : 开始执行");
-        testLongTime();
-        now = DateUtils.toString(new Date(), "HH:mm:ss");
+        now = toString(new Date(), "HH:mm:ss");
         int next = 1;
         System.out.println(now + " : " + Thread.currentThread().getName() + " : 执行完成，" + next + "秒后再次执行");
         return next * 1000L;
     }
+
 
     /**
      * 6. 动态调配并发数量
@@ -115,37 +100,33 @@ public class SpringTaskTest {
     @Bean("t6ComputeBean")
     public ConcurrentComputer t6ComputeBean() {
         return concurrent -> {
-            String now = DateUtils.toString(new Date(), "HH:mm:ss");
-            int need = new Random().nextInt(8);
-            System.out.println(now + " : " + Thread.currentThread().getName() + " : " + "t6ComputeBean 开始调整线程,当前并发量(" + concurrent + "),期望并发量(" + need + ")");
+            String now = toString(new Date(), "HH:mm:ss");
+            int need = new Random().nextInt(6);
+            System.out.println(now + " : " + Thread.currentThread().getName() + " : " + "t6ComputeBean 开始调整并发,当前并发量(" + concurrent + "),期望并发量(" + need + ")");
             return need;
         };
     }
 
     /**
-     * 7. 属性并发<br/>
-     * 计算每个属性所需并发量，并在执行任务时传递属性给执行方法。
+     * 7. 分片并发<br/>
      *
-     * @param field 属性
+     * @param sharded 分片
      */
-    @SuperScheduled(dynamicConcurrentDelay = 10000L, dynamicConcurrentBean = "t7ComputeBean", dynamicConcurrentMax = 8)
-    public long t7(String field) {
-        String now = DateUtils.toString(new Date(), "HH:mm:ss");
-        System.out.println(now + " : " + Thread.currentThread().getName() + " : 开始执行 by " + field);
-        testLongTime();
-        now = DateUtils.toString(new Date(), "HH:mm:ss");
-        int next = 2;
-        System.out.println(now + " : " + Thread.currentThread().getName() + " : 执行完成，" + next + "秒后再次执行 by " + field);
-        return next * 1000L;
+    @SuperScheduled(fixedDelay = 2000L, dynamicConcurrentComputeDelay = 10000L, dynamicConcurrentComputeBean = "t7ComputeBean", dynamicConcurrentMax = 4)
+    public void t7(String sharded) {
+        String now = toString(new Date(), "HH:mm:ss");
+        System.out.println(now + " : " + Thread.currentThread().getName() + " : 开始执行 by分片 " + sharded);
+        now = toString(new Date(), "HH:mm:ss");
+        System.out.println(now + " : " + Thread.currentThread().getName() + " : 执行完成，" + 2 + "秒后再次执行 by分片 " + sharded);
     }
 
     static AtomicInteger integer = new AtomicInteger();
 
     /**
-     * 7. 动态调配属性并发数量
+     * 7. 动态调配分片并发数量
      */
     @Bean("t7ComputeBean")
-    public ConcurrentFieldComputer t7ComputeBean() {
+    public ShardedConcurrentComputer t7ComputeBean() {
         return concurrent -> {
             String nowConcurrent = JsonHelper.toJsonString(concurrent);
 
@@ -167,24 +148,43 @@ public class SpringTaskTest {
                     need.put("key5", 1);
                     break;
                 case 5:
-                    need.put("key4", 2);
+                    need.put("key4", 3);
                     need.put("key2", 2);
                     break;
                 case 6:
                     need.put("key6", 2);
-                    need.put("key1", 2);
+                    need.put("key1", 3);
                     break;
                 default:
-                    need.put("key10", 20);
+                    need.put("key10", 5);
                     break;
             }
 
             String needConcurrent = JsonHelper.toJsonString(need);
 
-            String now = DateUtils.toString(new Date(), "HH:mm:ss");
-            System.out.println(now + " : " + Thread.currentThread().getName() + " : " + "t7ComputeBean 开始调整线程,当前并发量(" + nowConcurrent + "),期望并发量(" + needConcurrent + ")");
+            String now = toString(new Date(), "HH:mm:ss");
+            System.out.println(now + " : " + Thread.currentThread().getName() + " : " + "t7ComputeBean 开始调整并发,当前并发量(" + nowConcurrent + "),期望并发量(" + needConcurrent + ")");
             return need;
         };
+    }
+
+    /**
+     * 模拟长事务<br/>
+     */
+    private void testLongTime(long time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException ignored) {
+
+        }
+    }
+
+    /**
+     * 把日期转成字符串
+     */
+    public static String toString(Date date, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(date);
     }
 
 
