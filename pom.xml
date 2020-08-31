@@ -14,7 +14,7 @@
     <name>emay-service</name>
     <groupId>cn.emay</groupId>
     <artifactId>emay-service</artifactId>
-    <version>1.2.7</version>
+    <version>1.2.8</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -112,7 +112,7 @@
         <dependency>
             <groupId>cn.emay</groupId>
             <artifactId>emay-super-scheduler</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </dependency>
         <!-- excel -->
         <dependency>
