@@ -22,7 +22,7 @@
   "properties": [
     {
       "name": "scheduler.poolSize",
-      "type": "java.lang.String",
+      "type": "java.lang.Integer",
       "description": "Description for scheduler.poolSize."
     },
     {
@@ -32,8 +32,18 @@
     },
     {
       "name": "scheduler.awaitTerminationSeconds",
-      "type": "java.lang.String",
+      "type": "java.lang.Integer",
       "description": "Description for scheduler.awaitTerminationSeconds."
+    },
+    {
+      "name": "scheduler.redisBeanName",
+      "type": "java.lang.String",
+      "description": "Description for scheduler.redisBeanName."
+    },
+    {
+      "name": "scheduler.onlyLockName",
+      "type": "java.lang.String",
+      "description": "Description for scheduler.onlyLockName."
     }
   ]
 }

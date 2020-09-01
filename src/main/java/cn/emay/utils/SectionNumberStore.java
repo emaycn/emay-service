@@ -1,6 +1,6 @@
 package cn.emay.utils;
 
-import cn.emay.business.base.pojo.SectionNumber;
+import cn.emay.core.base.pojo.SectionNumber;
 import cn.emay.utils.tree.EmayTreeNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

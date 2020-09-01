@@ -1,233 +1,239 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.15.RELEASE</version>
-	</parent>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.15.RELEASE</version>
+    </parent>
 
-	<name>emay-service</name>
-	<groupId>cn.emay</groupId>
-	<artifactId>emay-service</artifactId>
-	<version>1.2.6</version>
-	<packaging>jar</packaging>
+    <name>emay-service</name>
+    <groupId>cn.emay</groupId>
+    <artifactId>emay-service</artifactId>
+    <version>1.2.8</version>
+    <packaging>jar</packaging>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-		<skipTests>true</skipTests>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <skipTests>true</skipTests>
 
-		<elasticsearch.version>7.2.1</elasticsearch.version>
-		<netty.version>4.1.42.Final</netty.version>
-		<jedis.version>2.10.2</jedis.version>
+        <elasticsearch.version>7.2.1</elasticsearch.version>
+        <netty.version>4.1.42.Final</netty.version>
+        <jedis.version>2.10.2</jedis.version>
 
-	</properties>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-			<exclusions>
-				<!-- 排除log应该在这里 -->
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- Spring Boot web Starter -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<!-- log4j -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-log4j2</artifactId>
-		</dependency>
-		<!-- mysql jdbc -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-		<!-- tomcat jdbc pool -->
-		<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>tomcat-jdbc</artifactId>
-		</dependency>
-		<!-- jpa Hibernate -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<!-- spring Config -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-configuration-processor</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<!-- http-client -->
-		<dependency>
-			<groupId>cn.emay</groupId>
-			<artifactId>emay-http-client</artifactId>
-			<version>1.1.0</version>
-		</dependency>
-		<!-- orm -->
-		<dependency>
-			<groupId>cn.emay</groupId>
-			<artifactId>emay-orm</artifactId>
-			<version>1.0.8</version>
-		</dependency>
-		<!-- redis -->
-		<dependency>
-			<groupId>cn.emay</groupId>
-			<artifactId>emay-redis</artifactId>
-			<version>1.1.2</version>
-		</dependency>
-		<!-- store -->
-		<dependency>
-			<groupId>cn.emay</groupId>
-			<artifactId>emay-store</artifactId>
-			<version>1.0.1</version>
-		</dependency>
-		<!-- es -->
-		<dependency>
-			<groupId>cn.emay</groupId>
-			<artifactId>emay-elasticsearch</artifactId>
-			<version>1.0.2</version>
-		</dependency>
-		<!-- utils -->
-		<dependency>
-			<groupId>cn.emay</groupId>
-			<artifactId>emay-utils</artifactId>
-			<version>1.0.8</version>
-		</dependency>
-		<!-- excel -->
-		<dependency>
-			<groupId>cn.emay</groupId>
-			<artifactId>emay-excel</artifactId>
-			<version>1.1.0</version>
-		</dependency>
-		<!-- captcha -->
-		<dependency>
-			<groupId>com.github.penggle</groupId>
-			<artifactId>kaptcha</artifactId>
-			<version>2.3.2</version>
-		</dependency>
-		<!-- swagger2 -->
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>2.9.2</version>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.9.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-		<!-- 解决Integer默认值判断为空处理 -->
-		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-annotations</artifactId>
-			<version>1.5.22</version>
-		</dependency>
-		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-models</artifactId>
-			<version>1.5.22</version>
-		</dependency>
-		<!-- apache common -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-text</artifactId>
-			<version>1.6</version>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <exclusions>
+                <!-- 排除log应该在这里 -->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Spring Boot web Starter -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- log4j -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+        <!-- mysql jdbc -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!-- tomcat jdbc pool -->
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jdbc</artifactId>
+        </dependency>
+        <!-- jpa Hibernate -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <!-- spring Config -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- http-client -->
+        <dependency>
+            <groupId>cn.emay</groupId>
+            <artifactId>emay-http-client</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <!-- orm -->
+        <dependency>
+            <groupId>cn.emay</groupId>
+            <artifactId>emay-orm</artifactId>
+            <version>1.0.8</version>
+        </dependency>
+        <!-- redis -->
+        <dependency>
+            <groupId>cn.emay</groupId>
+            <artifactId>emay-redis</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        <!-- store -->
+        <dependency>
+            <groupId>cn.emay</groupId>
+            <artifactId>emay-store</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <!-- es -->
+        <dependency>
+            <groupId>cn.emay</groupId>
+            <artifactId>emay-elasticsearch</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <!-- utils -->
+        <dependency>
+            <groupId>cn.emay</groupId>
+            <artifactId>emay-utils</artifactId>
+            <version>1.0.8</version>
+        </dependency>
+        <!-- super scheduler -->
+        <dependency>
+            <groupId>cn.emay</groupId>
+            <artifactId>emay-super-scheduler</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <!-- excel -->
+        <dependency>
+            <groupId>cn.emay</groupId>
+            <artifactId>emay-excel</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <!-- captcha -->
+        <dependency>
+            <groupId>com.github.penggle</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+        <!-- swagger2 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <!-- 解决Integer默认值判断为空处理 -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.5.22</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-models</artifactId>
+            <version>1.5.22</version>
+        </dependency>
+        <!-- apache common -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.6</version>
+        </dependency>
+    </dependencies>
 
-	<profiles>
-		<profile>
-			<id>dev</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<profile.active>dev</profile.active>
-			</properties>
-		</profile>
-		<profile>
-			<id>test</id>
-			<properties>
-				<profile.active>test</profile.active>
-			</properties>
-		</profile>
-		<profile>
-			<id>prod</id>
-			<properties>
-				<profile.active>prod</profile.active>
-			</properties>
-		</profile>
-	</profiles>
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<excludes>
-					<exclude>application*.yml</exclude>
-				</excludes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>application.yml</include>
-					<include>application-${profile.active}.yml</include>
-				</includes>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>com.google.cloud.tools</groupId>
-				<artifactId>jib-maven-plugin</artifactId>
-				<version>1.0.2</version>
-				<configuration>
-					<from>
-						<!-- 这里使用的是openjdk:8u111-jdk这个镜像 -->
-						<image>5vv14fv3.mirror.aliyuncs.com/library/java:8u111-jdk</image>
-					</from>
-					<to>
-						<!--ip/dev/ 镜像库 -->
-						<image>${project.artifactId}:${project.version}</image>
-						<auth>
-							<username>*</username>
-							<password>*</password>
-						</auth>
-					</to>
-					<container>
-						<mainClass>cn.emay.EmayApplication</mainClass>
-						<jvmFlags>
-							<jvmFlag>-Xms1g</jvmFlag>
-							<jvmFlag>-Xmx2g</jvmFlag>
-							<jvmFlag>-Duser.timezone=PRC</jvmFlag>
-						</jvmFlags>
-						<useCurrentTimestamp>true</useCurrentTimestamp>
-					</container>
-					<allowInsecureRegistries>true</allowInsecureRegistries>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <profile.active>dev</profile.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profile.active>test</profile.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profile.active>prod</profile.active>
+            </properties>
+        </profile>
+    </profiles>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>application*.yml</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>application.yml</include>
+                    <include>application-${profile.active}.yml</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>1.0.2</version>
+                <configuration>
+                    <from>
+                        <!-- 这里使用的是openjdk:8u111-jdk这个镜像 -->
+                        <image>5vv14fv3.mirror.aliyuncs.com/library/java:8u111-jdk</image>
+                    </from>
+                    <to>
+                        <!--ip/dev/ 镜像库 -->
+                        <image>${project.artifactId}:${project.version}</image>
+                        <auth>
+                            <username>*</username>
+                            <password>*</password>
+                        </auth>
+                    </to>
+                    <container>
+                        <mainClass>cn.emay.EmayApplication</mainClass>
+                        <jvmFlags>
+                            <jvmFlag>-Xms1g</jvmFlag>
+                            <jvmFlag>-Xmx2g</jvmFlag>
+                            <jvmFlag>-Duser.timezone=PRC</jvmFlag>
+                        </jvmFlags>
+                        <useCurrentTimestamp>true</useCurrentTimestamp>
+                    </container>
+                    <allowInsecureRegistries>true</allowInsecureRegistries>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

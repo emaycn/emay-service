@@ -1,6 +1,6 @@
 package cn.emay.utils;
 
-import cn.emay.config.PropertiesConfig;
+import cn.emay.configuration.PropertiesConfiguration;
 import cn.emay.constant.global.TempFileDir;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,7 +51,7 @@ public class FileUploadUtils {
         int pointIndex = fileName.lastIndexOf(".");
         String end = pointIndex > 0 ? fileName.substring(pointIndex) : "";
         String newFileName = UUID.randomUUID().toString().replace("-", "") + end;
-        PropertiesConfig config = ApplicationContextUtils.getBean(PropertiesConfig.class);
+        PropertiesConfiguration config = ApplicationContextUtils.getBean(PropertiesConfiguration.class);
         String fullPath = TempFileUtils.genDateFilePath(config.getFileDirPath(), TempFileDir.PAGE_IMPORT_DIR, newFileName);
 
         File targetFile = new File(fullPath);
