@@ -20,7 +20,7 @@ public class RoleDaoImpl extends BasePojoSuperDaoImpl<Role> implements RoleDao {
 
     @Override
     public Page<Role> findPage(int start, int limit, String roleName, String roleType) {
-        Map<String, Object> params = new HashMap<String, Object>(4);
+        Map<String, Object> params = new HashMap<>(4);
         String hql = FIND_ALL_HQL + " where 1=1";
         if (!StringUtils.isEmpty(roleName)) {
             hql += " and roleName like:roleName";
@@ -36,7 +36,7 @@ public class RoleDaoImpl extends BasePojoSuperDaoImpl<Role> implements RoleDao {
 
     @Override
     public boolean hasSameRoleName(String roleName, Long ignoreRoleId) {
-        Map<String, Object> parms = new HashMap<String, Object>(4);
+        Map<String, Object> parms = new HashMap<>(4);
         String hql = "select count(*) from Role where roleName=:roleName ";
         parms.put("roleName", roleName);
         if (null != ignoreRoleId) {
@@ -49,7 +49,7 @@ public class RoleDaoImpl extends BasePojoSuperDaoImpl<Role> implements RoleDao {
     @Override
     public Map<Long, String> findRoleNameByUserIds(Set<Long> userIds) {
         String hql = "select r.roleName , ur.userId from Role r , UserRoleAssign ur where r.id = ur.roleId and ur.userId in (:userIds) ";
-        Map<String, Object> param = new HashMap<String, Object>();
+        Map<String, Object> param = new HashMap<>();
         param.put("userIds", userIds);
         List<Object[]> list = this.getListResult(Object[].class, hql, param);
         Map<Long, String> maps = new HashMap<>();
@@ -68,10 +68,9 @@ public class RoleDaoImpl extends BasePojoSuperDaoImpl<Role> implements RoleDao {
     @Override
     public List<Role> findUserRoles(Long userId) {
         String hql = "select r from UserRoleAssign ura , Role r where ura.roleId = r.id and ura.userId = :userId";
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         params.put("userId", userId);
-        List<Role> roles = this.getListResult(Role.class, hql, params);
-        return roles;
+        return this.getListResult(Role.class, hql, params);
     }
 
 }

@@ -1,7 +1,6 @@
 package cn.emay.api.oper.client;
 
 import cn.emay.constant.redis.BusinessCacheKeys;
-import cn.emay.constant.web.OperType;
 import cn.emay.constant.web.ResourceEnum;
 import cn.emay.constant.web.WebAuth;
 import cn.emay.core.client.pojo.Client;
@@ -20,13 +19,13 @@ import cn.emay.utils.result.SuperResult;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.Date;
@@ -42,15 +41,15 @@ import java.util.List;
 @RequestMapping(value = "/o/client", method = RequestMethod.POST)
 public class ClientApi {
 
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    @Resource
     private ClientService clientService;
-    @Autowired
+    @Resource
     private ClientChargeRecordService clientChargeRecordService;
-    @Autowired
+    @Resource
     private UserOperLogService userOperLogService;
-    @Autowired
+    @Resource
     private RedisClient redis;
 
     /**
@@ -112,8 +111,7 @@ public class ClientApi {
         clientService.add(client);
         String context = "新增客户:客户名称为{0}";
         String module = "客户信息";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{clientName}),
-                OperType.ADD);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, clientName));
         log.info("【客户信息】-->用户:" + user.getUsername() + "新增客户:客户名称为" + clientName);
         return Result.rightResult();
     }
@@ -169,8 +167,7 @@ public class ClientApi {
         clientService.modify(client);
         String context = "修改客户:客户名称为{0}";
         String module = "客户信息";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{clientName}),
-                OperType.MODIFY);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, clientName));
         log.info("【客户信息】-->用户:" + user.getUsername() + "修改客户:客户名称为" + clientName);
         return Result.rightResult();
     }
@@ -209,8 +206,7 @@ public class ClientApi {
         clientChargeRecordService.add(clientChargeRecord);
         String module = "客户管理";
         String context = "客户充值:{0},金额为:{1},备注:{2}";
-        userOperLogService.saveOperLog(module,
-                MessageFormat.format(context, new Object[]{client.getId(), changeBalance, remark}), OperType.OPER);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, client.getId(), changeBalance, remark));
         log.info("【客户管理】-->用户:" + user.getUsername() + ",客户id为" + client.getId() + "充值,金额为" + changeBalance + ",备注："
                 + remark);
         return Result.rightResult();
@@ -252,8 +248,7 @@ public class ClientApi {
         clientChargeRecordService.add(clientChargeRecord);
         String module = "客户管理";
         String context = "客户扣费:{0},金额为:{1},备注:{2}";
-        userOperLogService.saveOperLog(module,
-                MessageFormat.format(context, new Object[]{client.getId(), changeBalance, remark}), OperType.MODIFY);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, client.getId(), changeBalance, remark));
         log.info("【客户管理】-->用户:" + user.getUsername() + ",客户id为" + client.getId() + "扣费,金额为" + changeBalance + ",备注："
                 + remark);
         return Result.rightResult();
@@ -266,7 +261,7 @@ public class ClientApi {
      * @param mobile     手机号
      * @param email      邮箱
      * @param linkname   联系人
-     * @return
+     * @return 错误信息
      */
     private String checkClientRequired(String clientName, String linkname, String mobile, String email, Long clientId) {
         if (StringUtils.isEmpty(clientName)) {

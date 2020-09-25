@@ -1,7 +1,7 @@
 package cn.emay.api.oper.client;
 
-import cn.emay.constant.web.OperType;
 import cn.emay.constant.web.ResourceEnum;
+import cn.emay.constant.web.SystemType;
 import cn.emay.constant.web.WebAuth;
 import cn.emay.core.client.pojo.Client;
 import cn.emay.core.client.service.ClientService;
@@ -22,13 +22,13 @@ import cn.emay.utils.result.SuperResult;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,15 +45,15 @@ import java.util.Map;
 @Api(tags = {"用户管理"})
 public class ClientUserApi {
 
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    @Resource
     private UserService userService;
-    @Autowired
+    @Resource
     private UserRoleAssignService userRoleAssignService;
-    @Autowired
+    @Resource
     private UserOperLogService userOperLogService;
-    @Autowired
+    @Resource
     private ClientService clientService;
 
     /**
@@ -70,8 +70,7 @@ public class ClientUserApi {
             @ApiImplicitParam(name = "userState", value = "用戶状态", dataType = "int")})
     public SuperResult<Page<UserItemDTO>> list(int start, int limit, String username, String realname, String mobile,
                                                Integer userState) {
-        Page<UserItemDTO> userpage = userService.findPage(start, limit, username, realname, mobile, userState,
-                User.USER_FOR_CLIENT);
+        Page<UserItemDTO> userpage = userService.findPage(start, limit, username, realname, mobile, userState, SystemType.CLIENT.getType());
         log.info("user : " + WebUtils.getCurrentUser().getUsername() + " select user page.");
         return SuperResult.rightResult(userpage);
     }
@@ -96,8 +95,7 @@ public class ClientUserApi {
         userService.off(userId);
         String context = "停用用户:{0}";
         String module = "用户管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{user.getUsername()}),
-                OperType.MODIFY);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, user.getUsername()));
         return Result.rightResult();
     }
 
@@ -121,8 +119,7 @@ public class ClientUserApi {
         userService.on(userId);
         String context = "启用用户:{0}";
         String module = "用户管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{user.getUsername()}),
-                OperType.MODIFY);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, user.getUsername()));
         return Result.rightResult();
     }
 
@@ -149,11 +146,10 @@ public class ClientUserApi {
         if (currentUser.getId().equals(userId)) {
             return Result.badResult("不能删除自己");
         }
-        userService.delete(userId, User.USER_FOR_CLIENT);
+        userService.delete(userId, SystemType.CLIENT.getType());
         String context = "删除用户:{0}";
         String module = "用户管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{user.getUsername()}),
-                OperType.DELETE);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, user.getUsername()));
         return Result.rightResult();
     }
 
@@ -172,12 +168,12 @@ public class ClientUserApi {
         if (user == null) {
             return SuperResult.badResult("用户不存在");
         }
-        List<Long> roles = new ArrayList<Long>();
+        List<Long> roles = new ArrayList<>();
         List<UserRoleAssign> userRoles = userRoleAssignService.findByUserId(id);
-        userRoles.stream().forEach(ura -> roles.add(ura.getRoleId()));
+        userRoles.forEach(ura -> roles.add(ura.getRoleId()));
         Client client = clientService.findByUserId(id);
         UserInfoDTO dto = new UserInfoDTO(user);
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("client", client);
         map.put("user", dto);
         map.put("roleList", roles);
@@ -218,11 +214,10 @@ public class ClientUserApi {
         String randomPwd = RandomUtils.randomCharset(6);
         String password = PasswordUtils.encrypt(randomPwd);
         User currentUser = WebUtils.getCurrentUser();
-        userService.add(username, realname, password, email, mobile, roleIds, null, clientId, currentUser,
-                User.USER_FOR_CLIENT);
+        userService.add(username, realname, password, email, mobile, roleIds, null, clientId, currentUser, SystemType.CLIENT.getType());
         String context = "添加用户{0}";
         String module = "用户管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{username}), OperType.ADD);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, username));
         return SuperResult.rightResult(randomPwd);
     }
 
@@ -257,14 +252,13 @@ public class ClientUserApi {
         if (!StringUtils.isEmpty(errorMsg)) {
             return Result.badResult(errorMsg);
         }
-        Result result = userService.modify(realname, email, mobile, roleIds, userId, null, User.USER_FOR_CLIENT);
+        Result result = userService.modify(realname, email, mobile, roleIds, userId, null, SystemType.CLIENT.getType());
         if (!result.getSuccess()) {
             return result;
         }
         String context = "修改用户{0}";
         String module = "用户管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{user.getUsername()}),
-                OperType.MODIFY);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, user.getUsername()));
         return Result.rightResult();
     }
 
@@ -297,8 +291,7 @@ public class ClientUserApi {
         }
         String context = "重置密码的用户:{0}";
         String module = "用户管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{user.getUsername()}),
-                OperType.MODIFY);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, user.getUsername()));
         return SuperResult.rightResult(randomPwd);
     }
 
@@ -309,7 +302,7 @@ public class ClientUserApi {
      * @param mobile   手机号
      * @param email    邮箱
      * @param roleIds  角色ID集合
-     * @return
+     * @return 错误信息
      */
     private String checkUserRequired(String realname, String mobile, String email, String roleIds) {
         if (StringUtils.isEmpty(realname)) {

@@ -17,7 +17,7 @@ public class RandomUtils {
      */
     public static String randomCharset(int length) {
         if (length <= 0) {
-            return null;
+            return "";
         }
         StringBuilder val = new StringBuilder();
         Random random = new Random();

@@ -6,9 +6,9 @@ import cn.emay.core.client.pojo.ClientChargeRecord;
 import cn.emay.core.client.service.ClientChargeRecordService;
 import cn.emay.utils.db.common.Page;
 import cn.emay.utils.result.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -19,7 +19,7 @@ import java.util.Date;
 @Service
 public class ClientChargeRecordServiceImpl implements ClientChargeRecordService {
 
-    @Autowired
+    @Resource
     private ClientChargeRecordDao clientChargeRecordDao;
 
     @Override

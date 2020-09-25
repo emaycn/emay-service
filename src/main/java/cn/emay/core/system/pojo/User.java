@@ -15,15 +15,6 @@ public class User implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 运营端用户-oper
-     */
-    public final static String USER_FOR_OPER = "OPER";
-    /**
-     * 客戶端用户-client
-     */
-    public final static String USER_FOR_CLIENT = "CLIENT";
-
-    /**
      * 停用
      */
     public final static int STATE_OFF = 0;
@@ -85,7 +76,7 @@ public class User implements java.io.Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastChangePasswordTime;
     /**
-     * 所属系统[OPER-运营系统，CLIENT-客户系统]
+     * 所属系统[OPER-运营系统，CLIENT-客户系统] SystemType
      */
     @Column(name = "user_for")
     private String userFor;

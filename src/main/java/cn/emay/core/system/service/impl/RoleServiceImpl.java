@@ -7,9 +7,9 @@ import cn.emay.core.system.pojo.RoleResourceAssign;
 import cn.emay.core.system.service.RoleService;
 import cn.emay.utils.db.common.Page;
 import cn.emay.utils.result.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,9 +18,9 @@ import java.util.List;
 @Service
 public class RoleServiceImpl implements RoleService {
 
-    @Autowired
+    @Resource
     private RoleDao roleDao;
-    @Autowired
+    @Resource
     private RoleResourceAssignDao roleResourceAssignDao;
 
     @Override
@@ -42,7 +42,7 @@ public class RoleServiceImpl implements RoleService {
     public Result add(String roleName, String remark, List<RoleResourceAssign> roleResourceAssignList, String roleType) {
         Role role = new Role(roleName, remark, roleType);
         roleDao.save(role);
-        roleResourceAssignList.stream().forEach(roleResourceAssign -> roleResourceAssign.setRoleId(role.getId()));
+        roleResourceAssignList.forEach(roleResourceAssign -> roleResourceAssign.setRoleId(role.getId()));
         roleResourceAssignDao.saveBatch(roleResourceAssignList);
         return Result.rightResult();
     }

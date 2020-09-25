@@ -5,9 +5,9 @@ import cn.emay.core.base.dao.BaseSectionNumberDao;
 import cn.emay.core.base.pojo.BaseSectionNumber;
 import cn.emay.core.base.service.BaseSectionNumberService;
 import cn.emay.utils.db.common.Page;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class BaseSectionNumberServiceImpl extends BasePojoSuperDaoImpl<BaseSectionNumber> implements BaseSectionNumberService {
 
-    @Autowired
+    @Resource
     private BaseSectionNumberDao baseSectionNumberDao;
 
     @Override

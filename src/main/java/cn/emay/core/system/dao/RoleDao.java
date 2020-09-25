@@ -19,8 +19,8 @@ public interface RoleDao extends BaseSuperDao<Role> {
      * @param start    起始条数
      * @param limit    查询多少条
      * @param roleName 角色名
-     * @param roleType
-     * @return
+     * @param roleType 类型
+     * @return 分页数据
      */
     Page<Role> findPage(int start, int limit, String roleName, String roleType);
 
@@ -30,7 +30,7 @@ public interface RoleDao extends BaseSuperDao<Role> {
      *
      * @param roleName     角色名
      * @param ignoreRoleId 忽略对比的角色ID
-     * @return
+     * @return 是否重复
      */
     boolean hasSameRoleName(String roleName, Long ignoreRoleId);
 
@@ -38,7 +38,7 @@ public interface RoleDao extends BaseSuperDao<Role> {
      * 根据用户ID批量查找用户的角色名字，并用,拼接
      *
      * @param userIds 用户IDs
-     * @return
+     * @return 角色名字
      */
     Map<Long, String> findRoleNameByUserIds(Set<Long> userIds);
 

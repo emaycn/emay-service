@@ -22,38 +22,38 @@ public class SmsMessageEsRepositoryImpl extends BasePojoEsRepository<SmsMessage>
     @Override
     public Page<SmsMessageOperDto> findPage(String batchNo, String appCode, String appKey, Long[] clientid, String content, String reportCode, String mobile,
                                             Integer state, String startTime, String endTime, int start, int limit, boolean isNextPage, Long startId) {
-        StringBuffer sql = new StringBuffer();
+        StringBuilder sql = new StringBuilder();
         String ens = "G-SM-Cation-SM-G";
-        sql.append("select * from " + ens + " where 1=1 ");
+        sql.append("select * from ").append(ens).append(" where 1=1 ");
         if (StringUtils.isNotEmpty(batchNo)) {
-            sql.append(" and batchNo = '" + batchNo.trim() + "' ");
+            sql.append(" and batchNo = '").append(batchNo.trim()).append("' ");
         }
         if (StringUtils.isNotEmpty(appCode)) {
-            sql.append(" and appCode = '" + appCode.trim() + "' ");
+            sql.append(" and appCode = '").append(appCode.trim()).append("' ");
         }
         if (StringUtils.isNotEmpty(appKey)) {
-            sql.append(" and appKey = '" + appKey.trim() + "' ");
+            sql.append(" and appKey = '").append(appKey.trim()).append("' ");
         }
         if (clientid != null && clientid.length > 0) {
-            sql.append(" and clientId in ( " + org.apache.commons.lang3.StringUtils.join(clientid, ",") + ") ");
+            sql.append(" and clientId in ( ").append(org.apache.commons.lang3.StringUtils.join(clientid, ",")).append(") ");
         }
         if (StringUtils.isNotEmpty(mobile)) {
-            sql.append(" and mobile = '" + mobile.trim() + "' ");
+            sql.append(" and mobile = '").append(mobile.trim()).append("' ");
         }
         if (state != null && state > -1) {
-            sql.append(" and state = " + state + " ");
+            sql.append(" and state = ").append(state).append(" ");
         }
         if (StringUtils.isNotEmpty(reportCode)) {
-            sql.append(" and reportCode = '" + reportCode + "' ");
+            sql.append(" and reportCode = '").append(reportCode).append("' ");
         }
         if (StringUtils.isNotEmpty(content)) {
-            sql.append(" and content.key like '%" + content.trim() + "%' ");
+            sql.append(" and content.key like '%").append(content.trim()).append("%' ");
         }
         if (StringUtils.isNotEmpty(startTime)) {
-            sql.append(" and submitTime >= '" + startTime.trim() + "' ");
+            sql.append(" and submitTime >= '").append(startTime.trim()).append("' ");
         }
         if (StringUtils.isNotEmpty(endTime)) {
-            sql.append(" and submitTime <= '" + endTime.trim() + "' ");
+            sql.append(" and submitTime <= '").append(endTime.trim()).append("' ");
         }
         sql.append(" order by id desc ");
         String[] indexs = findBetweenDate(startTime, endTime, this.getIndexName());
@@ -92,33 +92,33 @@ public class SmsMessageEsRepositoryImpl extends BasePojoEsRepository<SmsMessage>
     @Override
     public Page<SmsMessageDto> findClientPage(String appCode, String appKey, Long id, String content, String reportCode, String mobile, Integer state,
                                               String startDate, String endDate, int start, int limit, boolean isNextPage, Long startId) {
-        StringBuffer sql = new StringBuffer();
+        StringBuilder sql = new StringBuilder();
         String ens = "G-SM-Cation-SM-G";
-        sql.append("select * from " + ens + " where 1=1 ");
-        sql.append(" and clientId =  " + id + " ");
+        sql.append("select * from ").append(ens).append(" where 1=1 ");
+        sql.append(" and clientId =  ").append(id).append(" ");
         if (StringUtils.isNotEmpty(appCode)) {
-            sql.append(" and appCode = '" + appCode + "' ");
+            sql.append(" and appCode = '").append(appCode).append("' ");
         }
         if (StringUtils.isNotEmpty(appKey)) {
-            sql.append(" and appKey = '" + appKey + "' ");
+            sql.append(" and appKey = '").append(appKey).append("' ");
         }
         if (StringUtils.isNotEmpty(mobile)) {
-            sql.append(" and mobile = '" + mobile + "' ");
+            sql.append(" and mobile = '").append(mobile).append("' ");
         }
         if (StringUtils.isNotEmpty(reportCode)) {
-            sql.append(" and reportCode = '" + reportCode + "' ");
+            sql.append(" and reportCode = '").append(reportCode).append("' ");
         }
         if (state != null && state > -1) {
-            sql.append(" and state = " + state + " ");
+            sql.append(" and state = ").append(state).append(" ");
         }
         if (StringUtils.isNotEmpty(content)) {
-            sql.append(" and content.key like '%" + content + "%' ");
+            sql.append(" and content.key like '%").append(content).append("%' ");
         }
         if (StringUtils.isNotEmpty(startDate)) {
-            sql.append(" and submitTime >= '" + startDate + "' ");
+            sql.append(" and submitTime >= '").append(startDate).append("' ");
         }
         if (StringUtils.isNotEmpty(endDate)) {
-            sql.append(" and submitTime <= '" + endDate + "' ");
+            sql.append(" and submitTime <= '").append(endDate).append("' ");
         }
         sql.append(" order by id desc ");
 

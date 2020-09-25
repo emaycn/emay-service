@@ -13,7 +13,6 @@ public interface ClientUserDao extends BaseSuperDao<ClientUser> {
      * 根据用户id删除
      *
      * @param userId 用户Id
-     * @return
      */
     void deleteByUserId(Long userId);
 }

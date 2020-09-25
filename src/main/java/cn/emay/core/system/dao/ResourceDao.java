@@ -14,7 +14,7 @@ public interface ResourceDao extends BaseSuperDao<Resource> {
      * 获取角色所有资源
      *
      * @param roleId 角色ID
-     * @return
+     * @return 资源
      */
     List<Resource> getRoleResources(Long roleId);
 
@@ -22,7 +22,7 @@ public interface ResourceDao extends BaseSuperDao<Resource> {
      * 获取用户所有的资源
      *
      * @param userId 用户ID
-     * @return
+     * @return 资源
      */
     List<Resource> getUserResources(Long userId);
 

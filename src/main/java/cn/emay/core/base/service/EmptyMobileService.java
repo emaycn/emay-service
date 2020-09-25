@@ -17,7 +17,7 @@ public interface EmptyMobileService {
      * @param mobile 手机号
      * @param start  从第几条开始查
      * @param limit  查几条
-     * @return
+     * @return 分页数据
      */
     Page<EmptyMobile> findPage(int start, int limit, String mobile);
 
@@ -25,39 +25,36 @@ public interface EmptyMobileService {
      * 根据id查询空号
      *
      * @param id id
-     * @return
+     * @return 空号
      */
     EmptyMobile findbyId(Long id);
 
     /**
      * 修改
      *
-     * @param emptyMobile
-     * @return
+     * @param emptyMobile 空号
      */
     void update(EmptyMobile emptyMobile);
 
     /**
      * 删除
      *
-     * @param emptyMobile
-     * @return
+     * @param emptyMobile 空号
      */
     void delete(EmptyMobile emptyMobile);
 
     /**
      * 批量保存
      *
-     * @param mobileList
-     * @return
+     * @param mobileList 空号
      */
     void saveBatch(List<EmptyMobile> mobileList);
 
     /**
      * 根据手机号查询
      *
-     * @param mobile
-     * @return
+     * @param mobile 手机号
+     * @return 空号
      */
     EmptyMobile findByMobile(String mobile);
 }

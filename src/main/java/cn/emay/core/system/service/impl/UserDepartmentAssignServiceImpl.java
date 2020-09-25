@@ -2,8 +2,9 @@ package cn.emay.core.system.service.impl;
 
 import cn.emay.core.system.dao.UserDepartmentAssignDao;
 import cn.emay.core.system.service.UserDepartmentAssignService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * @author Frank
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDepartmentAssignServiceImpl implements UserDepartmentAssignService {
 
-    @Autowired
+    @Resource
     private UserDepartmentAssignDao userDepartmentAssignDao;
 
     @Override

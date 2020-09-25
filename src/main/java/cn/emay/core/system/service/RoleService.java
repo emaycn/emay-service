@@ -18,8 +18,8 @@ public interface RoleService {
      * @param start    起始条数
      * @param limit    查询多少条
      * @param roleName 角色名
-     * @param roleType
-     * @return
+     * @param roleType 角色类型
+     * @return 角色
      */
     Page<Role> findPage(int start, int limit, String roleName, String roleType);
 
@@ -27,7 +27,7 @@ public interface RoleService {
      * 按照ID查找角色
      *
      * @param roleId 角色ID
-     * @return
+     * @return 角色
      */
     Role findById(Long roleId);
 
@@ -37,7 +37,7 @@ public interface RoleService {
      *
      * @param roleName     角色名
      * @param ignoreRoleId 忽略对比的角色ID
-     * @return
+     * @return 是否有存在的角色名
      */
     boolean hasSameRoleName(String roleName, Long ignoreRoleId);
 
@@ -47,8 +47,8 @@ public interface RoleService {
      * @param roleName               角色名
      * @param remark                 备注
      * @param roleResourceAssignList 关联资源
-     * @param roleType
-     * @return
+     * @param roleType               角色类型
+     * @return 结果
      */
     Result add(String roleName, String remark, List<RoleResourceAssign> roleResourceAssignList, String roleType);
 
@@ -59,7 +59,7 @@ public interface RoleService {
      * @param roleName               角色名
      * @param remark                 备注
      * @param roleResourceAssignList 关联资源
-     * @return
+     * @return 结果
      */
     Result modify(Long roleId, String roleName, String remark, List<RoleResourceAssign> roleResourceAssignList);
 
@@ -67,14 +67,14 @@ public interface RoleService {
      * 删除角色
      *
      * @param roleId 角色ID
-     * @return
+     * @return 结果
      */
     Result delete(Long roleId);
 
     /**
      * 获取所有角色
      *
-     * @return
+     * @return 角色
      */
     List<Role> findAll();
 

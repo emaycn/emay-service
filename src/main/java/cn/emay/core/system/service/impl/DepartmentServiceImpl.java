@@ -5,9 +5,9 @@ import cn.emay.core.system.dto.DepartmentDTO;
 import cn.emay.core.system.pojo.Department;
 import cn.emay.core.system.service.DepartmentService;
 import cn.emay.utils.db.common.Page;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +19,8 @@ import java.util.Map;
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
-    @Autowired
-    DepartmentDao departmentDao;
+    @Resource
+    private DepartmentDao departmentDao;
 
     @Override
     public List<Department> findByParentId(Long parentId) {
@@ -35,16 +35,16 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Page<DepartmentDTO> findPage(Long parentId, String departmentName, int start, int limit) {
         Page<Department> page = departmentDao.findPage(parentId, departmentName, start, limit);
-        Page<DepartmentDTO> pagedto = Page.createByStartAndLimit(start, limit, page.getTotalCount(), new ArrayList<DepartmentDTO>());
+        Page<DepartmentDTO> pagedto = Page.createByStartAndLimit(start, limit, page.getTotalCount(), new ArrayList<>());
         if (page.getTotalCount() == 0) {
             return pagedto;
         }
-        List<Long> list = new ArrayList<Long>();
-        page.getList().stream().forEach(dep -> list.add(dep.getParentDepartmentId()));
+        List<Long> list = new ArrayList<>();
+        page.getList().forEach(dep -> list.add(dep.getParentDepartmentId()));
         List<Department> depList = departmentDao.findByIds(list);
-        Map<Long, String> map = new HashMap<Long, String>();
-        depList.stream().forEach(depPar -> map.put(depPar.getId(), depPar.getDepartmentName()));
-        page.getList().stream().forEach(dep -> pagedto.getList().add(new DepartmentDTO(dep, map.get(dep.getParentDepartmentId()))));
+        Map<Long, String> map = new HashMap<>();
+        depList.forEach(depPar -> map.put(depPar.getId(), depPar.getDepartmentName()));
+        page.getList().forEach(dep -> pagedto.getList().add(new DepartmentDTO(dep, map.get(dep.getParentDepartmentId()))));
         return pagedto;
     }
 

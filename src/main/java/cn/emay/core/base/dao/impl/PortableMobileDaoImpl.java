@@ -22,7 +22,7 @@ public class PortableMobileDaoImpl extends BasePojoSuperDaoImpl<PortableMobile> 
     @Override
     public Page<PortableMobile> findPage(int start, int limit, String mobile) {
         String hql = "from PortableMobile where 1=1 and isDelete=0 ";
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         if (!StringUtils.isEmpty(mobile)) {
             hql += " and mobile = :mobile ";
             params.put("mobile", mobile.trim());

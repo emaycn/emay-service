@@ -22,7 +22,7 @@ public interface ClientChargeRecordService {
      * @param clientName 客户名
      * @param endTime    结束时间
      * @param startTime  开始时间
-     * @return
+     * @return 分页数据
      */
     Page<ClientChargeRecordDTO> findChargePage(int start, int limit, String clientName, Date startTime, Date endTime);
 
@@ -30,7 +30,7 @@ public interface ClientChargeRecordService {
      * 保存充值扣费记录<br/>
      *
      * @param clientChargeRecord 充值扣费记录
-     * @return
+     * @return 添加结果
      */
     Result add(ClientChargeRecord clientChargeRecord);
 }

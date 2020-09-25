@@ -19,7 +19,7 @@ public interface BaseSectionNumberDao extends BaseSuperDao<BaseSectionNumber> {
      * @param start        从第几条开始查
      * @param limit        查几条
      * @param operatorCode 运营商编码
-     * @return
+     * @return 分页数据
      */
     Page<BaseSectionNumber> findPage(int start, int limit, String number, String operatorCode);
 

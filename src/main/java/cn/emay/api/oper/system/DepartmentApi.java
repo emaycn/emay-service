@@ -1,6 +1,5 @@
 package cn.emay.api.oper.system;
 
-import cn.emay.constant.web.OperType;
 import cn.emay.constant.web.ResourceEnum;
 import cn.emay.constant.web.WebAuth;
 import cn.emay.core.system.dto.DepartmentDTO;
@@ -15,13 +14,13 @@ import cn.emay.utils.result.SuperResult;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -36,11 +35,11 @@ import java.util.List;
 public class DepartmentApi {
     Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    @Resource
     private DepartmentService departmentService;
-    @Autowired
+    @Resource
     private UserDepartmentAssignService userDepartmentAssignService;
-    @Autowired
+    @Resource
     private UserOperLogService userOperLogService;
 
     /**
@@ -123,8 +122,7 @@ public class DepartmentApi {
         departmentService.addDepartment(department);
         String context = "添加部门:{0}";
         String module = "部门管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{departmentName}),
-                OperType.ADD);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, departmentName));
         return Result.rightResult();
     }
 
@@ -153,8 +151,7 @@ public class DepartmentApi {
         departmentService.deleteDepartment(id);
         String context = "删除部门:{0}";
         String module = "部门管理";
-        userOperLogService.saveOperLog(module,
-                MessageFormat.format(context, new Object[]{department.getDepartmentName()}), OperType.DELETE);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, department.getDepartmentName()));
         return Result.rightResult();
     }
 
@@ -182,8 +179,7 @@ public class DepartmentApi {
         departmentService.modifyDepartment(dept);
         String context = "修改部门:{0}";
         String module = "部门管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{departmentName}),
-                OperType.MODIFY);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, departmentName));
         return Result.rightResult();
     }
 
@@ -193,7 +189,7 @@ public class DepartmentApi {
      * @param name     部门名称
      * @param parentId 上级部门ID
      * @param ignoreId 忽略对比的部门ID
-     * @return
+     * @return 错误信息
      */
     public String checkInfo(String name, Long parentId, Long ignoreId) {
         if (StringUtils.isEmpty(name)) {

@@ -1,6 +1,5 @@
 package cn.emay.api.oper.base;
 
-import cn.emay.constant.web.OperType;
 import cn.emay.constant.web.ResourceEnum;
 import cn.emay.constant.web.WebAuth;
 import cn.emay.core.base.pojo.BaseSectionNumber;
@@ -18,11 +17,11 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,17 +36,15 @@ import java.util.List;
 @RequestMapping(value = "/o/basenumber", method = RequestMethod.POST)
 public class BaseSectionNumberApi {
 
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    @Resource
     private BaseSectionNumberService baseSectionNumberService;
-    @Autowired
+    @Resource
     private UserOperLogService userOperLogService;
 
     /**
      * 基础号段列表
-     *
-     * @return
      */
     @WebAuth({ResourceEnum.BASENUMBER_VIEW})
     @ApiOperation("基础号段列表")
@@ -86,7 +83,7 @@ public class BaseSectionNumberApi {
         User user = WebUtils.getCurrentUser();
         String context = "新增基础号段:号段为{0}";
         String module = "基础信息管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{number}), OperType.ADD);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, number));
         log.info("基础信息管理-->用户:" + user.getUsername() + "新增基础号段:号段为" + number);
         return Result.rightResult();
     }
@@ -120,7 +117,7 @@ public class BaseSectionNumberApi {
         User user = WebUtils.getCurrentUser();
         String context = "修改基础号段:号段为{0}";
         String module = "基础信息管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{number}), OperType.MODIFY);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, number));
         log.info("基础信息管理-->用户:" + user.getUsername() + "修改基础号段:号段为" + number);
         return Result.rightResult();
     }
@@ -145,8 +142,7 @@ public class BaseSectionNumberApi {
         User user = WebUtils.getCurrentUser();
         String context = "删除基础号段:号段为{0}";
         String module = "基础信息管理";
-        userOperLogService.saveOperLog(module,
-                MessageFormat.format(context, new Object[]{baseSectionNumber.getNumber()}), OperType.MODIFY);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, baseSectionNumber.getNumber()));
         log.info("基础信息管理-->用户:" + user.getUsername() + "删除基础号段:号段为" + baseSectionNumber.getNumber());
         return Result.rightResult();
     }

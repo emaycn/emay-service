@@ -21,7 +21,7 @@ public class DepartmentDaoImpl extends BasePojoSuperDaoImpl<Department> implemen
     @Override
     public Map<Long, String> findDepartmentNameByUserIds(Set<Long> userIds) {
         String hql = "select d.departmentName , ud.systemUserId from Department d , UserDepartmentAssign ud where d.id = ud.systemDepartmentId and ud.systemUserId in (:userIds) ";
-        Map<String, Object> param = new HashMap<String, Object>();
+        Map<String, Object> param = new HashMap<>();
         param.put("userIds", userIds);
         List<Object[]> list = this.getListResult(Object[].class, hql, param);
         Map<Long, String> maps = new HashMap<>();
@@ -41,14 +41,14 @@ public class DepartmentDaoImpl extends BasePojoSuperDaoImpl<Department> implemen
     @Override
     public Department findByUserId(Long userId) {
         String hql = "select d from Department d , UserDepartmentAssign ud where d.id = ud.systemDepartmentId and ud.systemUserId = :userId ";
-        Map<String, Object> param = new HashMap<String, Object>();
+        Map<String, Object> param = new HashMap<>();
         param.put("userId", userId);
         return this.getUniqueResult(Department.class, hql, param);
     }
 
     @Override
     public Page<Department> findPage(Long id, String departmentName, int start, int limit) {
-        Map<String, Object> param = new HashMap<String, Object>();
+        Map<String, Object> param = new HashMap<>();
         String hql = "from Department where  parentDepartmentId =:id ";
         param.put("id", id);
         if (!StringUtils.isEmpty(departmentName)) {
@@ -56,13 +56,12 @@ public class DepartmentDaoImpl extends BasePojoSuperDaoImpl<Department> implemen
             param.put("departmentName", "%" + departmentName + "%");
         }
         hql += " order by id desc";
-        Page<Department> page = this.getPageResult(hql, start, limit, param, Department.class);
-        return page;
+        return this.getPageResult(hql, start, limit, param, Department.class);
     }
 
     @Override
     public List<Department> findByIds(List<Long> ids) {
-        Map<String, Object> param = new HashMap<String, Object>();
+        Map<String, Object> param = new HashMap<>();
         String hql = "from Department where  id in(:ids)";
         param.put("ids", ids);
         return this.getListResult(Department.class, hql, param);
@@ -70,7 +69,7 @@ public class DepartmentDaoImpl extends BasePojoSuperDaoImpl<Department> implemen
 
     @Override
     public Boolean hasSameDepartmentNameAtParent(String departmentName, Long parentId, Long ignoreId) {
-        Map<String, Object> param = new HashMap<String, Object>();
+        Map<String, Object> param = new HashMap<>();
         String hql = "SELECT count(*) from Department where departmentName=:departmentName and parentDepartmentId = :parentId ";
         param.put("departmentName", departmentName);
         param.put("parentId", parentId);
@@ -83,7 +82,7 @@ public class DepartmentDaoImpl extends BasePojoSuperDaoImpl<Department> implemen
 
     @Override
     public Long findCountByParentId(Long parentId) {
-        Map<String, Object> param = new HashMap<String, Object>();
+        Map<String, Object> param = new HashMap<>();
         String hql = "select count(*) from Department where  parentDepartmentId = :parentId";
         param.put("parentId", parentId);
         return (Long) super.getUniqueResult(hql, param);

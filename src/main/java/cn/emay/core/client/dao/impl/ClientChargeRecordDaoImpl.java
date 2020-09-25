@@ -23,7 +23,7 @@ public class ClientChargeRecordDaoImpl extends BasePojoSuperDaoImpl<ClientCharge
     @Override
     public Page<ClientChargeRecordDTO> findChargePage(int start, int limit, String clientName, Date startTime, Date endTime) {
         String sql = "select r.*,c.client_name ,u.realname as charge_user_name  from client c ,system_user u, client_charge_record r where u.id=r.charge_user_id and c.id=r.client_id  ";
-        List<Object> parameters = new ArrayList<Object>();
+        List<Object> parameters = new ArrayList<>();
         if (!StringUtils.isEmpty(clientName)) {
             sql += " and c.client_name like ? ";
             parameters.add("%" + clientName.trim() + "%");

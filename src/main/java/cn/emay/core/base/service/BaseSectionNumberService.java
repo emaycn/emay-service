@@ -19,7 +19,7 @@ public interface BaseSectionNumberService {
      * @param start        从第几条开始查
      * @param limit        查几条
      * @param operatorCode 运营商编码
-     * @return
+     * @return 分页数据
      */
     Page<BaseSectionNumber> findPage(int start, int limit, String number, String operatorCode);
 
@@ -31,23 +31,23 @@ public interface BaseSectionNumberService {
     void saveBatchByAutoNamed(List<BaseSectionNumber> mobileList);
 
     /**
-     * 修改号段
+     * 根据id查号段
      *
-     * @param id
+     * @param id id
      */
     BaseSectionNumber findbyId(Long id);
 
     /**
      * 更新号段
      *
-     * @param baseSectionNumber
+     * @param baseSectionNumber 号段
      */
     void update(BaseSectionNumber baseSectionNumber);
 
     /**
      * 删除号段
      *
-     * @param baseSectionNumber
+     * @param baseSectionNumber 号段
      */
     void delete(BaseSectionNumber baseSectionNumber);
 

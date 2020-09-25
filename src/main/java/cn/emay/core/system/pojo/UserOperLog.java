@@ -15,7 +15,6 @@ public class UserOperLog implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
     /**
      * ID
      */
@@ -48,11 +47,6 @@ public class UserOperLog implements Serializable {
      */
     @Column(name = "content")
     private String content;
-    /**
-     * 操作类型[ADD-增，DELETE-删，MODIFY-改，DOWNLOAD-下载]
-     */
-    @Column(name = "oper_type")
-    private String operType;
     /**
      * 操作时间
      */
@@ -105,14 +99,6 @@ public class UserOperLog implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getOperType() {
-        return operType;
-    }
-
-    public void setOperType(String operType) {
-        this.operType = operType;
     }
 
     public String getRealname() {

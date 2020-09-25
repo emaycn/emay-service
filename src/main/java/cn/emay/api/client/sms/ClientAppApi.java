@@ -12,11 +12,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -29,13 +29,11 @@ import java.util.List;
 @RequestMapping(value = "/c/clientapp", method = RequestMethod.POST)
 public class ClientAppApi {
 
-    @Autowired
+    @Resource
     private SmsAppService appService;
 
     /**
      * 应用列表
-     *
-     * @return
      */
     @WebAuth({ResourceEnum.CLIENT_APP_VIEW})
     @ApiOperation("应用列表")
@@ -63,8 +61,6 @@ public class ClientAppApi {
 
     /**
      * 客户所有应用列表
-     *
-     * @return
      */
     @WebAuth({ResourceEnum.CLIENT_APP_VIEW})
     @ApiOperation("客户所有应用列表")

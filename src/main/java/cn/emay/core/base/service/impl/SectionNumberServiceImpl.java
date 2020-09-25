@@ -4,9 +4,9 @@ import cn.emay.core.base.dao.SectionNumberDao;
 import cn.emay.core.base.pojo.SectionNumber;
 import cn.emay.core.base.service.SectionNumberService;
 import cn.emay.utils.db.common.Page;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class SectionNumberServiceImpl implements SectionNumberService {
 
-    @Autowired
+    @Resource
     private SectionNumberDao sectionNumberDao;
 
     @Override

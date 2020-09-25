@@ -1,6 +1,5 @@
 package cn.emay.api.oper.base;
 
-import cn.emay.constant.web.OperType;
 import cn.emay.constant.web.ResourceEnum;
 import cn.emay.constant.web.WebAuth;
 import cn.emay.core.base.dto.PortableMobileImport;
@@ -19,12 +18,12 @@ import cn.emay.utils.string.StringUtils;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,17 +40,15 @@ import java.util.Set;
 @RequestMapping(value = "/o/portable", method = RequestMethod.POST)
 public class PortableMobileApi {
 
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    @Resource
     private PortableMobileService portableMobileService;
-    @Autowired
+    @Resource
     private UserOperLogService userOperLogService;
 
     /**
      * 携号转网列表
-     *
-     * @return
      */
     @WebAuth({ResourceEnum.PORTABLE_VIEW})
     @ApiOperation("携号转网列表")
@@ -86,7 +83,7 @@ public class PortableMobileApi {
         User user = WebUtils.getCurrentUser();
         String context = "新增基础号码:号码为{0}";
         String module = "基础信息管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{mobile}), OperType.ADD);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, mobile));
         log.info("基础信息管理-->用户:" + user.getUsername() + "新增号码:号码为" + mobile);
         return Result.rightResult();
     }
@@ -120,7 +117,7 @@ public class PortableMobileApi {
         User user = WebUtils.getCurrentUser();
         String context = "携号转网修改:号码为{0}";
         String module = "基础信息管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{mobile}), OperType.MODIFY);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, mobile));
         log.info("基础信息管理-->用户:" + user.getUsername() + "携号转网修改:号码为" + mobile);
         return Result.rightResult();
     }
@@ -145,24 +142,18 @@ public class PortableMobileApi {
         User user = WebUtils.getCurrentUser();
         String context = "删除基础号码:号码为{0}";
         String module = "基础信息管理";
-        userOperLogService.saveOperLog(module,
-                MessageFormat.format(context, new Object[]{portableMobile.getMobile()}), OperType.MODIFY);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, portableMobile.getMobile()));
         log.info("基础信息管理-->用户:" + user.getUsername() + "删除基础号码:号码为" + portableMobile.getMobile());
         return Result.rightResult();
     }
 
     /**
      * 携号转网导入
-     *
-     * @param file
-     * @return
-     * @throws Exception
      */
     @WebAuth({ResourceEnum.PORTABLE_IMPORT})
     @RequestMapping(value = "/import", headers = "content-type=multipart/form-data")
     @ApiOperation("携号转网导入")
-    public SuperResult<Integer> portableImport(@ApiParam(value = "携号转网导入文件", required = true) MultipartFile file)
-            throws Exception {
+    public SuperResult<Integer> portableImport(@ApiParam(value = "携号转网导入文件", required = true) MultipartFile file) {
         /* 导入文件读 begin */
         FileUploadUtils.FileUpLoadResult result = FileUploadUtils.uploadFile(file, 20, ".xlsx", ".xlx");
         if (!result.isSuccess()) {
@@ -173,7 +164,7 @@ public class PortableMobileApi {
         /* 导入文件读 end */
         List<PortableMobile> portableMobiles = new ArrayList<>();
         Set<String> mobileSet = new HashSet<>();
-        list.stream().forEach(modle -> {
+        list.forEach(modle -> {
             if (null != modle.toPortableMobile(modle)) {
                 if (!mobileSet.contains(modle.getMobile())) {
                     mobileSet.add(modle.getMobile());
@@ -189,7 +180,7 @@ public class PortableMobileApi {
         portableMobileService.saveBatch(portableMobiles);
         User user = WebUtils.getCurrentUser();
         log.info("user : " + user.getUsername() + "导入携号转网 ");
-        userOperLogService.saveOperLog("基础信息管理", "携号转网导入", OperType.ADD);
+        userOperLogService.saveOperLog("基础信息管理", "携号转网导入");
         return SuperResult.rightResult(right);
     }
 

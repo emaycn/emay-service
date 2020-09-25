@@ -22,7 +22,7 @@ public interface ClientDao extends BaseSuperDao<Client> {
      * @param clientName 客户名
      * @param linkman    联系人
      * @param mobile     手机号
-     * @return
+     * @return 分页数据
      */
     Page<Client> findPage(int start, int limit, String clientName, String linkman, String mobile);
 
@@ -30,24 +30,24 @@ public interface ClientDao extends BaseSuperDao<Client> {
      * 根據用戶id查詢客戶
      *
      * @param userId 用戶ID
-     * @return
+     * @return 客户
      */
     Client findByUserId(Long userId);
 
     /**
      * 根据客户名字模糊查询10条数据
      *
-     * @param clientName 客户ming
-     * @return
+     * @param clientName 客户名
+     * @return 客户
      */
     List<Client> findByName(String clientName);
 
     /**
      * 检查客户名是否存在
      *
-     * @param clientName 客户ming
-     * @param clientId
-     * @return
+     * @param clientName 客户名
+     * @param clientId   客户id
+     * @return 客户
      */
     Client findByClientName(String clientName, Long clientId);
 
@@ -55,7 +55,7 @@ public interface ClientDao extends BaseSuperDao<Client> {
      * 根据用户id查询客户名
      *
      * @param userIds 用户ids
-     * @return
+     * @return 客户id-名字
      */
     Map<Long, String> findClientNameByUserIds(Set<Long> userIds);
 

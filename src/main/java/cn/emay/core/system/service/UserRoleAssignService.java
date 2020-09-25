@@ -13,7 +13,7 @@ public interface UserRoleAssignService {
      * 查询角色的是否绑定用户
      *
      * @param roleId 角色ID
-     * @return
+     * @return 是否绑定用户
      */
     Boolean findExistsByRoleId(Long roleId);
 
@@ -21,7 +21,7 @@ public interface UserRoleAssignService {
      * 查询用户的所有角色关联
      *
      * @param userId 用户ID
-     * @return
+     * @return 用户的所有角色关联
      */
     List<UserRoleAssign> findByUserId(Long userId);
 

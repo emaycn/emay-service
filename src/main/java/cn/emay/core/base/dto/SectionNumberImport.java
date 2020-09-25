@@ -7,11 +7,11 @@ import cn.emay.excel.common.schema.annotation.ExcelSheet;
 import cn.emay.utils.string.StringUtils;
 
 /**
- * @description: 携号转网导入dto
- * @author: chang
- * @create: 2019-11-06 10:12
+ * 携号转网导入dto
+ *
+ * @author chang
  **/
-@ExcelSheet(readDataStartRowIndex = 1)
+@ExcelSheet
 public class SectionNumberImport {
 
     private static final String OPERATOR_CMCC = "移动";
@@ -60,8 +60,7 @@ public class SectionNumberImport {
         if (province == null) {
             return null;
         }
-        SectionNumber sectionNumber = new SectionNumber(sectionNumberImport.getNumber(), sectionNumberImport.getCity(), opcode, province.getCode(), sectionNumberImport.getProvinceName(), false);
-        return sectionNumber;
+        return new SectionNumber(sectionNumberImport.getNumber(), sectionNumberImport.getCity(), opcode, province.getCode(), sectionNumberImport.getProvinceName(), false);
     }
 
 

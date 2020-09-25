@@ -15,15 +15,6 @@ public class Role implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 运营系统角色-oper
-     */
-    public final static String OPER_TYPE_OPER = "OPER";
-    /**
-     * 客戶系统角色-client
-     */
-    public final static String OPER_TYPE_CLIENT = "CLIENT";
-
-    /**
      *
      */
     @Id
@@ -47,7 +38,7 @@ public class Role implements java.io.Serializable {
     @Column(name = "remark")
     private String remark;
     /**
-     * 角色类型【OPER-运营端、CLIENT-客户端】
+     * 角色类型【OPER-运营端、CLIENT-客户端】 SystemType
      */
     @Column(name = "role_type")
     private String roleType;

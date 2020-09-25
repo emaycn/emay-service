@@ -12,7 +12,7 @@ public interface ResourceService {
     /**
      * 获取所有资源
      *
-     * @return
+     * @return 资源
      */
     List<Resource> getAll();
 
@@ -20,7 +20,7 @@ public interface ResourceService {
      * 获取角色所有资源
      *
      * @param roleId 角色ID
-     * @return
+     * @return 资源
      */
     List<Resource> getRoleResources(Long roleId);
 
@@ -28,7 +28,7 @@ public interface ResourceService {
      * 获取用户所有的资源
      *
      * @param userId 用户ID
-     * @return
+     * @return 资源
      */
     List<Resource> getUserResources(Long userId);
 

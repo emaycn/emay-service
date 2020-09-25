@@ -22,18 +22,15 @@ public interface ClientService {
      * @param clientName 客户名
      * @param linkman    联系人
      * @param mobile     手机号
-     * @return
+     * @return 分页数据
      */
     Page<Client> findPage(int start, int limit, String clientName, String linkman, String mobile);
 
     /**
-     * 保存客户
-     */
-    /**
      * 新增客户<br/>
      *
      * @param client 客户
-     * @return
+     * @return 增加结果
      */
     Result add(Client client);
 
@@ -41,7 +38,7 @@ public interface ClientService {
      * 按照ID查找客户
      *
      * @param clientId 客户ID
-     * @return
+     * @return 客户
      */
     Client findById(Long clientId);
 
@@ -49,7 +46,7 @@ public interface ClientService {
      * 修改客户<br/>
      *
      * @param client 客户
-     * @return
+     * @return 结果
      */
     Result modify(Client client);
 
@@ -58,7 +55,7 @@ public interface ClientService {
      *
      * @param clientId 客户ID
      * @param balance  余额
-     * @return
+     * @return 结果
      */
     Result modifyBalance(Long clientId, BigDecimal balance);
 
@@ -66,24 +63,24 @@ public interface ClientService {
      * 根據用戶id查詢客戶
      *
      * @param id 用戶ID
-     * @return
+     * @return 客户
      */
     Client findByUserId(Long id);
 
     /**
      * 根据客户名字模糊查询10条数据
      *
-     * @param clientName 客户ming
-     * @return
+     * @param clientName 客户名
+     * @return 客户
      */
     List<Client> findByName(String clientName);
 
     /**
      * 检查客户名是否存在
      *
-     * @param clientName 客户ming
-     * @param clientId
-     * @return
+     * @param clientName 客户名
+     * @param clientId   客户id
+     * @return 客户
      */
     Client findByClientName(String clientName, Long clientId);
 

@@ -4,9 +4,9 @@ import cn.emay.core.base.dao.EmptyMobileDao;
 import cn.emay.core.base.pojo.EmptyMobile;
 import cn.emay.core.base.service.EmptyMobileService;
 import cn.emay.utils.db.common.Page;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class EmptyMobileServiceImpl implements EmptyMobileService {
 
-    @Autowired
+    @Resource
     private EmptyMobileDao emptyMobileDao;
 
     @Override

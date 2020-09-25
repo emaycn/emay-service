@@ -1,6 +1,5 @@
 package cn.emay.api.oper.sms;
 
-import cn.emay.constant.web.OperType;
 import cn.emay.constant.web.ResourceEnum;
 import cn.emay.constant.web.WebAuth;
 import cn.emay.core.sms.dto.AppDto;
@@ -20,15 +19,13 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 应用API
@@ -40,17 +37,15 @@ import java.util.List;
 @RequestMapping(value = "/o/app", method = RequestMethod.POST)
 public class AppApi {
 
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    @Resource
     private SmsAppService appService;
-    @Autowired
+    @Resource
     private UserOperLogService userOperLogService;
 
     /**
      * 应用列表
-     *
-     * @return
      */
     @WebAuth({ResourceEnum.APP_VIEW})
     @ApiOperation("应用列表")
@@ -96,7 +91,7 @@ public class AppApi {
             }
         }
         // 生成appkey和密钥
-        String appKey = "";
+        String appKey;
         while (true) {
             appKey = AppUtils.genAppKey();
             SmsApp app = appService.findByAppKey(appKey);
@@ -107,13 +102,11 @@ public class AppApi {
         String appSecret = AppUtils.genSecretKey();
         // 新增应用
         SmsApp app = new SmsApp(clientId, appName, appCode, SmsApp.APP_TYPE_SMS, appKey, appSecret, new BigDecimal("0.1"), SmsApp.STATE_OFF, remark);
-        List<SmsApp> apps = new ArrayList<>();
-        apps.add(app);
         appService.save(app);
         User user = WebUtils.getCurrentUser();
         String context = "新增应用:应用名为{0}";
         String module = "基础数据管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{appName}), OperType.ADD);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, appName));
         log.info("基础数据管理-->用户:" + user.getUsername() + "新增应用:应用为：" + appName);
         return SuperResult.rightResult(app);
     }
@@ -140,7 +133,7 @@ public class AppApi {
         User user = WebUtils.getCurrentUser();
         String context = "设置单价:应用名为{0}";
         String module = "基础数据管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{app.getAppName()}), OperType.MODIFY);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, app.getAppName()));
         log.info("基础数据管理-->用户:" + user.getUsername() + "设置单价:应用为：" + app.getAppName());
         return SuperResult.rightResult(app.getAppName());
     }
@@ -166,7 +159,7 @@ public class AppApi {
         String context = "";
         String module = "基础数据管理";
         // 直接更新redis状态 KV_CHANNEL_CONTROLLER_ 循环判断状态是否更新成功HASH_CHANNEL_HEARTBEAT
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{app.getAppName()}), OperType.MODIFY);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, app.getAppName()));
         if (SmsApp.STATE_ON == state) {
             context = "应用起:应用名为{0}";
         } else if (SmsApp.STATE_OFF == state) {

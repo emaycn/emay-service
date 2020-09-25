@@ -20,17 +20,16 @@ public interface UserDao extends BaseSuperDao<User> {
      * @param realname  用户姓名
      * @param mobile    手机号
      * @param userState 用户状态
-     * @param userFor
-     * @return
+     * @param userFor   所属系统
+     * @return 分页数据
      */
     Page<User> findPage(int start, int limit, String username, String realname, String mobile, Integer userState, String userFor);
 
     /**
      * 用户名是否重复
      *
-     * @param ignoreUserId 排除的用户ID
-     * @param username     用户名
-     * @return
+     * @param username 用户名
+     * @return 是否从父
      */
     Boolean hasSameUserName(String username);
 
@@ -46,7 +45,7 @@ public interface UserDao extends BaseSuperDao<User> {
      * 按照用户名查找用户
      *
      * @param username 用户名
-     * @return
+     * @return 用户
      */
     User findByUserName(String username);
 
@@ -57,7 +56,7 @@ public interface UserDao extends BaseSuperDao<User> {
      * @param departmentId 部门ID
      * @param start        起始
      * @param limit        条数
-     * @return
+     * @return 用户
      */
     Page<User> findBycondition(String variableName, Long departmentId, int start, int limit);
 

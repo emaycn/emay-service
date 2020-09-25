@@ -31,7 +31,7 @@ public class SmsAppDaoImpl extends BasePojoSuperDaoImpl<SmsApp> implements SmsAp
     @Override
     public Page<AppDto> findPage(int start, int limit, String clientName, String appName, String appKey, String appCode, Integer state) {
         String sql = "select a.*,c.client_name from client c ,sms_app a where a.client_id=c.id and a.app_type='sms'  ";
-        List<Object> parameters = new ArrayList<Object>();
+        List<Object> parameters = new ArrayList<>();
         if (!StringUtils.isEmpty(clientName)) {
             sql += " and c.client_name like ? ";
             parameters.add("%" + clientName.trim() + "%");
@@ -77,7 +77,7 @@ public class SmsAppDaoImpl extends BasePojoSuperDaoImpl<SmsApp> implements SmsAp
     @Override
     public Page<AppDto> findClientPage(int start, int limit, Long id, String appKey, String appCode, Integer state) {
         String sql = "select a.*,c.client_name from client c ,sms_app a where a.client_id=c.id and a.app_type='sms'  and c.id = ? ";
-        List<Object> parameters = new ArrayList<Object>();
+        List<Object> parameters = new ArrayList<>();
         parameters.add(id);
         if (!StringUtils.isEmpty(appKey)) {
             sql += " and a.app_key = ? ";
@@ -98,7 +98,7 @@ public class SmsAppDaoImpl extends BasePojoSuperDaoImpl<SmsApp> implements SmsAp
     @Override
     public List<AppDto> findAllAppList(Long id) {
         String sql = "select a.*,c.client_name from client c ,sms_app a where a.client_id=c.id and a.app_type='sms' and a.state=1 and c.id = ? ";
-        List<Object> parameters = new ArrayList<Object>();
+        List<Object> parameters = new ArrayList<>();
         parameters.add(id);
         sql += " order by a.id desc ";
         return findObjectListByClass(AppDto.class, sql, parameters.toArray());
@@ -107,7 +107,7 @@ public class SmsAppDaoImpl extends BasePojoSuperDaoImpl<SmsApp> implements SmsAp
     @Override
     public List<SmsApp> findByIds(Long[] appIds) {
         String hql = "from SmsApp where id in ( :ids )  ";
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         params.put("ids", appIds);
         return this.getListResult(SmsApp.class, hql, params);
     }

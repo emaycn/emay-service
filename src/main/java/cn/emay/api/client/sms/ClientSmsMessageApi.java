@@ -13,11 +13,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -30,13 +30,11 @@ import java.util.Date;
 @RequestMapping(value = "/c/clientmessage", method = RequestMethod.POST)
 public class ClientSmsMessageApi {
 
-    @Autowired
+    @Resource
     private SmsMessageEsRepository smsMessageEsRepository;
 
     /**
      * 短信列表
-     *
-     * @return
      */
     @WebAuth({ResourceEnum.CLIENT_MESSAGE_VIEW})
     @ApiOperation("短信列表")

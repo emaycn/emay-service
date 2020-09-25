@@ -3,9 +3,9 @@ package cn.emay.core.system.service.impl;
 import cn.emay.core.system.dao.UserRoleAssignDao;
 import cn.emay.core.system.pojo.UserRoleAssign;
 import cn.emay.core.system.service.UserRoleAssignService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -14,12 +14,12 @@ import java.util.List;
 @Service
 public class UserRoleAssignServiceImpl implements UserRoleAssignService {
 
-    @Autowired
+    @Resource
     private UserRoleAssignDao userRoleAssignDao;
 
     @Override
     public Boolean findExistsByRoleId(Long roleId) {
-        Boolean isExists = true;
+        boolean isExists = true;
         List<UserRoleAssign> list = userRoleAssignDao.findByRoleId(roleId);
         if (null == list || list.isEmpty()) {
             isExists = false;

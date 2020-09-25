@@ -1,6 +1,5 @@
 package cn.emay.core.system.service.impl;
 
-import cn.emay.constant.web.OperType;
 import cn.emay.core.system.dao.UserOperLogDao;
 import cn.emay.core.system.pojo.User;
 import cn.emay.core.system.pojo.UserOperLog;
@@ -8,9 +7,9 @@ import cn.emay.core.system.service.UserOperLogService;
 import cn.emay.utils.WebUtils;
 import cn.emay.utils.db.common.Page;
 import cn.emay.utils.string.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -19,7 +18,7 @@ import java.util.Date;
 @Service
 public class UserOperLogServiceImpl implements UserOperLogService {
 
-    @Autowired
+    @Resource
     private UserOperLogDao userOperLogDao;
 
     @Override
@@ -29,7 +28,7 @@ public class UserOperLogServiceImpl implements UserOperLogService {
     }
 
     @Override
-    public void saveOperLog(String module, String content, OperType type) {
+    public void saveOperLog(String module, String content) {
         User user = WebUtils.getCurrentUser();
         if (user == null) {
             throw new IllegalArgumentException("no user login");
@@ -39,7 +38,6 @@ public class UserOperLogServiceImpl implements UserOperLogService {
         log.setModule(module);
         log.setUsername(user.getUsername());
         log.setOperTime(new Date());
-        log.setOperType(type.getType());
         log.setUserId(user.getId());
         log.setRealname(user.getRealname());
         userOperLogDao.save(log);

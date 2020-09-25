@@ -14,11 +14,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -31,15 +31,13 @@ import java.util.*;
 @RequestMapping(value = "/o/message", method = RequestMethod.POST)
 public class SmsMessageApi {
 
-    @Autowired
+    @Resource
     private SmsMessageEsRepository smsMessageEsRepository;
-    @Autowired
+    @Resource
     private ClientService clientService;
 
     /**
      * 短信详情列表
-     *
-     * @return
      */
     @WebAuth({ResourceEnum.MESSAGE_VIEW})
     @ApiOperation("短信列表")
@@ -93,11 +91,9 @@ public class SmsMessageApi {
         Page<SmsMessageOperDto> page = smsMessageEsRepository.findPage(batchNo, appCode, appKey, clientIds, content, reportCode, mobile, state, startDate,
                 endDate, start, limit, isNextPage, longStartId);
 
-        List<Long> clientIdList = new ArrayList<Long>();
-        page.getList().forEach(message -> {
-            clientIdList.add(message.getClientId());
-        });
-        Map<Long, Client> clientMap = getClientMap(clientIdList.toArray(new Long[clientIdList.size()]));
+        List<Long> clientIdList = new ArrayList<>();
+        page.getList().forEach(message -> clientIdList.add(message.getClientId()));
+        Map<Long, Client> clientMap = getClientMap(clientIdList.toArray(new Long[0]));
         page.getList().forEach(message -> {
             if (clientMap.containsKey(message.getClientId())) {
                 message.setClientName(clientMap.get(message.getClientId()).getClientName());
@@ -111,14 +107,14 @@ public class SmsMessageApi {
      * 查询客户id
      */
     private Long[] getClientIds(String clientName) {
-        List<Long> clientId = new ArrayList<Long>();
+        List<Long> clientId = new ArrayList<>();
         if (StringUtils.isNotEmpty(clientName)) {
             List<Client> clients = clientService.findByName(clientName);
             if (clients != null && clients.size() > 0) {
                 clients.forEach(client -> clientId.add(client.getId()));
             }
         }
-        return clientId.size() == 0 ? null : clientId.toArray(new Long[clientId.size()]);
+        return clientId.size() == 0 ? null : clientId.toArray(new Long[0]);
     }
 
     /**

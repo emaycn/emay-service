@@ -33,11 +33,10 @@ server:
 
 # 定时任务
 scheduler:
-  poolSize: 4
+  poolSize: 16
   threadNamePrefix: "stp-"
   awaitTerminationSeconds: 60
-  redisBeanName: "RedisClient"
-  onlyLockName: "emay-lock-only-sim111"
+  onlyLockName: "emay-lock-only-sim113"
 
 
 # 图片验证码

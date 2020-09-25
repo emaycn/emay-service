@@ -20,7 +20,7 @@ public interface SectionNumberDao extends BaseSuperDao<SectionNumber> {
      * @param limit        查几条
      * @param operatorCode 运营商编码
      * @param provinceCode 省份编码
-     * @return
+     * @return 分页数据
      */
     Page<SectionNumber> findPage(int start, int limit, String number, String operatorCode, String provinceCode);
 

@@ -1,7 +1,7 @@
 package cn.emay.api.oper.client;
 
-import cn.emay.constant.web.OperType;
 import cn.emay.constant.web.ResourceEnum;
+import cn.emay.constant.web.SystemType;
 import cn.emay.constant.web.WebAuth;
 import cn.emay.core.system.pojo.Resource;
 import cn.emay.core.system.pojo.Role;
@@ -18,7 +18,6 @@ import cn.emay.utils.result.SuperResult;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,15 +40,15 @@ import java.util.Map;
 @Api(tags = {"角色管理"})
 public class ClientRoleApi {
 
-    Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    @javax.annotation.Resource
     private RoleService roleService;
-    @Autowired
+    @javax.annotation.Resource
     private ResourceService resourceService;
-    @Autowired
+    @javax.annotation.Resource
     private UserRoleAssignService userRoleAssignService;
-    @Autowired
+    @javax.annotation.Resource
     private UserOperLogService userOperLogService;
 
     /**
@@ -62,7 +61,7 @@ public class ClientRoleApi {
             @ApiImplicitParam(name = "limit", value = "数据条数", required = true, dataType = "int"),
             @ApiImplicitParam(name = "roleName", value = "角色名称", dataType = "string"),})
     public SuperResult<Page<Role>> rolelist(int start, int limit, String roleName) {
-        Page<Role> userpage = roleService.findPage(start, limit, roleName, Role.OPER_TYPE_CLIENT);
+        Page<Role> userpage = roleService.findPage(start, limit, roleName, SystemType.CLIENT.getType());
         return SuperResult.rightResult(userpage);
     }
 
@@ -76,15 +75,15 @@ public class ClientRoleApi {
             @ApiImplicitParam(name = "remark", value = "角色描述", required = true, dataType = "string"),
             @ApiImplicitParam(name = "resourceCodes", value = "角色编码权限(逗号分割)", required = true, dataType = "string")})
     public Result add(String roleName, String remark, String resourceCodes, Long clientId) {
-        List<RoleResourceAssign> roleList = new ArrayList<RoleResourceAssign>();
-        String errorMsg = checkData(roleName, resourceCodes, remark, null, roleList, Resource.RESOURCE_TYPE_CLIENT);
+        List<RoleResourceAssign> roleList = new ArrayList<>();
+        String errorMsg = checkData(roleName, resourceCodes, remark, null, roleList, SystemType.CLIENT.getType());
         if (!StringUtils.isEmpty(errorMsg)) {
             return Result.badResult(errorMsg);
         }
-        roleService.add(roleName, remark, roleList, Role.OPER_TYPE_CLIENT);
+        roleService.add(roleName, remark, roleList, SystemType.CLIENT.getType());
         String context = "添加角色:{0}";
         String module = "角色管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{roleName}), OperType.ADD);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, roleName));
         return Result.rightResult();
     }
 
@@ -103,16 +102,15 @@ public class ClientRoleApi {
         if (roleId == 1L) {
             return Result.badResult("管理员角色不能修改");
         }
-        List<RoleResourceAssign> roleList = new ArrayList<RoleResourceAssign>();
-        String errorMsg = checkData(roleName, resourceCodes, remark, roleId, roleList, Resource.RESOURCE_TYPE_CLIENT);
+        List<RoleResourceAssign> roleList = new ArrayList<>();
+        String errorMsg = checkData(roleName, resourceCodes, remark, roleId, roleList, SystemType.CLIENT.getType());
         if (!StringUtils.isEmpty(errorMsg)) {
             return Result.badResult(errorMsg);
         }
         roleService.modify(roleId, roleName, remark, roleList);
         String context = "修改角色:{0}";
         String module = "角色管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{roleName}),
-                OperType.MODIFY);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, roleName));
         return Result.rightResult();
     }
 
@@ -166,8 +164,7 @@ public class ClientRoleApi {
         roleService.delete(roleId);
         String context = "删除角色:{0}";
         String module = "角色管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{role.getRoleName()}),
-                OperType.DELETE);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, role.getRoleName()));
         return Result.rightResult();
     }
 
@@ -179,7 +176,7 @@ public class ClientRoleApi {
      * @param remark   备注
      * @param roleId   角色ID
      * @param roleList 权限接收容器
-     * @return
+     * @return 错误信息
      */
     private String checkData(String roleName, String auths, String remark, Long roleId,
                              List<RoleResourceAssign> roleList, String type) {
@@ -212,7 +209,7 @@ public class ClientRoleApi {
         }
         // 校验权限
         List<Resource> allResource = resourceService.getByResourceType(type.toUpperCase());
-        Map<String, Long> map = new HashMap<String, Long>();
+        Map<String, Long> map = new HashMap<>();
         for (Resource resource : allResource) {
             map.put(resource.getResourceCode(), resource.getId());
         }

@@ -12,14 +12,6 @@ import javax.persistence.*;
 public class Resource implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
-    /**
-     * 资源类型[OPER-运营端，CLIENT客户端]-oper
-     */
-    public final static String RESOURCE_TYPE_OPER = "OPER";
-    /**
-     * 资源类型[OPER-运营端，CLIENT客户端]-client
-     */
-    public final static String RESOURCE_TYPE_CLIENT = "CLIENT";
 
     @Id
     @Column(name = "id")
@@ -36,7 +28,7 @@ public class Resource implements java.io.Serializable {
     @Column(name = "resource_name")
     private String resourceName;
     /**
-     * 资源类型
+     * 资源类型 SystemType
      */
     @Column(name = "resource_type")
     private String resourceType;

@@ -6,11 +6,9 @@ import cn.emay.excel.common.schema.annotation.ExcelSheet;
 import cn.emay.utils.CheckUtils;
 
 /**
- * @description: 空号导入dto
- * @author: chang
- * @create: 2019-11-06 10:12
+ * 空号导入dto
  **/
-@ExcelSheet(readDataStartRowIndex = 1)
+@ExcelSheet
 public class EmptyMobileImport {
 
     /**
@@ -23,8 +21,7 @@ public class EmptyMobileImport {
         if (!CheckUtils.isMobile(emptyMobileImport.getMobile())) {
             return null;
         }
-        EmptyMobile emptyMobile = new EmptyMobile(emptyMobileImport.getMobile(), false);
-        return emptyMobile;
+        return new EmptyMobile(emptyMobileImport.getMobile(), false);
     }
 
     public String getMobile() {

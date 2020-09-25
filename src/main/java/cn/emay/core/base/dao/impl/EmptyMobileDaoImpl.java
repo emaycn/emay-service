@@ -22,7 +22,7 @@ public class EmptyMobileDaoImpl extends BasePojoSuperDaoImpl<EmptyMobile> implem
     @Override
     public Page<EmptyMobile> findPage(int start, int limit, String mobile) {
         String hql = "from EmptyMobile where 1=1 and isDelete=0 ";
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         if (!StringUtils.isEmpty(mobile)) {
             hql += " and mobile = :mobile ";
             params.put("mobile", mobile.trim());

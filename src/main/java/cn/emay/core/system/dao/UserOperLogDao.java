@@ -21,7 +21,7 @@ public interface UserOperLogDao extends BaseSuperDao<UserOperLog> {
      * @param endDate   日志记录结束时间
      * @param start     从第几条开始查
      * @param limit     查几条
-     * @return
+     * @return 分页数据
      */
     Page<UserOperLog> findByPage(String username, String realname, String content, Date startDate, Date endDate, int start, int limit);
 

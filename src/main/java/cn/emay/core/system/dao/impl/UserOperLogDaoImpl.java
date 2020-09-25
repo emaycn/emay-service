@@ -19,7 +19,7 @@ public class UserOperLogDaoImpl extends BasePojoSuperDaoImpl<UserOperLog> implem
 
     @Override
     public Page<UserOperLog> findByPage(String username, String realname, String content, Date startDate, Date endDate, int start, int limit) {
-        Map<String, Object> param = new HashMap<String, Object>();
+        Map<String, Object> param = new HashMap<>();
         String hql = "from UserOperLog m where 1=1";
         if (!StringUtils.isEmpty(content)) {
             hql += " and  m.content like :context ";

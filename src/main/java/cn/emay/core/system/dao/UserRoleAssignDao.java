@@ -14,7 +14,7 @@ public interface UserRoleAssignDao extends BaseSuperDao<UserRoleAssign> {
      * 根据角色ID查询关联关系
      *
      * @param roleId 角色ID
-     * @return
+     * @return 关联关系
      */
     List<UserRoleAssign> findByRoleId(Long roleId);
 
@@ -29,7 +29,7 @@ public interface UserRoleAssignDao extends BaseSuperDao<UserRoleAssign> {
      * 查询用户的所有角色关联
      *
      * @param userId 用户ID
-     * @return
+     * @return 关联关系
      */
     List<UserRoleAssign> findByUserId(Long userId);
 

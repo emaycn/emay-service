@@ -8,9 +8,9 @@ import cn.emay.redis.RedisClient;
 import cn.emay.utils.db.common.Page;
 import cn.emay.utils.number.BigDecimalUtils;
 import cn.emay.utils.result.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -22,9 +22,9 @@ import java.util.List;
 @Service
 public class ClientServiceImpl implements ClientService {
 
-    @Autowired
+    @Resource
     private ClientDao clientDao;
-    @Autowired
+    @Resource
     private RedisClient redis;
 
     @Override
@@ -51,7 +51,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Result modifyBalance(Long clientId, BigDecimal balance) {
-        Long balanceLong = BigDecimalUtils.mul(balance, new BigDecimal(10000), 0).longValue();
+        long balanceLong = BigDecimalUtils.mul(balance, new BigDecimal(10000), 0).longValue();
         Long balanceCheck = redis.get(BusinessCacheKeys.KV_CLIENT_BALANCE_ + clientId, Long.class);
         if (null == balanceCheck) {
             balanceCheck = 0L;
@@ -59,7 +59,7 @@ public class ClientServiceImpl implements ClientService {
         if (0L > balanceLong + balanceCheck) {
             return Result.badResult("余额不足！");
         }
-        Long result = redis.incrBy(BusinessCacheKeys.KV_CLIENT_BALANCE_ + clientId, balanceLong);
+        long result = redis.incrBy(BusinessCacheKeys.KV_CLIENT_BALANCE_ + clientId, balanceLong);
         if (0L > result) {
             redis.incrBy(BusinessCacheKeys.KV_CLIENT_BALANCE_ + clientId, -balanceLong);
             return Result.badResult("余额不足！");

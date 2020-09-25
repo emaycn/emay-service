@@ -10,15 +10,10 @@ import cn.emay.core.system.pojo.User;
 import cn.emay.core.system.service.UserService;
 import cn.emay.excel.common.ExcelVersion;
 import cn.emay.excel.write.ExcelWriter;
-import cn.emay.json.support.JsonServletSupport;
 import cn.emay.redis.RedisClient;
 import cn.emay.utils.result.Result;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
@@ -30,27 +25,6 @@ import java.util.UUID;
  * @author Frank
  */
 public class WebUtils {
-
-    /**
-     * 获取当前线程的Request
-     */
-    public static HttpServletRequest getCurrentHttpRequest() {
-        return ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
-    }
-
-    /**
-     * 获取当前线程的Response
-     */
-    public static HttpServletResponse getCurrentHttpResponse() {
-        return ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getResponse();
-    }
-
-    /**
-     * 获取当前线程的Request
-     */
-    public static HttpSession getCurrentHttpSession() {
-        return ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest().getSession(true);
-    }
 
     /**
      * 登陆
@@ -80,8 +54,8 @@ public class WebUtils {
     /**
      * 获取当前登录用户所属客户<br/>
      */
-    public static Client getCurrentClient() {
-        Client client = (Client) getCurrentHttpRequest().getAttribute(WebConstant.CLIENT_CURRENT);
+    public static Client setAndGetCurrentClient() {
+        Client client = (Client) HttpRequestUtils.getCurrentHttpRequest().getAttribute(WebConstant.CLIENT_CURRENT);
         if (client != null) {
             return client;
         }
@@ -92,17 +66,23 @@ public class WebUtils {
         ClientService clientService = ApplicationContextUtils.getBean(ClientService.class);
         client = clientService.findByUserId(user.getId());
         if (client != null) {
-            getCurrentHttpRequest().setAttribute(WebConstant.CLIENT_CURRENT, client);
+            HttpRequestUtils.getCurrentHttpRequest().setAttribute(WebConstant.CLIENT_CURRENT, client);
         }
-        return client;
+        return null;
     }
 
     /**
-     * 获取当前登录用户<br/>
+     * 获取当前登录用户所属客户<br/>
+     */
+    public static Client getCurrentClient() {
+        return (Client) HttpRequestUtils.getCurrentHttpRequest().getAttribute(WebConstant.CLIENT_CURRENT);
+    }
+
+    /**
      * 每一次请求都要查询一次数据库来验证用户状态，后续可以把用户状态放到redis管理，状态的改变也随时更新redis
      */
-    public static User getCurrentUser() {
-        User user = (User) getCurrentHttpRequest().getAttribute(WebConstant.REQUEST_USER);
+    public static User setAndGetCurrentUser() {
+        User user = (User) HttpRequestUtils.getCurrentHttpRequest().getAttribute(WebConstant.REQUEST_USER);
         if (user != null) {
             return user;
         }
@@ -118,11 +98,17 @@ public class WebUtils {
                 RedisClient redis = ApplicationContextUtils.getBean(RedisClient.class);
                 redis.del(sessionId);
             }
-            return null;
         } else {
-            getCurrentHttpRequest().setAttribute(WebConstant.REQUEST_USER, user);
+            HttpRequestUtils.getCurrentHttpRequest().setAttribute(WebConstant.REQUEST_USER, user);
         }
         return user;
+    }
+
+    /**
+     * 获取当前登录用户<br/>
+     */
+    public static User getCurrentUser() {
+        return (User) HttpRequestUtils.getCurrentHttpRequest().getAttribute(WebConstant.REQUEST_USER);
     }
 
     /**
@@ -136,7 +122,7 @@ public class WebUtils {
      * 获取Token
      */
     public static WebToken getWebToken() {
-        WebToken token = (WebToken) getCurrentHttpRequest().getAttribute(WebConstant.REQUEST_TOKEN);
+        WebToken token = (WebToken) HttpRequestUtils.getCurrentHttpRequest().getAttribute(WebConstant.REQUEST_TOKEN);
         if (token != null) {
             return token;
         }
@@ -151,7 +137,7 @@ public class WebUtils {
             if (redis.ttl(sessionId) < WebConstant.HOUR_MILLIS) {
                 redis.expire(sessionId, WebConstant.LOGIN_TIMEOUT);
             }
-            getCurrentHttpRequest().setAttribute(WebConstant.REQUEST_TOKEN, token);
+            HttpRequestUtils.getCurrentHttpRequest().setAttribute(WebConstant.REQUEST_TOKEN, token);
         }
         return token;
     }
@@ -160,9 +146,9 @@ public class WebUtils {
      * 获取SessionId
      */
     public static String getSessionId() {
-        String sessionId = getCurrentHttpRequest().getHeader(WebConstant.HEAD_AUTH_TOKEN);
+        String sessionId = HttpRequestUtils.getCurrentHttpRequest().getHeader(WebConstant.HEAD_AUTH_TOKEN);
         if (null == sessionId) {
-            sessionId = getCurrentHttpRequest().getParameter(WebConstant.HEAD_AUTH_TOKEN);
+            sessionId = HttpRequestUtils.getCurrentHttpRequest().getParameter(WebConstant.HEAD_AUTH_TOKEN);
         }
         return sessionId;
     }
@@ -171,55 +157,67 @@ public class WebUtils {
      * 跳到错误页面或者提示错误信息
      */
     public static void toError(String errorMassage) {
-        HttpServletResponse response = getCurrentHttpResponse();
+        HttpServletResponse response = HttpResponseUtils.getCurrentHttpResponse();
         PropertiesConfiguration propertiesConfig = ApplicationContextUtils.getBean(PropertiesConfiguration.class);
         if (propertiesConfig.isDev()) {
-            String origin = getCurrentHttpRequest().getHeader("Origin");
+            String origin = HttpRequestUtils.getCurrentHttpRequest().getHeader("Origin");
             response.setHeader("Access-Control-Allow-Origin", origin);
             response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
             response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-CSRF-TOKEN");
         }
-        JsonServletSupport.outputWithJson(response, Result.badResult("-1", errorMassage, null));
+        try {
+            HttpResponseUtils.outputJson(Result.badResult("-1", errorMassage, null));
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     /**
      * 跳转到登陆页面或者提示未登陆信息
      */
     public static void toNoLogin() {
-        HttpServletResponse response = getCurrentHttpResponse();
+        HttpServletResponse response = HttpResponseUtils.getCurrentHttpResponse();
         PropertiesConfiguration propertiesConfig = ApplicationContextUtils.getBean(PropertiesConfiguration.class);
         if (propertiesConfig.isDev()) {
-            String origin = getCurrentHttpRequest().getHeader("Origin");
+            String origin = HttpRequestUtils.getCurrentHttpRequest().getHeader("Origin");
             response.setHeader("Access-Control-Allow-Origin", origin);
             response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
             response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-CSRF-TOKEN");
         }
-        JsonServletSupport.outputWithJson(response, Result.badResult("-222", "您还未登陆，请先登录", null));
+        try {
+            HttpResponseUtils.outputJson(Result.badResult("-222", "您还未登陆，请先登录", null));
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     /**
      * 跳转到登陆页面或者提示未登陆信息
      */
     public static void toNoChangePass() {
-        HttpServletResponse response = getCurrentHttpResponse();
+        HttpServletResponse response = HttpResponseUtils.getCurrentHttpResponse();
         PropertiesConfiguration propertiesConfig = ApplicationContextUtils.getBean(PropertiesConfiguration.class);
         if (propertiesConfig.isDev()) {
-            String origin = getCurrentHttpRequest().getHeader("Origin");
+            String origin = HttpRequestUtils.getCurrentHttpRequest().getHeader("Origin");
             response.setHeader("Access-Control-Allow-Origin", origin);
             response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
             response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-CSRF-TOKEN");
         }
-        JsonServletSupport.outputWithJson(response, Result.badResult("-111", "首次登陆，未修改密码", null));
+        try {
+            HttpResponseUtils.outputJson(Result.badResult("-111", "首次登陆，未修改密码", null));
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     /**
      * 导出数据
      */
     public static void exportExcel(ExcelVersion version, List<?> list) {
-        HttpServletResponse response = getCurrentHttpResponse();
+        HttpServletResponse response = HttpResponseUtils.getCurrentHttpResponse();
         response.setContentType("application/octet-stream");
         response.setCharacterEncoding("UTF-8");
         response.setHeader("Content-Disposition", "attachment; filename=appdayreport.xlsx");

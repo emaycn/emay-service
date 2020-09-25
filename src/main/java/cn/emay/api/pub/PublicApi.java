@@ -19,13 +19,11 @@ import cn.emay.utils.result.Result;
 import cn.emay.utils.result.SuperResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -37,15 +35,15 @@ import java.util.List;
 @RequestMapping(value = "/p")
 public class PublicApi {
 
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    @javax.annotation.Resource
     private UserService userService;
-    @Autowired
+    @javax.annotation.Resource
     private ClientService clientService;
-    @Autowired
+    @javax.annotation.Resource
     private ResourceService resourceService;
-    @Autowired
+    @javax.annotation.Resource
     private RedisClient redis;
 
     /**
@@ -106,7 +104,7 @@ public class PublicApi {
         List<Resource> userResource = resourceService.getUserResources(user.getId());
         String sdecode = Base64.decodeUTF8(s);
         String system = null;
-        WebToken token = null;
+        WebToken token;
         // 运营端
         if (Integer.parseInt(sdecode) % 133 == 0) {
             system = SystemType.OPER.getType();
@@ -139,7 +137,7 @@ public class PublicApi {
      */
     @WebAuth({})
     @RequestMapping(value = "/changePassword")
-    public Result changepass(String password, String newpass) throws IOException {
+    public Result changepass(String password, String newpass) {
         if (password == null) {
             return Result.badResult("原密码不能为空");
         }

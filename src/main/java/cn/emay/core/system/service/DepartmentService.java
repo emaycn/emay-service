@@ -15,7 +15,7 @@ public interface DepartmentService {
      * 根据父类id查找部门
      *
      * @param parentId 父级部门ID
-     * @return
+     * @return 部门
      */
     List<Department> findByParentId(Long parentId);
 
@@ -23,7 +23,7 @@ public interface DepartmentService {
      * 查询用户所属部门
      *
      * @param userId 用户ID
-     * @return
+     * @return 部门
      */
     Department findByUserId(Long userId);
 
@@ -34,7 +34,7 @@ public interface DepartmentService {
      * @param departmentName 部门名称
      * @param start          起始
      * @param limit          数据条数
-     * @return
+     * @return 部门
      */
     Page<DepartmentDTO> findPage(Long parentId, String departmentName, int start, int limit);
 
@@ -44,7 +44,7 @@ public interface DepartmentService {
      * @param departmentName 部门名称
      * @param parentId       父级ID
      * @param ignoreId       忽略对比的ID
-     * @return
+     * @return 同级是否有相同的部门名
      */
     Boolean hasSameDepartmentNameAtParent(String departmentName, Long parentId, Long ignoreId);
 
@@ -52,7 +52,7 @@ public interface DepartmentService {
      * 根据部门ID查找部门
      *
      * @param departmentId 部门ID
-     * @return
+     * @return 部门
      */
     Department findDepartmentById(Long departmentId);
 
@@ -67,7 +67,7 @@ public interface DepartmentService {
      * 查找子部门数量
      *
      * @param parentId 父级部门ID
-     * @return
+     * @return 数量
      */
     Long findCountByParentId(Long parentId);
 

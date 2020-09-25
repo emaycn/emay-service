@@ -2,7 +2,6 @@ package cn.emay.api.oper.base;
 
 import cn.emay.constant.global.Province;
 import cn.emay.constant.global.ProvinceDTO;
-import cn.emay.constant.web.OperType;
 import cn.emay.constant.web.ResourceEnum;
 import cn.emay.constant.web.WebAuth;
 import cn.emay.core.base.dto.SectionNumberImport;
@@ -20,12 +19,12 @@ import cn.emay.utils.string.StringUtils;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -42,17 +41,15 @@ import java.util.Set;
 @RequestMapping(value = "/o/sectionnumber", method = RequestMethod.POST)
 public class SectionNumberApi {
 
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    @Resource
     private SectionNumberService sectionNumberService;
-    @Autowired
+    @Resource
     private UserOperLogService userOperLogService;
 
     /**
      * 详细号段列表
-     *
-     * @return
      */
     @WebAuth({ResourceEnum.NUMBER_VIEW})
     @ApiOperation("详细号段列表")
@@ -97,7 +94,7 @@ public class SectionNumberApi {
         User user = WebUtils.getCurrentUser();
         String context = "新增详细号段:号段为{0}";
         String module = "基础信息管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{number}), OperType.ADD);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, number));
         log.info("基础信息管理-->用户:" + user.getUsername() + "新增详细号段:号段为" + number);
         return Result.rightResult();
     }
@@ -137,7 +134,7 @@ public class SectionNumberApi {
         User user = WebUtils.getCurrentUser();
         String context = "修改详细号段:号段为{0}";
         String module = "基础信息管理";
-        userOperLogService.saveOperLog(module, MessageFormat.format(context, new Object[]{number}), OperType.MODIFY);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, number));
         log.info("基础信息管理-->用户:" + user.getUsername() + "修改详细号段:号段为" + number);
         return Result.rightResult();
     }
@@ -162,8 +159,7 @@ public class SectionNumberApi {
         User user = WebUtils.getCurrentUser();
         String context = "删除详细号段:号段为{0}";
         String module = "基础信息管理";
-        userOperLogService.saveOperLog(module,
-                MessageFormat.format(context, new Object[]{sectionNumber.getNumber()}), OperType.MODIFY);
+        userOperLogService.saveOperLog(module, MessageFormat.format(context, sectionNumber.getNumber()));
         log.info("基础信息管理-->用户:" + user.getUsername() + "删除详细号段:号段为" + sectionNumber.getNumber());
         return Result.rightResult();
     }
@@ -195,16 +191,11 @@ public class SectionNumberApi {
 
     /**
      * 详细号段导入
-     *
-     * @param file
-     * @return
-     * @throws Exception
      */
     @WebAuth({ResourceEnum.NUMBER_IMPORT})
     @RequestMapping(value = "/import", headers = "content-type=multipart/form-data")
     @ApiOperation("详细号段导入")
-    public SuperResult<Integer> sectionNumberImport(@ApiParam(value = "详细号段导入文件", required = true) MultipartFile file)
-            throws Exception {
+    public SuperResult<Integer> sectionNumberImport(@ApiParam(value = "详细号段导入文件", required = true) MultipartFile file) {
         /* 导入文件读 begin */
         FileUploadUtils.FileUpLoadResult result = FileUploadUtils.uploadFile(file, 20, ".xlsx", ".xlx");
         if (!result.isSuccess()) {
@@ -215,7 +206,7 @@ public class SectionNumberApi {
         /* 导入文件读 end */
         List<SectionNumber> sectionNumbers = new ArrayList<>();
         Set<String> mobileSet = new HashSet<>();
-        list.stream().forEach(modle -> {
+        list.forEach(modle -> {
             if (null != modle.toSectionNumber(modle)) {
                 if (!mobileSet.contains(modle.getNumber())) {
                     mobileSet.add(modle.getNumber());
@@ -231,7 +222,7 @@ public class SectionNumberApi {
         sectionNumberService.saveBatch(sectionNumbers);
         User user = WebUtils.getCurrentUser();
         log.info("user : " + user.getUsername() + "导入详细号段 ");
-        userOperLogService.saveOperLog("基础信息管理", "详细号段导入", OperType.ADD);
+        userOperLogService.saveOperLog("基础信息管理", "详细号段导入");
         return SuperResult.rightResult(right);
     }
 }

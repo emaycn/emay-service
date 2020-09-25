@@ -21,15 +21,12 @@ public interface UserService {
      * @param realname  用户姓名
      * @param mobile    手机号
      * @param userState 用户状态
-     * @param userFor
-     * @return
+     * @param userFor   所属系统
+     * @return 分页数据
      */
     Page<UserItemDTO> findPage(int start, int limit, String username, String realname, String mobile, Integer userState,
                                String userFor);
 
-    /**
-     * 保存用户及角色
-     */
     /**
      * 新增用户<br/>
      * 保存用户、角色关联、部门关联
@@ -41,10 +38,10 @@ public interface UserService {
      * @param mobile       手机号
      * @param roleIds      角色Ids
      * @param departmentId 部门Id
-     * @param clientId
+     * @param clientId     客户id
      * @param operator     创建人
      * @param userFor      系统
-     * @return
+     * @return 结果
      */
     Result add(String username, String realname, String password, String email, String mobile, String roleIds,
                Long departmentId, Long clientId, User operator, String userFor);
@@ -53,7 +50,7 @@ public interface UserService {
      * 按照ID查找用户
      *
      * @param userId 用户ID
-     * @return
+     * @return 用户
      */
     User findById(Long userId);
 
@@ -61,7 +58,7 @@ public interface UserService {
      * 停用用户
      *
      * @param userId 用户ID
-     * @return
+     * @return 结果
      */
     Result off(Long userId);
 
@@ -69,7 +66,7 @@ public interface UserService {
      * 启用用户
      *
      * @param userId 用户ID
-     * @return
+     * @return 结果
      */
     Result on(Long userId);
 
@@ -78,7 +75,7 @@ public interface UserService {
      *
      * @param userId  用户ID
      * @param userFor 归属系统
-     * @return
+     * @return 结果
      */
     Result delete(Long userId, String userFor);
 
@@ -87,21 +84,21 @@ public interface UserService {
      *
      * @param userId      用户ID
      * @param newPassword 新密码
-     * @return
+     * @return 结果
      */
     Result resetPassword(Long userId, String newPassword);
 
     /**
      * 更新用户以及相关的角色、部门、客户关联
      *
-     * @param realname
-     * @param email
-     * @param mobile
-     * @param roles
-     * @param userId
-     * @param departmentId
-     * @param operType
-     * @return
+     * @param realname     真实姓名
+     * @param email        邮箱
+     * @param mobile       手机
+     * @param roles        角色
+     * @param userId       用户id
+     * @param departmentId 部门id
+     * @param operType     所属系统
+     * @return 结果
      */
     Result modify(String realname, String email, String mobile, String roles, Long userId, Long departmentId,
                   String operType);
@@ -111,7 +108,7 @@ public interface UserService {
      *
      * @param userId      用户ID
      * @param newPassword 新密码
-     * @return
+     * @return 结果
      */
     Result modifyPassword(Long userId, String newPassword);
 
@@ -119,7 +116,7 @@ public interface UserService {
      * 按照用户名查找用户
      *
      * @param username 用户名
-     * @return
+     * @return 用户
      */
     User findByUserName(String username);
 
@@ -130,14 +127,14 @@ public interface UserService {
      * @param departmentId 部门ID
      * @param start        起始
      * @param limit        条数
-     * @return
+     * @return 用户
      */
     Page<UserItemDTO> findBycondition(String variableName, Long departmentId, int start, int limit);
 
     /**
      * 查询所有用户
      *
-     * @return
+     * @return 用户
      */
     List<User> findAll();
 

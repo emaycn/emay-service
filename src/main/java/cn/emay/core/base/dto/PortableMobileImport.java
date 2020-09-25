@@ -7,11 +7,9 @@ import cn.emay.utils.CheckUtils;
 import cn.emay.utils.string.StringUtils;
 
 /**
- * @description: 携号转网导入dto
- * @author: chang
- * @create: 2019-11-06 10:12
+ * 携号转网导入dto
  **/
-@ExcelSheet(readDataStartRowIndex = 1)
+@ExcelSheet
 public class PortableMobileImport {
 
     private static final String OPERATOR_CMCC = "移动";
@@ -40,8 +38,7 @@ public class PortableMobileImport {
         if (StringUtils.isEmpty(opcode)) {
             return null;
         }
-        PortableMobile portableMobile = new PortableMobile(portableMobileImport.getMobile(), opcode, false);
-        return portableMobile;
+        return new PortableMobile(portableMobileImport.getMobile(), opcode, false);
     }
 
 

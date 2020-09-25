@@ -1,6 +1,5 @@
 package cn.emay.core.system.service;
 
-import cn.emay.constant.web.OperType;
 import cn.emay.core.system.pojo.UserOperLog;
 import cn.emay.utils.db.common.Page;
 
@@ -18,9 +17,8 @@ public interface UserOperLogService {
      *
      * @param module  模块
      * @param content 日志内容
-     * @param type    操作类型
      */
-    void saveOperLog(String module, String content, OperType type);
+    void saveOperLog(String module, String content);
 
     /**
      * 分页查询
@@ -32,7 +30,7 @@ public interface UserOperLogService {
      * @param endDate   日志记录结束时间
      * @param start     从第几条开始查
      * @param limit     查几条
-     * @return
+     * @return 分页数据
      */
     Page<UserOperLog> findByPage(String username, String realname, String content, Date startDate, Date endDate, int start, int limit);
 

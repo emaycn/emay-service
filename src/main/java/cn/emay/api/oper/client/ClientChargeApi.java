@@ -10,11 +10,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -27,13 +27,11 @@ import java.util.Date;
 @RequestMapping(value = "/o/charge", method = RequestMethod.POST)
 public class ClientChargeApi {
 
-    @Autowired
+    @Resource
     private ClientChargeRecordService clientChargeRecordService;
 
     /**
      * 充值扣费列表
-     *
-     * @return
      */
     @WebAuth({ResourceEnum.CLIENT_CHARGE})
     @ApiOperation("账务明细")

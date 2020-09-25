@@ -1,5 +1,6 @@
 package cn.emay.core.system.service.impl;
 
+import cn.emay.constant.web.SystemType;
 import cn.emay.core.client.dao.ClientDao;
 import cn.emay.core.client.dao.ClientUserDao;
 import cn.emay.core.client.pojo.Client;
@@ -10,9 +11,9 @@ import cn.emay.core.system.pojo.*;
 import cn.emay.core.system.service.UserService;
 import cn.emay.utils.db.common.Page;
 import cn.emay.utils.result.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -21,45 +22,42 @@ import java.util.*;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
+    @Resource
     private UserDao userDao;
-    @Autowired
+    @Resource
     private UserRoleAssignDao userRoleAssignDao;
-    @Autowired
+    @Resource
     private DepartmentDao departmentDao;
-    @Autowired
+    @Resource
     private ClientDao clientDao;
-    @Autowired
+    @Resource
     private UserDepartmentAssignDao userDepartmentAssignDao;
-    @Autowired
+    @Resource
     private RoleDao roleDao;
-    @Autowired
+    @Resource
     private ClientUserDao clientUserDao;
 
     @Override
     public Page<UserItemDTO> findPage(int start, int limit, String username, String realname, String mobile,
                                       Integer userState, String userFor) {
         Page<User> page = userDao.findPage(start, limit, username, realname, mobile, userState, userFor);
-        Page<UserItemDTO> result = Page.createByStartAndLimit(start, limit, page.getTotalCount(),
-                new ArrayList<UserItemDTO>());
+        Page<UserItemDTO> result = Page.createByStartAndLimit(start, limit, page.getTotalCount(), new ArrayList<>());
         if (result.getTotalCount() == 0) {
             return result;
         }
-        page.getList().stream().forEach(user -> result.getList().add(new UserItemDTO(user)));
+        page.getList().forEach(user -> result.getList().add(new UserItemDTO(user)));
         Set<Long> userIds = new HashSet<>();
-        page.getList().stream().forEach(user -> userIds.add(user.getId()));
-        if (User.USER_FOR_OPER.equalsIgnoreCase(userFor)) {
+        page.getList().forEach(user -> userIds.add(user.getId()));
+        if (SystemType.OPER.getType().equalsIgnoreCase(userFor)) {
             Map<Long, String> depNameByUserIds = departmentDao.findDepartmentNameByUserIds(userIds);
-            result.getList().stream()
-                    .forEach(userItem -> userItem.setDepartment(depNameByUserIds.get(userItem.getId())));
+            result.getList().forEach(userItem -> userItem.setDepartment(depNameByUserIds.get(userItem.getId())));
         }
-        if (User.USER_FOR_CLIENT.equalsIgnoreCase(userFor)) {
+        if (SystemType.CLIENT.getType().equalsIgnoreCase(userFor)) {
             Map<Long, String> clientNameByUserIds = clientDao.findClientNameByUserIds(userIds);
-            result.getList().stream()
-                    .forEach(userItem -> userItem.setClientName(clientNameByUserIds.get(userItem.getId())));
+            result.getList().forEach(userItem -> userItem.setClientName(clientNameByUserIds.get(userItem.getId())));
         }
         Map<Long, String> roleNameByUserIds = roleDao.findRoleNameByUserIds(userIds);
-        result.getList().stream().forEach(userItem -> userItem.setRolename(roleNameByUserIds.get(userItem.getId())));
+        result.getList().forEach(userItem -> userItem.setRolename(roleNameByUserIds.get(userItem.getId())));
         return result;
     }
 
@@ -67,16 +65,16 @@ public class UserServiceImpl implements UserService {
     public Result add(String username, String realname, String password, String email, String mobile, String roleIds,
                       Long departmentId, Long clientId, User operator, String userFor) {
         List<UserRoleAssign> urs = this.genUserRoles(roleIds);
-        if (urs.size() == 0) {
+        if (roleIds.isEmpty()) {
             return Result.badResult("角色不存在");
         }
-        if (urs.size() == 0) {
+        if (urs.isEmpty()) {
             return Result.badResult("角色权限不能为空");
         }
         if (userDao.hasSameUserName(username)) {
             return Result.badResult("用户名已存在");
         }
-        if (User.USER_FOR_OPER.equalsIgnoreCase(userFor)) {
+        if (SystemType.OPER.getType().equalsIgnoreCase(userFor)) {
             if (departmentId == null) {
                 return Result.badResult("部门不存在");
             }
@@ -85,7 +83,7 @@ public class UserServiceImpl implements UserService {
                 return Result.badResult("部门不存在");
             }
         }
-        if (User.USER_FOR_CLIENT.equalsIgnoreCase(userFor)) {
+        if (SystemType.CLIENT.getType().equalsIgnoreCase(userFor)) {
             if (clientId == null) {
                 return Result.badResult("客戶不存在");
             }
@@ -96,14 +94,14 @@ public class UserServiceImpl implements UserService {
         }
         User user = new User(username, password, realname, mobile, email, operator.getId(), userFor);
         userDao.save(user);
-        urs.stream().forEach(ur -> ur.setUserId(user.getId()));
+        urs.forEach(ur -> ur.setUserId(user.getId()));
         userRoleAssignDao.saveBatch(urs);
         // 判斷客戶端、運營端，客戶端需要增加客戶用戶關聯表
-        if (User.USER_FOR_OPER.equalsIgnoreCase(userFor)) {
+        if (SystemType.OPER.getType().equalsIgnoreCase(userFor)) {
             UserDepartmentAssign userDepartmentAssign = new UserDepartmentAssign(user.getId(), departmentId);
             userDepartmentAssignDao.save(userDepartmentAssign);
         }
-        if (User.USER_FOR_CLIENT.equalsIgnoreCase(userFor)) {
+        if (SystemType.CLIENT.getType().equalsIgnoreCase(userFor)) {
             ClientUser clientUser = new ClientUser(clientId, user.getId());
             clientUserDao.save(clientUser);
         }
@@ -114,12 +112,11 @@ public class UserServiceImpl implements UserService {
      * 生成角色用户关联对象
      *
      * @param roleIds 角色Id集合
-     * @return
      */
     private List<UserRoleAssign> genUserRoles(String roleIds) {
-        List<UserRoleAssign> urs = new ArrayList<UserRoleAssign>();
+        List<UserRoleAssign> urs = new ArrayList<>();
         String[] roleIdArray = roleIds.split(",");
-        Arrays.asList(roleIdArray).stream().forEach(id -> urs.add(new UserRoleAssign(null, Long.valueOf(id))));
+        Arrays.asList(roleIdArray).forEach(id -> urs.add(new UserRoleAssign(null, Long.valueOf(id))));
         List<Role> roles = roleDao.findAll();
         for (Role role : roles) {
             for (UserRoleAssign ur : urs) {
@@ -166,10 +163,10 @@ public class UserServiceImpl implements UserService {
         userDao.deleteById(userId);
         userRoleAssignDao.deleteByUserId(userId);
         // 判斷客戶端、運營端，客戶端需要增加客戶用戶關聯表
-        if (User.USER_FOR_OPER.equalsIgnoreCase(userFor)) {
+        if (SystemType.OPER.getType().equalsIgnoreCase(userFor)) {
             userDepartmentAssignDao.deleteByUserId(userId);
         }
-        if (User.USER_FOR_CLIENT.equalsIgnoreCase(userFor)) {
+        if (SystemType.CLIENT.getType().equalsIgnoreCase(userFor)) {
             clientUserDao.deleteByUserId(userId);
         }
         return Result.rightResult();
@@ -197,8 +194,8 @@ public class UserServiceImpl implements UserService {
         if (urs.size() == 0) {
             return Result.badResult("角色不存在");
         }
-        urs.stream().forEach(ur -> ur.setUserId(userId));
-        if (User.USER_FOR_OPER.equalsIgnoreCase(operType)) {
+        urs.forEach(ur -> ur.setUserId(userId));
+        if (SystemType.OPER.getType().equalsIgnoreCase(operType)) {
             if (departmentId == null) {
                 return Result.badResult("部门不存在");
             }
@@ -227,16 +224,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<UserItemDTO> findBycondition(String variableName, Long departmentId, int start, int limit) {
         Page<User> page = userDao.findBycondition(variableName, departmentId, start, limit);
-        Page<UserItemDTO> result = Page.createByStartAndLimit(start, limit, page.getTotalCount(),
-                new ArrayList<UserItemDTO>());
+        Page<UserItemDTO> result = Page.createByStartAndLimit(start, limit, page.getTotalCount(), new ArrayList<>());
         if (result.getTotalCount() == 0) {
             return result;
         }
-        page.getList().stream().forEach(user -> result.getList().add(new UserItemDTO(user)));
+        page.getList().forEach(user -> result.getList().add(new UserItemDTO(user)));
         Set<Long> userIds = new HashSet<>();
-        page.getList().stream().forEach(user -> userIds.add(user.getId()));
+        page.getList().forEach(user -> userIds.add(user.getId()));
         Map<Long, String> roleNameByUserIds = roleDao.findRoleNameByUserIds(userIds);
-        result.getList().stream().forEach(userItem -> userItem.setRolename(roleNameByUserIds.get(userItem.getId())));
+        result.getList().forEach(userItem -> userItem.setRolename(roleNameByUserIds.get(userItem.getId())));
         return result;
     }
 
@@ -263,19 +259,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<UserItemDTO> findClientPage(int start, int limit, String username, String realname, String mobile, Integer userState, Long clintId) {
         Page<User> page = userDao.findClientPage(start, limit, username, realname, mobile, userState, clintId);
-        Page<UserItemDTO> result = Page.createByStartAndLimit(start, limit, page.getTotalCount(),
-                new ArrayList<UserItemDTO>());
+        Page<UserItemDTO> result = Page.createByStartAndLimit(start, limit, page.getTotalCount(), new ArrayList<>());
         if (result.getTotalCount() == 0) {
             return result;
         }
-        page.getList().stream().forEach(user -> result.getList().add(new UserItemDTO(user)));
+        page.getList().forEach(user -> result.getList().add(new UserItemDTO(user)));
         Set<Long> userIds = new HashSet<>();
-        page.getList().stream().forEach(user -> userIds.add(user.getId()));
+        page.getList().forEach(user -> userIds.add(user.getId()));
         Map<Long, String> clientNameByUserIds = clientDao.findClientNameByUserIds(userIds);
-        result.getList().stream()
-                .forEach(userItem -> userItem.setClientName(clientNameByUserIds.get(userItem.getId())));
+        result.getList().forEach(userItem -> userItem.setClientName(clientNameByUserIds.get(userItem.getId())));
         Map<Long, String> roleNameByUserIds = roleDao.findRoleNameByUserIds(userIds);
-        result.getList().stream().forEach(userItem -> userItem.setRolename(roleNameByUserIds.get(userItem.getId())));
+        result.getList().forEach(userItem -> userItem.setRolename(roleNameByUserIds.get(userItem.getId())));
         return result;
     }
 

@@ -3,7 +3,6 @@ package cn.emay.core.system.service.impl;
 import cn.emay.core.system.dao.ResourceDao;
 import cn.emay.core.system.pojo.Resource;
 import cn.emay.core.system.service.ResourceService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
 @Service
 public class ResourceServiceImpl implements ResourceService {
 
-    @Autowired
+    @javax.annotation.Resource
     private ResourceDao resourceDao;
 
     @Override

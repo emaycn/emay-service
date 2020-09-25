@@ -47,7 +47,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 WebUtils.toNoLogin();
                 return false;
             }
-            User user = WebUtils.getCurrentUser();
+            User user = WebUtils.setAndGetCurrentUser();
             // 登陆状态异常，拦截
             if (user == null) {
                 WebUtils.logout();
@@ -78,7 +78,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 }
                 if (isHasLoginAuth) {
                     // 用户所属系统允许访问
-                    return true;
+                    return fillRequest(user);
                 } else {
                     // 用户所需系统不允许访问
                     WebUtils.logout();
@@ -89,7 +89,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             // 有资源权限的，通过
             for (ResourceEnum code : codes) {
                 if (token.getResources().containsKey(code.getCode())) {
-                    return true;
+                    return fillRequest(user);
                 }
             }
             // 无资源权限的，拦截
@@ -99,6 +99,13 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             log.error(e.getMessage(), e);
             return false;
         }
+    }
+
+    private boolean fillRequest(User user) {
+        if (SystemType.CLIENT.getType().equals(user.getUserFor())) {
+            WebUtils.setAndGetCurrentClient();
+        }
+        return true;
     }
 
     @Override

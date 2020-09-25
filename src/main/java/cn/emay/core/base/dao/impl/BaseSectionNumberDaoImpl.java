@@ -22,7 +22,7 @@ public class BaseSectionNumberDaoImpl extends BasePojoSuperDaoImpl<BaseSectionNu
     @Override
     public Page<BaseSectionNumber> findPage(int start, int limit, String number, String operatorCode) {
         String hql = "from BaseSectionNumber where 1=1 and isDelete=0 ";
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         if (!StringUtils.isEmpty(number)) {
             hql += " and number = :number ";
             params.put("number", number.trim());

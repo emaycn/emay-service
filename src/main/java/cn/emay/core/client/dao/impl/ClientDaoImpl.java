@@ -21,7 +21,7 @@ public class ClientDaoImpl extends BasePojoSuperDaoImpl<Client> implements Clien
     @Override
     public Page<Client> findPage(int start, int limit, String clientName, String linkman, String mobile) {
         String hql = "from Client where 1=1 ";
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         if (!StringUtils.isEmpty(clientName)) {
             hql += " and clientName like :clientName ";
             params.put("clientName", "%" + clientName.trim() + "%");
@@ -79,7 +79,7 @@ public class ClientDaoImpl extends BasePojoSuperDaoImpl<Client> implements Clien
     @Override
     public Map<Long, String> findClientNameByUserIds(Set<Long> userIds) {
         String hql = "select c.clientName,cu.userId FROM Client c,ClientUser cu where c.id=cu.clientId   and cu.userId in (:userIds) ";
-        Map<String, Object> param = new HashMap<String, Object>();
+        Map<String, Object> param = new HashMap<>();
         param.put("userIds", userIds);
         List<Object[]> list = this.getListResult(Object[].class, hql, param);
         Map<Long, String> maps = new HashMap<>();
@@ -94,7 +94,7 @@ public class ClientDaoImpl extends BasePojoSuperDaoImpl<Client> implements Clien
     @Override
     public List<Client> findbyIds(Long[] clientIds) {
         String hql = "from Client where id in (:ids)  ";
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         params.put("ids", clientIds);
         return this.getListResult(Client.class, hql, params);
     }

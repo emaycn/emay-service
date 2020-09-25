@@ -1,9 +1,8 @@
 package cn.emay.task;
 
 
-import cn.emay.json.JsonHelper;
 import cn.emay.superscheduler.core.ConcurrentComputer;
-import cn.emay.superscheduler.core.ShardedConcurrentComputer;
+import cn.emay.superscheduler.core.SimpleConcurrentComputer;
 import cn.emay.superscheduler.core.SuperScheduled;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -17,7 +16,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 配置文件中<br/>
- * scheduler.redisBeanName redis spring 注册名<br/>
  * scheduler.poolSize 核心线程数<br/>
  * scheduler.threadNamePrefix 线程名前缀<br/>
  * scheduler.awaitTerminationSeconds 停止时等待当前线程业务执行完毕时间<br/>
@@ -31,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SpringTaskTest {
 
     /**
-     * 1. 固定间隔时间执行,并发1,初始延迟1秒执行
+     * 1. 固定间隔时间执行,并发2,初始延迟1秒执行
      */
     @SuperScheduled(fixedDelay = 1000L, initialDelay = 1000L, only = true, fixedConcurrent = 2)
     public void t1() {
@@ -57,7 +55,7 @@ public class SpringTaskTest {
     /**
      * 3. cron执行,并发1,集群单节点执行
      */
-    @SuperScheduled(cron = "0/3 * * * * ?", fixedConcurrent = 2)
+    @SuperScheduled(cron = "0/3 * * * * ?")
     public void t3() {
         String now = toString(new Date(), "HH:mm:ss");
         System.out.println(now + " : " + Thread.currentThread().getName() + " : 开始执行");
@@ -69,7 +67,7 @@ public class SpringTaskTest {
     /**
      * 4. 动态间隔时间执行,并发1
      */
-    @SuperScheduled(dynamicDelay = true, fixedConcurrent = 2, only = true)
+    @SuperScheduled(dynamicDelay = true, only = true)
     public long t4() {
         String now = toString(new Date(), "HH:mm:ss");
         System.out.println(now + " : " + Thread.currentThread().getName() + " : 开始执行");
@@ -98,7 +96,7 @@ public class SpringTaskTest {
      * 6. 动态调配并发数量
      */
     @Bean("t6ComputeBean")
-    public ConcurrentComputer t6ComputeBean() {
+    public SimpleConcurrentComputer t6ComputeBean() {
         return concurrent -> {
             String now = toString(new Date(), "HH:mm:ss");
             int need = new Random().nextInt(6);
@@ -126,9 +124,9 @@ public class SpringTaskTest {
      * 7. 动态调配分片并发数量
      */
     @Bean("t7ComputeBean")
-    public ShardedConcurrentComputer t7ComputeBean() {
+    public ConcurrentComputer t7ComputeBean() {
         return concurrent -> {
-            String nowConcurrent = JsonHelper.toJsonString(concurrent);
+            String nowConcurrent = toString(concurrent);
 
             Map<String, Integer> need = new HashMap<>();
 
@@ -160,7 +158,7 @@ public class SpringTaskTest {
                     break;
             }
 
-            String needConcurrent = JsonHelper.toJsonString(need);
+            String needConcurrent = toString(need);
 
             String now = toString(new Date(), "HH:mm:ss");
             System.out.println(now + " : " + Thread.currentThread().getName() + " : " + "t7ComputeBean 开始调整并发,当前并发量(" + nowConcurrent + "),期望并发量(" + needConcurrent + ")");
@@ -185,6 +183,15 @@ public class SpringTaskTest {
     public static String toString(Date date, String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(date);
+    }
+
+    /**
+     * 转成字符串
+     */
+    public static String toString(Map<String, Integer> data) {
+        StringBuilder builder = new StringBuilder();
+        data.forEach((k, v) -> builder.append(k).append("=").append(v).append(";"));
+        return builder.toString();
     }
 
 
