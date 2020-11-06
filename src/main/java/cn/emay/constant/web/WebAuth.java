@@ -16,7 +16,7 @@ public @interface WebAuth {
      * 访问所需资源权限代码<br/>
      * 多值取或
      */
-    ResourceEnum[] value();
+    ResourceEnum[] value() default {};
 
     /**
      * 允许访问系统<br/>
