@@ -11,7 +11,7 @@
 采用jib直接打包成docker image。    
 命令如下(注意-P是 1.编译中提到的环境参数)：    
 - 打包成镜像，并部署到本地镜像库： mvn compile jib:dockerBuild -Ptest
-- 打包成镜像，并提交到远程镜像库： mvn compile jib:build -Ptest
+- 打包成镜像，并提交到远程镜像库： mvn compile jib:build -Ptest -DsendCredentialsOverHttp=true
 
 ## 3. docker启动注意
 
